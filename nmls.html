@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Branch NMLS Directory — Village Capital & Investment</title>
+  <title>Branch Staff Directory — Village Capital & Investment</title>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet" />
   <style>
     :root {
@@ -18,7 +18,7 @@
       --text-muted: #5a6a7e;
       --white: #ffffff;
       --card-shadow: 0 4px 24px rgba(13, 35, 64, 0.10);
-      --card-shadow-hover: 0 12px 40px rgba(13, 35, 64, 0.20);
+      --card-shadow-hover: 0 12px 40px rgba(13, 35, 64, 0.18);
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -29,6 +29,35 @@
       color: var(--text-dark);
       min-height: 100vh;
     }
+
+    /* ── NAV ── */
+    nav {
+      background: #071828;
+      padding: 0 40px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      height: 40px;
+      border-bottom: 1px solid rgba(201,168,76,0.15);
+    }
+
+    nav a {
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      text-decoration: none;
+      padding: 0 14px;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      border-bottom: 2px solid transparent;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    nav a:hover { color: var(--gold-light); }
+    nav a.active { color: var(--gold); border-bottom-color: var(--gold); }
 
     /* ── HEADER ── */
     header {
@@ -48,12 +77,10 @@
 
     .brand-logo {
       width: 38px; height: 38px;
-      background: var(--gold);
-      border-radius: 6px;
+      background: var(--gold); border-radius: 6px;
       display: flex; align-items: center; justify-content: center;
       font-family: 'Cormorant Garamond', serif;
-      font-size: 20px; font-weight: 700;
-      color: var(--navy);
+      font-size: 20px; font-weight: 700; color: var(--navy);
     }
 
     .brand-text { display: flex; flex-direction: column; gap: 1px; }
@@ -61,8 +88,8 @@
     .brand-sub { font-size: 10px; font-weight: 400; color: var(--gold-light); letter-spacing: 2px; text-transform: uppercase; }
 
     .header-badge {
-      background: rgba(201, 168, 76, 0.15);
-      border: 1px solid rgba(201, 168, 76, 0.35);
+      background: rgba(201,168,76,0.15);
+      border: 1px solid rgba(201,168,76,0.35);
       color: var(--gold-light);
       font-size: 11px; font-weight: 500;
       letter-spacing: 1.5px; text-transform: uppercase;
@@ -72,247 +99,169 @@
     /* ── HERO ── */
     .hero {
       background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 50%, var(--navy-light) 100%);
-      padding: 64px 40px 56px;
+      padding: 56px 40px 48px;
       text-align: center;
       position: relative;
       overflow: hidden;
     }
 
     .hero::before {
-      content: '';
-      position: absolute; inset: 0;
+      content: ''; position: absolute; inset: 0;
       background-image:
         radial-gradient(circle at 20% 50%, rgba(201,168,76,0.08) 0%, transparent 50%),
         radial-gradient(circle at 80% 20%, rgba(201,168,76,0.06) 0%, transparent 40%);
     }
 
     .hero::after {
-      content: '';
-      position: absolute; bottom: 0; left: 0; right: 0; height: 1px;
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px;
       background: linear-gradient(90deg, transparent, var(--gold), transparent);
     }
 
-    .hero-eyebrow {
-      font-size: 11px; font-weight: 500; letter-spacing: 3px;
-      text-transform: uppercase; color: var(--gold); margin-bottom: 14px; position: relative;
-    }
-
-    .hero h1 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(32px, 5vw, 52px); font-weight: 700;
-      color: var(--white); line-height: 1.15; margin-bottom: 16px; position: relative;
-    }
-
+    .hero-eyebrow { font-size: 11px; font-weight: 500; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; position: relative; }
+    .hero h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(30px, 5vw, 48px); font-weight: 700; color: var(--white); line-height: 1.15; margin-bottom: 14px; position: relative; }
     .hero h1 span { color: var(--gold); }
+    .hero p { font-size: 15px; font-weight: 300; color: rgba(255,255,255,0.65); max-width: 500px; margin: 0 auto; line-height: 1.65; position: relative; }
 
-    .hero p {
-      font-size: 16px; font-weight: 300;
-      color: rgba(255,255,255,0.72);
-      max-width: 520px; margin: 0 auto; line-height: 1.65; position: relative;
-    }
-
-    /* ── SEARCH BAR ── */
-    .search-wrap {
-      max-width: 480px;
-      margin: 32px auto 0;
-      position: relative;
-    }
-
+    .search-wrap { max-width: 460px; margin: 28px auto 0; position: relative; }
     .search-wrap input {
-      width: 100%;
-      padding: 13px 20px 13px 44px;
-      border-radius: 40px;
-      border: none;
+      width: 100%; padding: 12px 20px 12px 44px;
+      border-radius: 40px; border: none;
       background: rgba(255,255,255,0.12);
       backdrop-filter: blur(8px);
-      color: var(--white);
-      font-family: 'DM Sans', sans-serif;
-      font-size: 14px;
-      outline: none;
+      color: var(--white); font-family: 'DM Sans', sans-serif; font-size: 14px; outline: none;
       transition: background 0.2s;
     }
-
-    .search-wrap input::placeholder { color: rgba(255,255,255,0.45); }
+    .search-wrap input::placeholder { color: rgba(255,255,255,0.42); }
     .search-wrap input:focus { background: rgba(255,255,255,0.18); }
-
-    .search-wrap svg {
-      position: absolute;
-      left: 16px; top: 50%; transform: translateY(-50%);
-      width: 18px; height: 18px;
-      stroke: rgba(255,255,255,0.5); fill: none;
-      stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
-      pointer-events: none;
-    }
+    .search-wrap .s-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); width: 17px; height: 17px; stroke: rgba(255,255,255,0.45); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; pointer-events: none; }
 
     /* ── MAIN ── */
-    main {
-      max-width: 1060px;
-      margin: 0 auto;
-      padding: 56px 40px 80px;
-    }
+    main { max-width: 1100px; margin: 0 auto; padding: 52px 40px 80px; }
 
-    .section-label {
-      display: flex; align-items: center; gap: 12px; margin-bottom: 32px;
-    }
+    .section-label { display: flex; align-items: center; gap: 12px; margin-bottom: 28px; }
+    .section-label::before { content: ''; display: block; width: 4px; height: 26px; background: var(--gold); border-radius: 2px; }
+    .section-label h2 { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 600; color: var(--navy); }
+    .section-label p { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
 
-    .section-label::before {
-      content: ''; display: block;
-      width: 4px; height: 28px;
-      background: var(--gold); border-radius: 2px;
-    }
-
-    .section-label h2 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 26px; font-weight: 600; color: var(--navy);
-    }
-
-    .section-label p { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
-
-    /* ── ROLE GROUP LABEL ── */
-    .role-group {
-      margin-bottom: 36px;
-    }
-
+    .role-group { margin-bottom: 40px; }
     .role-group-title {
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: 2.5px;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      margin-bottom: 14px;
-      padding-bottom: 8px;
+      font-size: 10px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase;
+      color: var(--text-muted); margin-bottom: 16px; padding-bottom: 8px;
       border-bottom: 1px solid var(--warm-gray);
     }
 
     /* ── STAFF GRID ── */
     .staff-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
-      gap: 16px;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 18px;
     }
 
     /* ── STAFF CARD ── */
     .staff-card {
       background: var(--white);
-      border-radius: 12px;
-      padding: 20px 22px;
+      border-radius: 14px;
       box-shadow: var(--card-shadow);
-      border: 1px solid rgba(13, 35, 64, 0.06);
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      position: relative;
+      border: 1px solid rgba(13,35,64,0.06);
       overflow: hidden;
       transition: transform 0.22s ease, box-shadow 0.22s ease;
+      animation: fadeUp 0.45s ease both;
     }
 
-    .staff-card.has-link { cursor: pointer; }
+    .staff-card:hover { transform: translateY(-3px); box-shadow: var(--card-shadow-hover); }
 
-    .staff-card.has-link:hover {
-      transform: translateY(-3px);
-      box-shadow: var(--card-shadow-hover);
+    /* card top bar */
+    .card-header {
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      padding: 18px 20px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      position: relative;
     }
 
-    .staff-card::before {
-      content: '';
-      position: absolute; top: 0; left: 0; right: 0; height: 3px;
-      background: linear-gradient(90deg, var(--gold), var(--gold-light));
-      opacity: 0;
-      transition: opacity 0.22s ease;
+    .card-header::after {
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--gold), var(--gold-light), transparent);
     }
-
-    .staff-card.has-link:hover::before { opacity: 1; }
 
     .avatar {
-      width: 46px; height: 46px;
-      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      width: 44px; height: 44px;
+      background: rgba(201,168,76,0.18);
+      border: 2px solid rgba(201,168,76,0.4);
       border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
       font-family: 'Cormorant Garamond', serif;
-      font-size: 17px; font-weight: 700;
-      color: var(--gold);
+      font-size: 16px; font-weight: 700; color: var(--gold);
       flex-shrink: 0;
     }
 
     .avatar.no-nmls {
-      background: linear-gradient(135deg, #8a9ab0, #b0bec5);
-      color: rgba(255,255,255,0.8);
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.15);
+      color: rgba(255,255,255,0.5);
     }
 
-    .staff-info { flex: 1; min-width: 0; }
+    .header-info { flex: 1; min-width: 0; }
+    .staff-name { font-size: 15px; font-weight: 600; color: var(--white); margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .staff-role { font-size: 11.5px; font-weight: 300; color: rgba(255,255,255,0.6); margin-bottom: 6px; }
 
-    .staff-name {
-      font-size: 14px; font-weight: 600; color: var(--navy);
-      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-      margin-bottom: 3px;
+    .nmls-pill {
+      display: inline-flex; align-items: center; gap: 4px;
+      background: rgba(201,168,76,0.15); border: 1px solid rgba(201,168,76,0.35);
+      color: var(--gold); font-size: 10.5px; font-weight: 600;
+      padding: 3px 8px; border-radius: 20px; text-decoration: none;
+      transition: background 0.18s;
     }
 
-    .staff-role {
-      font-size: 12px; font-weight: 400; color: var(--text-muted);
-      margin-bottom: 5px;
+    .nmls-pill:hover { background: rgba(201,168,76,0.28); }
+    .nmls-pill svg { width: 10px; height: 10px; stroke: var(--gold); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+    .no-nmls-pill {
+      display: inline-block;
+      font-size: 10.5px; color: rgba(255,255,255,0.3); font-style: italic;
     }
 
-    .nmls-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      font-size: 11px; font-weight: 600;
-      color: var(--gold);
-      background: rgba(201,168,76,0.10);
-      padding: 3px 8px;
-      border-radius: 20px;
-      border: 1px solid rgba(201,168,76,0.25);
+    /* card body */
+    .card-body { padding: 16px 20px 18px; display: flex; flex-direction: column; gap: 9px; }
+
+    .contact-row {
+      display: flex; align-items: flex-start; gap: 10px;
     }
 
-    .no-nmls-badge {
-      font-size: 11px;
-      color: #b0bec5;
-      font-style: italic;
-    }
-
-    .lookup-icon {
-      flex-shrink: 0;
-      width: 34px; height: 34px;
-      border-radius: 8px;
-      background: rgba(201,168,76,0.08);
-      border: 1px solid rgba(201,168,76,0.2);
+    .contact-row .icon {
+      width: 28px; height: 28px; flex-shrink: 0;
+      background: var(--off-white); border-radius: 7px;
       display: flex; align-items: center; justify-content: center;
-      transition: background 0.2s, transform 0.2s;
+      margin-top: 1px;
     }
 
-    .staff-card.has-link:hover .lookup-icon {
-      background: var(--gold);
-      transform: scale(1.08);
-    }
+    .contact-row .icon svg { width: 13px; height: 13px; stroke: var(--navy-light); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
-    .lookup-icon svg {
-      width: 16px; height: 16px;
-      stroke: var(--gold); fill: none;
-      stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
-      transition: stroke 0.2s;
-    }
+    .contact-label { font-size: 9.5px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 1px; }
+    .contact-value { font-size: 12.5px; font-weight: 400; color: var(--text-dark); line-height: 1.3; }
+    .contact-value a { color: var(--navy-light); text-decoration: none; }
+    .contact-value a:hover { color: var(--gold); text-decoration: underline; }
+    .contact-value.small { font-size: 11.5px; }
 
-    .staff-card.has-link:hover .lookup-icon svg { stroke: var(--navy); }
+    .divider { height: 1px; background: var(--warm-gray); margin: 2px 0; }
 
-    /* hidden cards for search */
+    /* hidden */
     .staff-card.hidden { display: none; }
     .role-group.hidden { display: none; }
 
     /* ── FOOTER ── */
-    footer {
-      background: var(--navy);
-      padding: 28px 40px;
-      text-align: center;
-    }
+    footer { background: var(--navy); padding: 28px 40px; text-align: center; }
+    footer p { font-size: 12px; color: rgba(255,255,255,0.35); letter-spacing: 0.3px; }
+    footer strong { color: rgba(255,255,255,0.55); }
 
-    footer p { font-size: 12px; color: rgba(255,255,255,0.38); letter-spacing: 0.3px; }
-    footer strong { color: rgba(255,255,255,0.6); }
-
-    @media (max-width: 600px) {
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
       header { padding: 0 20px; }
+      nav { padding: 0 20px; }
       .header-badge { display: none; }
-      .hero { padding: 44px 20px 40px; }
-      main { padding: 36px 20px 60px; }
+      .hero { padding: 40px 20px 36px; }
+      main { padding: 32px 20px 60px; }
       footer { padding: 24px 20px; }
       .staff-grid { grid-template-columns: 1fr; }
     }
@@ -322,231 +271,506 @@
       to   { opacity: 1; transform: translateY(0); }
     }
 
-    .staff-card { animation: fadeUp 0.45s ease both; }
     .staff-card:nth-child(1)  { animation-delay: 0.04s; }
     .staff-card:nth-child(2)  { animation-delay: 0.09s; }
-    .staff-card:nth-child(3)  { animation-delay: 0.14s; }
-    .staff-card:nth-child(4)  { animation-delay: 0.19s; }
-    .staff-card:nth-child(5)  { animation-delay: 0.24s; }
-    .staff-card:nth-child(6)  { animation-delay: 0.29s; }
-    .staff-card:nth-child(7)  { animation-delay: 0.34s; }
-    .staff-card:nth-child(8)  { animation-delay: 0.39s; }
+    .staff-card:nth-child(3)  { animation-delay: 0.13s; }
+    .staff-card:nth-child(4)  { animation-delay: 0.17s; }
+    .staff-card:nth-child(5)  { animation-delay: 0.21s; }
+    .staff-card:nth-child(6)  { animation-delay: 0.25s; }
+    .staff-card:nth-child(7)  { animation-delay: 0.29s; }
+    .staff-card:nth-child(8)  { animation-delay: 0.33s; }
+    .staff-card:nth-child(9)  { animation-delay: 0.37s; }
+    .staff-card:nth-child(10) { animation-delay: 0.41s; }
+    .staff-card:nth-child(11) { animation-delay: 0.45s; }
   </style>
 </head>
 <body>
 
+  <!-- STICKY HEADER -->
   <header>
     <div class="brand">
       <div class="brand-logo">VC</div>
       <div class="brand-text">
         <span class="brand-name">Village Capital &amp; Investment</span>
-        <span class="brand-sub">Branch NMLS Directory</span>
+        <span class="brand-sub">Branch Staff Directory</span>
       </div>
     </div>
     <div class="header-badge">Internal Use Only</div>
   </header>
 
+  <!-- SUB NAV -->
+  <nav>
+    <a href="index.html">Forms</a>
+    <a href="nmls.html" class="active">Staff Directory</a>
+  </nav>
+
+  <!-- HERO -->
   <div class="hero">
-    <div class="hero-eyebrow">Branch Staff · NMLS Lookup</div>
-    <h1>Branch <span>NMLS Directory</span></h1>
-    <p>Quick access to NMLS Consumer Access profiles for every licensed team member. Click any card to look up their license.</p>
+    <div class="hero-eyebrow">Branch Team · Contact &amp; NMLS</div>
+    <h1>Branch <span>Staff Directory</span></h1>
+    <p>Full contact info and NMLS license lookup for every branch team member.</p>
     <div class="search-wrap">
-      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-      <input type="text" id="searchInput" placeholder="Search by name, role, or NMLS #…" oninput="filterCards()" />
+      <svg class="s-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+      <input type="text" id="searchInput" placeholder="Search by name, role, NMLS, or number…" oninput="filterCards()" />
     </div>
   </div>
 
   <main>
 
-    <!-- LEADERSHIP -->
+    <!-- ── LEADERSHIP ── -->
     <div class="role-group" id="group-leadership">
       <div class="role-group-title">Leadership</div>
       <div class="staff-grid">
 
-        <div class="staff-card has-link" onclick="window.open('https://www.nmlsconsumeraccess.org/Home.aspx/SubSearch?searchText=296801&page=1','_blank')" data-search="kc smalley branch manager 296801">
-          <div class="avatar">KS</div>
-          <div class="staff-info">
-            <div class="staff-name">KC Smalley</div>
-            <div class="staff-role">Branch Manager</div>
-            <div class="nmls-badge">NMLS # 296801</div>
+        <!-- KC Smalley -->
+        <div class="staff-card" data-search="kc smalley branch manager 296801 801-793-0861 kcsmalley@villagecapital.com">
+          <div class="card-header">
+            <div class="avatar">KS</div>
+            <div class="header-info">
+              <div class="staff-name">KC Smalley</div>
+              <div class="staff-role">Branch Manager</div>
+              <a class="nmls-pill" href="https://www.nmlsconsumeraccess.org/Home.aspx/SubSearch?searchText=296801&page=1" target="_blank" rel="noopener">
+                NMLS # 296801
+                <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              </a>
+            </div>
           </div>
-          <div class="lookup-icon">
-            <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          <div class="card-body">
+            <div class="contact-row">
+              <div class="icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.18 1.18 2 2 0 012.18 0h3a2 2 0 012 1.72c.13 1 .37 1.98.71 2.93a2 2 0 01-.45 2.11L6.91 7.18a16 16 0 006.72 6.72l.42-.42a2 2 0 012.11-.45c.95.34 1.93.58 2.93.71A2 2 0 0122 16.92z"/></svg></div>
+              <div>
+                <div class="contact-label">Cell</div>
+                <div class="contact-value"><a href="tel:8017930861">801-793-0861</a></div>
+              </div>
+            </div>
+            <div class="contact-row">
+              <div class="icon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+              <div>
+                <div class="contact-label">Zoom / Office</div>
+                <div class="contact-value">801-948-2548 Ext 6000</div>
+              </div>
+            </div>
+            <div class="divider"></div>
+            <div class="contact-row">
+              <div class="icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+              <div>
+                <div class="contact-label">Personal Email</div>
+                <div class="contact-value small"><a href="mailto:kc.smalley@outlook.com">kc.smalley@outlook.com</a></div>
+              </div>
+            </div>
+            <div class="contact-row">
+              <div class="icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+              <div>
+                <div class="contact-label">Work Email</div>
+                <div class="contact-value small"><a href="mailto:kcsmalley@villagecapital.com">kcsmalley@villagecapital.com</a></div>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div class="staff-card" data-search="candace taylor processing manager">
-          <div class="avatar no-nmls">CT</div>
-          <div class="staff-info">
-            <div class="staff-name">Candace Taylor</div>
-            <div class="staff-role">Processing Manager</div>
-            <div class="no-nmls-badge">Not Licensed</div>
+        <!-- Candace Taylor -->
+        <div class="staff-card" data-search="candace taylor processing manager 480-406-5566 cataylor@villagecapital.com">
+          <div class="card-header">
+            <div class="avatar no-nmls">CT</div>
+            <div class="header-info">
+              <div class="staff-name">Candace Taylor</div>
+              <div class="staff-role">Processing Manager</div>
+              <span class="no-nmls-pill">Not Licensed</span>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="contact-row">
+              <div class="icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.18 1.18 2 2 0 012.18 0h3a2 2 0 012 1.72c.13 1 .37 1.98.71 2.93a2 2 0 01-.45 2.11L6.91 7.18a16 16 0 006.72 6.72l.42-.42a2 2 0 012.11-.45c.95.34 1.93.58 2.93.71A2 2 0 0122 16.92z"/></svg></div>
+              <div><div class="contact-label">Cell</div><div class="contact-value"><a href="tel:4804065566">480-406-5566</a></div></div>
+            </div>
+            <div class="contact-row">
+              <div class="icon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+              <div><div class="contact-label">Zoom / Office</div><div class="contact-value">801-948-3618 Ext. 6001</div></div>
+            </div>
+            <div class="divider"></div>
+            <div class="contact-row">
+              <div class="icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+              <div><div class="contact-label">Personal Email</div><div class="contact-value small"><a href="mailto:candacedmurray89@gmail.com">candacedmurray89@gmail.com</a></div></div>
+            </div>
+            <div class="contact-row">
+              <div class="icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+              <div><div class="contact-label">Work Email</div><div class="contact-value small"><a href="mailto:cataylor@villagecapital.com">cataylor@villagecapital.com</a></div></div>
+            </div>
           </div>
         </div>
 
       </div>
     </div>
 
-    <!-- LOAN OFFICERS -->
+    <!-- ── LOAN OFFICERS ── -->
     <div class="role-group" id="group-lo">
       <div class="role-group-title">Loan Officers</div>
       <div class="staff-grid">
 
-        <div class="staff-card has-link" onclick="window.open('https://www.nmlsconsumeraccess.org/Home.aspx/SubSearch?searchText=2768575&page=1','_blank')" data-search="kyler moffett loan officer 2768575">
-          <div class="avatar">KM</div>
-          <div class="staff-info">
-            <div class="staff-name">Kyler Moffett</div>
-            <div class="staff-role">Loan Officer</div>
-            <div class="nmls-badge">NMLS # 2768575</div>
+        <!-- Kyler Moffett -->
+        <div class="staff-card" data-search="kyler moffett loan officer 2768575 801-367-1713 kymoffett@villagecapital.com">
+          <div class="card-header">
+            <div class="avatar">KM</div>
+            <div class="header-info">
+              <div class="staff-name">Kyler Moffett</div>
+              <div class="staff-role">Loan Officer</div>
+              <a class="nmls-pill" href="https://www.nmlsconsumeraccess.org/Home.aspx/SubSearch?searchText=2768575&page=1" target="_blank" rel="noopener">NMLS # 2768575 <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>
+            </div>
           </div>
-          <div class="lookup-icon">
-            <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-          </div>
-        </div>
-
-        <div class="staff-card has-link" onclick="window.open('https://www.nmlsconsumeraccess.org/Home.aspx/SubSearch?searchText=2768574&page=1','_blank')" data-search="robert beguhl loan officer 2768574">
-          <div class="avatar">RB</div>
-          <div class="staff-info">
-            <div class="staff-name">Robert Beguhl</div>
-            <div class="staff-role">Loan Officer</div>
-            <div class="nmls-badge">NMLS # 2768574</div>
-          </div>
-          <div class="lookup-icon">
-            <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-          </div>
-        </div>
-
-        <div class="staff-card has-link" onclick="window.open('https://www.nmlsconsumeraccess.org/Home.aspx/SubSearch?searchText=2361685&page=1','_blank')" data-search="drake knowles loan officer 2361685">
-          <div class="avatar">DK</div>
-          <div class="staff-info">
-            <div class="staff-name">Drake Knowles</div>
-            <div class="staff-role">Loan Officer</div>
-            <div class="nmls-badge">NMLS # 2361685</div>
-          </div>
-          <div class="lookup-icon">
-            <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          <div class="card-body">
+            <div class="contact-row">
+              <div class="icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.18 1.18 2 2 0 012.18 0h3a2 2 0 012 1.72c.13 1 .37 1.98.71 2.93a2 2 0 01-.45 2.11L6.91 7.18a16 16 0 006.72 6.72l.42-.42a2 2 0 012.11-.45c.95.34 1.93.58 2.93.71A2 2 0 0122 16.92z"/></svg></div>
+              <div><div class="contact-label">Cell</div><div class="contact-value"><a href="tel:8013671713">801-367-1713</a></div></div>
+            </div>
+            <div class="contact-row">
+              <div class="icon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+              <div><div class="contact-label">Zoom / Office</div><div class="contact-value">(801) 948-3532 Ext 6002</div></div>
+            </div>
+            <div class="divider"></div>
+            <div class="contact-row">
+              <div class="icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+              <div><div class="contact-label">Personal Email</div><div class="contact-value small"><a href="mailto:kylermoffett1028@gmail.com">kylermoffett1028@gmail.com</a></div></div>
+            </div>
+            <div class="contact-row">
+              <div class="icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+              <div><div class="contact-label">Work Email</div><div class="contact-value small"><a href="mailto:kymoffett@villagecapital.com">kymoffett@villagecapital.com</a></div></div>
+            </div>
           </div>
         </div>
 
-        <div class="staff-card has-link" onclick="window.open('https://www.nmlsconsumeraccess.org/Home.aspx/SubSearch?searchText=2627062&page=1','_blank')" data-search="cammon cooper loan officer 2627062">
-          <div class="avatar">CC</div>
-          <div class="staff-info">
-            <div class="staff-name">Cammon Cooper</div>
-            <div class="staff-role">Loan Officer</div>
-            <div class="nmls-badge">NMLS # 2627062</div>
+        <!-- Robert Beguhl -->
+        <div class="staff-card" data-search="robert beguhl loan officer 2768574 712-212-5810 robeguhl@villagecapital.com">
+          <div class="card-header">
+            <div class="avatar">RB</div>
+            <div class="header-info">
+              <div class="staff-name">Robert Beguhl</div>
+              <div class="staff-role">Loan Officer</div>
+              <a class="nmls-pill" href="https://www.nmlsconsumeraccess.org/Home.aspx/SubSearch?searchText=2768574&page=1" target="_blank" rel="noopener">NMLS # 2768574 <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>
+            </div>
           </div>
-          <div class="lookup-icon">
-            <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-          </div>
-        </div>
-
-        <div class="staff-card has-link" onclick="window.open('https://www.nmlsconsumeraccess.org/Home.aspx/SubSearch?searchText=2584242&page=1','_blank')" data-search="benji frandsen loan officer 2584242">
-          <div class="avatar">BF</div>
-          <div class="staff-info">
-            <div class="staff-name">Benji Frandsen</div>
-            <div class="staff-role">Loan Officer</div>
-            <div class="nmls-badge">NMLS # 2584242</div>
-          </div>
-          <div class="lookup-icon">
-            <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-          </div>
-        </div>
-
-        <div class="staff-card has-link" onclick="window.open('https://www.nmlsconsumeraccess.org/Home.aspx/SubSearch?searchText=2769035&page=1','_blank')" data-search="amber talbot loan officer 2769035">
-          <div class="avatar">AT</div>
-          <div class="staff-info">
-            <div class="staff-name">Amber Talbot</div>
-            <div class="staff-role">Loan Officer</div>
-            <div class="nmls-badge">NMLS # 2769035</div>
-          </div>
-          <div class="lookup-icon">
-            <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          <div class="card-body">
+            <div class="contact-row">
+              <div class="icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.18 1.18 2 2 0 012.18 0h3a2 2 0 012 1.72c.13 1 .37 1.98.71 2.93a2 2 0 01-.45 2.11L6.91 7.18a16 16 0 006.72 6.72l.42-.42a2 2 0 012.11-.45c.95.34 1.93.58 2.93.71A2 2 0 0122 16.92z"/></svg></div>
+              <div><div class="contact-label">Cell</div><div class="contact-value"><a href="tel:7122125810">712-212-5810</a></div></div>
+            </div>
+            <div class="contact-row">
+              <div class="icon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+              <div><div class="contact-label">Zoom / Office</div><div class="contact-value">(801) 948-3542 Ext. 6003</div></div>
+            </div>
+            <div class="divider"></div>
+            <div class="contact-row">
+              <div class="icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+              <div><div class="contact-label">Personal Email</div><div class="contact-value small"><a href="mailto:robert.beguhl4@gmail.com">robert.beguhl4@gmail.com</a></div></div>
+            </div>
+            <div class="contact-row">
+              <div class="icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+              <div><div class="contact-label">Work Email</div><div class="contact-value small"><a href="mailto:robeguhl@villagecapital.com">robeguhl@villagecapital.com</a></div></div>
+            </div>
           </div>
         </div>
 
-        <div class="staff-card has-link" onclick="window.open('https://www.nmlsconsumeraccess.org/Home.aspx/SubSearch?searchText=2790065&page=1','_blank')" data-search="tanner romney loan officer 2790065">
-          <div class="avatar">TR</div>
-          <div class="staff-info">
-            <div class="staff-name">Tanner Romney</div>
-            <div class="staff-role">Loan Officer</div>
-            <div class="nmls-badge">NMLS # 2790065</div>
+        <!-- Drake Knowles -->
+        <div class="staff-card" data-search="drake knowles loan officer 2361685 801-835-0011 drknowles@villagecapital.com">
+          <div class="card-header">
+            <div class="avatar">DK</div>
+            <div class="header-info">
+              <div class="staff-name">Drake Knowles</div>
+              <div class="staff-role">Loan Officer</div>
+              <a class="nmls-pill" href="https://www.nmlsconsumeraccess.org/Home.aspx/SubSearch?searchText=2361685&page=1" target="_blank" rel="noopener">NMLS # 2361685 <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>
+            </div>
           </div>
-          <div class="lookup-icon">
-            <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-          </div>
-        </div>
-
-        <div class="staff-card has-link" onclick="window.open('https://www.nmlsconsumeraccess.org/Home.aspx/SubSearch?searchText=964955&page=1','_blank')" data-search="ricky nelson loan officer 964955">
-          <div class="avatar">RN</div>
-          <div class="staff-info">
-            <div class="staff-name">Ricky Nelson</div>
-            <div class="staff-role">Loan Officer</div>
-            <div class="nmls-badge">NMLS # 964955</div>
-          </div>
-          <div class="lookup-icon">
-            <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-          </div>
-        </div>
-
-        <div class="staff-card has-link" onclick="window.open('https://www.nmlsconsumeraccess.org/Home.aspx/SubSearch?searchText=2061604&page=1','_blank')" data-search="sean morgan loan officer 2061604">
-          <div class="avatar">SM</div>
-          <div class="staff-info">
-            <div class="staff-name">Sean Morgan</div>
-            <div class="staff-role">Loan Officer</div>
-            <div class="nmls-badge">NMLS # 2061604</div>
-          </div>
-          <div class="lookup-icon">
-            <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          <div class="card-body">
+            <div class="contact-row">
+              <div class="icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.18 1.18 2 2 0 012.18 0h3a2 2 0 012 1.72c.13 1 .37 1.98.71 2.93a2 2 0 01-.45 2.11L6.91 7.18a16 16 0 006.72 6.72l.42-.42a2 2 0 012.11-.45c.95.34 1.93.58 2.93.71A2 2 0 0122 16.92z"/></svg></div>
+              <div><div class="contact-label">Cell</div><div class="contact-value"><a href="tel:8018350011">801-835-0011</a></div></div>
+            </div>
+            <div class="contact-row">
+              <div class="icon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+              <div><div class="contact-label">Zoom / Office</div><div class="contact-value">801-948-2610 Ext. 9200</div></div>
+            </div>
+            <div class="divider"></div>
+            <div class="contact-row">
+              <div class="icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+              <div><div class="contact-label">Personal Email</div><div class="contact-value small"><a href="mailto:drakeknowles7@gmail.com">drakeknowles7@gmail.com</a></div></div>
+            </div>
+            <div class="contact-row">
+              <div class="icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+              <div><div class="contact-label">Work Email</div><div class="contact-value small"><a href="mailto:drknowles@villagecapital.com">drknowles@villagecapital.com</a></div></div>
+            </div>
           </div>
         </div>
 
-        <div class="staff-card has-link" onclick="window.open('https://www.nmlsconsumeraccess.org/Home.aspx/SubSearch?searchText=1507743&page=1','_blank')" data-search="aaron johnson loan officer 1507743">
-          <div class="avatar">AJ</div>
-          <div class="staff-info">
-            <div class="staff-name">Aaron Johnson</div>
-            <div class="staff-role">Loan Officer</div>
-            <div class="nmls-badge">NMLS # 1507743</div>
+        <!-- Cammon Cooper -->
+        <div class="staff-card" data-search="cammon cooper loan officer 2627062 385-498-9412 cacooper@villagecapital.com">
+          <div class="card-header">
+            <div class="avatar">CC</div>
+            <div class="header-info">
+              <div class="staff-name">Cammon Cooper</div>
+              <div class="staff-role">Loan Officer</div>
+              <a class="nmls-pill" href="https://www.nmlsconsumeraccess.org/Home.aspx/SubSearch?searchText=2627062&page=1" target="_blank" rel="noopener">NMLS # 2627062 <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>
+            </div>
           </div>
-          <div class="lookup-icon">
-            <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          <div class="card-body">
+            <div class="contact-row">
+              <div class="icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.18 1.18 2 2 0 012.18 0h3a2 2 0 012 1.72c.13 1 .37 1.98.71 2.93a2 2 0 01-.45 2.11L6.91 7.18a16 16 0 006.72 6.72l.42-.42a2 2 0 012.11-.45c.95.34 1.93.58 2.93.71A2 2 0 0122 16.92z"/></svg></div>
+              <div><div class="contact-label">Cell</div><div class="contact-value"><a href="tel:3854989412">385-498-9412</a></div></div>
+            </div>
+            <div class="contact-row">
+              <div class="icon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+              <div><div class="contact-label">Zoom / Office</div><div class="contact-value">(801) 948-2771 Ext. 9195</div></div>
+            </div>
+            <div class="divider"></div>
+            <div class="contact-row">
+              <div class="icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+              <div><div class="contact-label">Personal Email</div><div class="contact-value small"><a href="mailto:cammon.cooper@gmail.com">cammon.cooper@gmail.com</a></div></div>
+            </div>
+            <div class="contact-row">
+              <div class="icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+              <div><div class="contact-label">Work Email</div><div class="contact-value small"><a href="mailto:cacooper@villagecapital.com">cacooper@villagecapital.com</a></div></div>
+            </div>
           </div>
         </div>
 
-        <div class="staff-card has-link" onclick="window.open('https://www.nmlsconsumeraccess.org/Home.aspx/SubSearch?searchText=308516&page=1','_blank')" data-search="dawna johnson loan officer 308516">
-          <div class="avatar">DJ</div>
-          <div class="staff-info">
-            <div class="staff-name">Dawna Johnson</div>
-            <div class="staff-role">Loan Officer</div>
-            <div class="nmls-badge">NMLS # 308516</div>
+        <!-- Benji Frandsen -->
+        <div class="staff-card" data-search="benji frandsen loan officer 2584242 801-414-4859 befrandsen@villagecapital.com">
+          <div class="card-header">
+            <div class="avatar">BF</div>
+            <div class="header-info">
+              <div class="staff-name">Benji Frandsen</div>
+              <div class="staff-role">Loan Officer</div>
+              <a class="nmls-pill" href="https://www.nmlsconsumeraccess.org/Home.aspx/SubSearch?searchText=2584242&page=1" target="_blank" rel="noopener">NMLS # 2584242 <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>
+            </div>
           </div>
-          <div class="lookup-icon">
-            <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          <div class="card-body">
+            <div class="contact-row">
+              <div class="icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.18 1.18 2 2 0 012.18 0h3a2 2 0 012 1.72c.13 1 .37 1.98.71 2.93a2 2 0 01-.45 2.11L6.91 7.18a16 16 0 006.72 6.72l.42-.42a2 2 0 012.11-.45c.95.34 1.93.58 2.93.71A2 2 0 0122 16.92z"/></svg></div>
+              <div><div class="contact-label">Cell</div><div class="contact-value"><a href="tel:8014144859">801-414-4859</a></div></div>
+            </div>
+            <div class="contact-row">
+              <div class="icon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+              <div><div class="contact-label">Zoom / Office</div><div class="contact-value">(801) 948-3643 Ext. 6006</div></div>
+            </div>
+            <div class="divider"></div>
+            <div class="contact-row">
+              <div class="icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+              <div><div class="contact-label">Personal Email</div><div class="contact-value small"><a href="mailto:benji.frandsen@gmail.com">benji.frandsen@gmail.com</a></div></div>
+            </div>
+            <div class="contact-row">
+              <div class="icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+              <div><div class="contact-label">Work Email</div><div class="contact-value small"><a href="mailto:befrandsen@villagecapital.com">befrandsen@villagecapital.com</a></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Amber Talbot -->
+        <div class="staff-card" data-search="amber talbot loan officer 2769035 801-895-3844 amtalbot@villagecapital.com">
+          <div class="card-header">
+            <div class="avatar">AT</div>
+            <div class="header-info">
+              <div class="staff-name">Amber Talbot</div>
+              <div class="staff-role">Loan Officer</div>
+              <a class="nmls-pill" href="https://www.nmlsconsumeraccess.org/Home.aspx/SubSearch?searchText=2769035&page=1" target="_blank" rel="noopener">NMLS # 2769035 <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="contact-row">
+              <div class="icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.18 1.18 2 2 0 012.18 0h3a2 2 0 012 1.72c.13 1 .37 1.98.71 2.93a2 2 0 01-.45 2.11L6.91 7.18a16 16 0 006.72 6.72l.42-.42a2 2 0 012.11-.45c.95.34 1.93.58 2.93.71A2 2 0 0122 16.92z"/></svg></div>
+              <div><div class="contact-label">Cell</div><div class="contact-value"><a href="tel:8018953844">(801) 895-3844</a></div></div>
+            </div>
+            <div class="divider"></div>
+            <div class="contact-row">
+              <div class="icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+              <div><div class="contact-label">Work Email</div><div class="contact-value small"><a href="mailto:amtalbot@villagecapital.com">amtalbot@villagecapital.com</a></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tanner Romney -->
+        <div class="staff-card" data-search="tanner romney loan officer 2790065 385-539-7606 taromney@villagecapital.com">
+          <div class="card-header">
+            <div class="avatar">TR</div>
+            <div class="header-info">
+              <div class="staff-name">Tanner Romney</div>
+              <div class="staff-role">Loan Officer</div>
+              <a class="nmls-pill" href="https://www.nmlsconsumeraccess.org/Home.aspx/SubSearch?searchText=2790065&page=1" target="_blank" rel="noopener">NMLS # 2790065 <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="contact-row">
+              <div class="icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.18 1.18 2 2 0 012.18 0h3a2 2 0 012 1.72c.13 1 .37 1.98.71 2.93a2 2 0 01-.45 2.11L6.91 7.18a16 16 0 006.72 6.72l.42-.42a2 2 0 012.11-.45c.95.34 1.93.58 2.93.71A2 2 0 0122 16.92z"/></svg></div>
+              <div><div class="contact-label">Cell</div><div class="contact-value"><a href="tel:3855397606">385-539-7606</a></div></div>
+            </div>
+            <div class="divider"></div>
+            <div class="contact-row">
+              <div class="icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+              <div><div class="contact-label">Personal Email</div><div class="contact-value small"><a href="mailto:tanner.romney99@gmail.com">tanner.romney99@gmail.com</a></div></div>
+            </div>
+            <div class="contact-row">
+              <div class="icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+              <div><div class="contact-label">Work Email</div><div class="contact-value small"><a href="mailto:taromney@villagecapital.com">taromney@villagecapital.com</a></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ricky Nelson -->
+        <div class="staff-card" data-search="ricky nelson loan officer 964955 801-948-0159 rinelson@villagecapital.com">
+          <div class="card-header">
+            <div class="avatar">RN</div>
+            <div class="header-info">
+              <div class="staff-name">Ricky Nelson</div>
+              <div class="staff-role">Loan Officer</div>
+              <a class="nmls-pill" href="https://www.nmlsconsumeraccess.org/Home.aspx/SubSearch?searchText=964955&page=1" target="_blank" rel="noopener">NMLS # 964955 <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="contact-row">
+              <div class="icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.18 1.18 2 2 0 012.18 0h3a2 2 0 012 1.72c.13 1 .37 1.98.71 2.93a2 2 0 01-.45 2.11L6.91 7.18a16 16 0 006.72 6.72l.42-.42a2 2 0 012.11-.45c.95.34 1.93.58 2.93.71A2 2 0 0122 16.92z"/></svg></div>
+              <div><div class="contact-label">Cell</div><div class="contact-value"><a href="tel:8019480159">(801) 948-0159</a></div></div>
+            </div>
+            <div class="contact-row">
+              <div class="icon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+              <div><div class="contact-label">Zoom / Office</div><div class="contact-value">(801) 948-0159 Ext. 6008</div></div>
+            </div>
+            <div class="divider"></div>
+            <div class="contact-row">
+              <div class="icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+              <div><div class="contact-label">Work Email</div><div class="contact-value small"><a href="mailto:rinelson@villagecapital.com">rinelson@villagecapital.com</a></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sean Morgan -->
+        <div class="staff-card" data-search="sean morgan loan officer 2061604 801-678-4147 semorgain@villagecapital.com">
+          <div class="card-header">
+            <div class="avatar">SM</div>
+            <div class="header-info">
+              <div class="staff-name">Sean Morgan</div>
+              <div class="staff-role">Loan Officer</div>
+              <a class="nmls-pill" href="https://www.nmlsconsumeraccess.org/Home.aspx/SubSearch?searchText=2061604&page=1" target="_blank" rel="noopener">NMLS # 2061604 <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="contact-row">
+              <div class="icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.18 1.18 2 2 0 012.18 0h3a2 2 0 012 1.72c.13 1 .37 1.98.71 2.93a2 2 0 01-.45 2.11L6.91 7.18a16 16 0 006.72 6.72l.42-.42a2 2 0 012.11-.45c.95.34 1.93.58 2.93.71A2 2 0 0122 16.92z"/></svg></div>
+              <div><div class="contact-label">Cell</div><div class="contact-value"><a href="tel:8016784147">(801) 678-4147</a></div></div>
+            </div>
+            <div class="contact-row">
+              <div class="icon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+              <div><div class="contact-label">Zoom / Office</div><div class="contact-value">(801) 895-2965 Ext 6009</div></div>
+            </div>
+            <div class="divider"></div>
+            <div class="contact-row">
+              <div class="icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+              <div><div class="contact-label">Work Email</div><div class="contact-value small"><a href="mailto:semorgain@villagecapital.com">semorgain@villagecapital.com</a></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Aaron Johnson -->
+        <div class="staff-card" data-search="aaron johnson loan officer 1507743 801-516-1631 aajohnson@villagecapital.com">
+          <div class="card-header">
+            <div class="avatar">AJ</div>
+            <div class="header-info">
+              <div class="staff-name">Aaron Johnson</div>
+              <div class="staff-role">Loan Officer</div>
+              <a class="nmls-pill" href="https://www.nmlsconsumeraccess.org/Home.aspx/SubSearch?searchText=1507743&page=1" target="_blank" rel="noopener">NMLS # 1507743 <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="contact-row">
+              <div class="icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.18 1.18 2 2 0 012.18 0h3a2 2 0 012 1.72c.13 1 .37 1.98.71 2.93a2 2 0 01-.45 2.11L6.91 7.18a16 16 0 006.72 6.72l.42-.42a2 2 0 012.11-.45c.95.34 1.93.58 2.93.71A2 2 0 0122 16.92z"/></svg></div>
+              <div><div class="contact-label">Cell</div><div class="contact-value"><a href="tel:8015161631">(801) 516-1631</a></div></div>
+            </div>
+            <div class="contact-row">
+              <div class="icon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+              <div><div class="contact-label">Zoom / Office</div><div class="contact-value">(801) 895-4511 Ext 6010</div></div>
+            </div>
+            <div class="divider"></div>
+            <div class="contact-row">
+              <div class="icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+              <div><div class="contact-label">Work Email</div><div class="contact-value small"><a href="mailto:aajohnson@villagecapital.com">aajohnson@villagecapital.com</a></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dawna Johnson -->
+        <div class="staff-card" data-search="dawna johnson loan officer 308516 801-473-4867 dajohnson@villagecapital.com">
+          <div class="card-header">
+            <div class="avatar">DJ</div>
+            <div class="header-info">
+              <div class="staff-name">Dawna Johnson</div>
+              <div class="staff-role">Loan Officer</div>
+              <a class="nmls-pill" href="https://www.nmlsconsumeraccess.org/Home.aspx/SubSearch?searchText=308516&page=1" target="_blank" rel="noopener">NMLS # 308516 <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="contact-row">
+              <div class="icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.18 1.18 2 2 0 012.18 0h3a2 2 0 012 1.72c.13 1 .37 1.98.71 2.93a2 2 0 01-.45 2.11L6.91 7.18a16 16 0 006.72 6.72l.42-.42a2 2 0 012.11-.45c.95.34 1.93.58 2.93.71A2 2 0 0122 16.92z"/></svg></div>
+              <div><div class="contact-label">Cell</div><div class="contact-value"><a href="tel:8014734867">(801) 473-4867</a></div></div>
+            </div>
+            <div class="divider"></div>
+            <div class="contact-row">
+              <div class="icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+              <div><div class="contact-label">Work Email</div><div class="contact-value small"><a href="mailto:dajohnson@villagecapital.com">dajohnson@villagecapital.com</a></div></div>
+            </div>
           </div>
         </div>
 
       </div>
     </div>
 
-    <!-- OPERATIONS / SUPPORT -->
+    <!-- ── OPERATIONS & SUPPORT ── -->
     <div class="role-group" id="group-ops">
       <div class="role-group-title">Operations &amp; Support</div>
       <div class="staff-grid">
 
-        <div class="staff-card" data-search="lindsay smalley jr processor loan">
-          <div class="avatar no-nmls">LS</div>
-          <div class="staff-info">
-            <div class="staff-name">Lindsay Smalley</div>
-            <div class="staff-role">Jr. Processor / Loan</div>
-            <div class="no-nmls-badge">Not Licensed</div>
+        <!-- Lindsay Smalley -->
+        <div class="staff-card" data-search="lindsay smalley jr processor loan 801-214-5944 lismalley@villagecapital.com">
+          <div class="card-header">
+            <div class="avatar no-nmls">LS</div>
+            <div class="header-info">
+              <div class="staff-name">Lindsay Smalley</div>
+              <div class="staff-role">Jr. Processor / Loan</div>
+              <span class="no-nmls-pill">Not Licensed</span>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="contact-row">
+              <div class="icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.18 1.18 2 2 0 012.18 0h3a2 2 0 012 1.72c.13 1 .37 1.98.71 2.93a2 2 0 01-.45 2.11L6.91 7.18a16 16 0 006.72 6.72l.42-.42a2 2 0 012.11-.45c.95.34 1.93.58 2.93.71A2 2 0 0122 16.92z"/></svg></div>
+              <div><div class="contact-label">Cell</div><div class="contact-value"><a href="tel:8012145944">801-214-5944</a></div></div>
+            </div>
+            <div class="divider"></div>
+            <div class="contact-row">
+              <div class="icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+              <div><div class="contact-label">Personal Email</div><div class="contact-value small"><a href="mailto:mrssmalley@gmail.com">mrssmalley@gmail.com</a></div></div>
+            </div>
+            <div class="contact-row">
+              <div class="icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+              <div><div class="contact-label">Work Email</div><div class="contact-value small"><a href="mailto:lismalley@villagecapital.com">lismalley@villagecapital.com</a></div></div>
+            </div>
           </div>
         </div>
 
-        <div class="staff-card" data-search="jadyn smalley re disclosure">
-          <div class="avatar no-nmls">JS</div>
-          <div class="staff-info">
-            <div class="staff-name">Jadyn Smalley</div>
-            <div class="staff-role">Re-Disclosure</div>
-            <div class="no-nmls-badge">Not Licensed</div>
+        <!-- Jadyn Smalley -->
+        <div class="staff-card" data-search="jadyn smalley re disclosure 801-948-3618 jasmalley@villagecapital.com">
+          <div class="card-header">
+            <div class="avatar no-nmls">JS</div>
+            <div class="header-info">
+              <div class="staff-name">Jadyn Smalley</div>
+              <div class="staff-role">Re-Disclosure</div>
+              <span class="no-nmls-pill">Not Licensed</span>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="contact-row">
+              <div class="icon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+              <div><div class="contact-label">Zoom / Office</div><div class="contact-value">(801) 948-3618</div></div>
+            </div>
+            <div class="divider"></div>
+            <div class="contact-row">
+              <div class="icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+              <div><div class="contact-label">Work Email</div><div class="contact-value small"><a href="mailto:jasmalley@villagecapital.com">jasmalley@villagecapital.com</a></div></div>
+            </div>
           </div>
         </div>
 
@@ -556,29 +780,20 @@
   </main>
 
   <footer>
-    <p><strong>Village Capital &amp; Investment LLC</strong> · Branch NMLS Directory · Internal Use Only · NMLS #3317</p>
+    <p><strong>Village Capital &amp; Investment LLC</strong> · Branch Staff Directory · Internal Use Only · NMLS #3317</p>
   </footer>
 
   <script>
     function filterCards() {
       const query = document.getElementById('searchInput').value.toLowerCase().trim();
-      const groups = document.querySelectorAll('.role-group');
-
-      groups.forEach(group => {
-        const cards = group.querySelectorAll('.staff-card');
-        let visibleCount = 0;
-
-        cards.forEach(card => {
-          const searchData = card.getAttribute('data-search') || '';
-          if (!query || searchData.includes(query)) {
-            card.classList.remove('hidden');
-            visibleCount++;
-          } else {
-            card.classList.add('hidden');
-          }
+      document.querySelectorAll('.role-group').forEach(group => {
+        let visible = 0;
+        group.querySelectorAll('.staff-card').forEach(card => {
+          const match = !query || card.dataset.search.includes(query);
+          card.classList.toggle('hidden', !match);
+          if (match) visible++;
         });
-
-        group.classList.toggle('hidden', visibleCount === 0);
+        group.classList.toggle('hidden', visible === 0);
       });
     }
   </script>
