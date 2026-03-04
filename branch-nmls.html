@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Branch NMLS Directory — Village Capital & Investment</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy: #0d2340;
+      --navy-mid: #153256;
+      --navy-light: #1e4678;
+      --gold: #c9a84c;
+      --gold-light: #e2c47a;
+      --off-white: #f5f3ef;
+      --warm-gray: #e8e4dd;
+      --text-dark: #1a1a2e;
+      --text-muted: #5a6a7e;
+      --white: #ffffff;
+      --card-shadow: 0 4px 24px rgba(13, 35, 64, 0.10);
+      --card-shadow-hover: 0 12px 40px rgba(13, 35, 64, 0.20);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--off-white);
+      color: var(--text-dark);
+      min-height: 100vh;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: var(--navy);
+      padding: 0 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 72px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.25);
+    }
+
+    .brand { display: flex; align-items: center; gap: 14px; text-decoration: none; }
+
+    .brand-logo {
+      width: 38px; height: 38px;
+      background: var(--gold);
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px; font-weight: 700;
+      color: var(--navy);
+    }
+
+    .brand-text { display: flex; flex-direction: column; gap: 1px; }
+    .brand-name { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 700; color: var(--white); line-height: 1.1; }
+    .brand-sub { font-size: 10px; font-weight: 400; color: var(--gold-light); letter-spacing: 2px; text-transform: uppercase; }
+
+    .header-badge {
+      background: rgba(201, 168, 76, 0.15);
+      border: 1px solid rgba(201, 168, 76, 0.35);
+      color: var(--gold-light);
+      font-size: 11px; font-weight: 500;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      padding: 5px 12px; border-radius: 20px;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 50%, var(--navy-light) 100%);
+      padding: 64px 40px 56px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        radial-gradient(circle at 20% 50%, rgba(201,168,76,0.08) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(201,168,76,0.06) 0%, transparent 40%);
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+
+    .hero-eyebrow {
+      font-size: 11px; font-weight: 500; letter-spacing: 3px;
+      text-transform: uppercase; color: var(--gold); margin-bottom: 14px; position: relative;
+    }
+
+    .hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(32px, 5vw, 52px); font-weight: 700;
+      color: var(--white); line-height: 1.15; margin-bottom: 16px; position: relative;
+    }
+
+    .hero h1 span { color: var(--gold); }
+
+    .hero p {
+      font-size: 16px; font-weight: 300;
+      color: rgba(255,255,255,0.72);
+      max-width: 520px; margin: 0 auto; line-height: 1.65; position: relative;
+    }
+
+    /* ── SEARCH BAR ── */
+    .search-wrap {
+      max-width: 480px;
+      margin: 32px auto 0;
+      position: relative;
+    }
+
+    .search-wrap input {
+      width: 100%;
+      padding: 13px 20px 13px 44px;
+      border-radius: 40px;
+      border: none;
+      background: rgba(255,255,255,0.12);
+      backdrop-filter: blur(8px);
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      outline: none;
+      transition: background 0.2s;
+    }
+
+    .search-wrap input::placeholder { color: rgba(255,255,255,0.45); }
+    .search-wrap input:focus { background: rgba(255,255,255,0.18); }
+
+    .search-wrap svg {
+      position: absolute;
+      left: 16px; top: 50%; transform: translateY(-50%);
+      width: 18px; height: 18px;
+      stroke: rgba(255,255,255,0.5); fill: none;
+      stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+      pointer-events: none;
+    }
+
+    /* ── MAIN ── */
+    main {
+      max-width: 1060px;
+      margin: 0 auto;
+      padding: 56px 40px 80px;
+    }
+
+    .section-label {
+      display: flex; align-items: center; gap: 12px; margin-bottom: 32px;
+    }
+
+    .section-label::before {
+      content: ''; display: block;
+      width: 4px; height: 28px;
+      background: var(--gold); border-radius: 2px;
+    }
+
+    .section-label h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 26px; font-weight: 600; color: var(--navy);
+    }
+
+    .section-label p { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
+
+    /* ── ROLE GROUP LABEL ── */
+    .role-group {
+      margin-bottom: 36px;
+    }
+
+    .role-group-title {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--warm-gray);
+    }
+
+    /* ── STAFF GRID ── */
+    .staff-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 16px;
+    }
+
+    /* ── STAFF CARD ── */
+    .staff-card {
+      background: var(--white);
+      border-radius: 12px;
+      padding: 20px 22px;
+      box-shadow: var(--card-shadow);
+      border: 1px solid rgba(13, 35, 64, 0.06);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.22s ease, box-shadow 0.22s ease;
+    }
+
+    .staff-card.has-link { cursor: pointer; }
+
+    .staff-card.has-link:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--card-shadow-hover);
+    }
+
+    .staff-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--gold), var(--gold-light));
+      opacity: 0;
+      transition: opacity 0.22s ease;
+    }
+
+    .staff-card.has-link:hover::before { opacity: 1; }
+
+    .avatar {
+      width: 46px; height: 46px;
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 17px; font-weight: 700;
+      color: var(--gold);
+      flex-shrink: 0;
+    }
+
+    .avatar.no-nmls {
+      background: linear-gradient(135deg, #8a9ab0, #b0bec5);
+      color: rgba(255,255,255,0.8);
+    }
+
+    .staff-info { flex: 1; min-width: 0; }
+
+    .staff-name {
+      font-size: 14px; font-weight: 600; color: var(--navy);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      margin-bottom: 3px;
+    }
+
+    .staff-role {
+      font-size: 12px; font-weight: 400; color: var(--text-muted);
+      margin-bottom: 5px;
+    }
+
+    .nmls-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px; font-weight: 600;
+      color: var(--gold);
+      background: rgba(201,168,76,0.10);
+      padding: 3px 8px;
+      border-radius: 20px;
+      border: 1px solid rgba(201,168,76,0.25);
+    }
+
+    .no-nmls-badge {
+      font-size: 11px;
+      color: #b0bec5;
+      font-style: italic;
+    }
+
+    .lookup-icon {
+      flex-shrink: 0;
+      width: 34px; height: 34px;
+      border-radius: 8px;
+      background: rgba(201,168,76,0.08);
+      border: 1px solid rgba(201,168,76,0.2);
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .staff-card.has-link:hover .lookup-icon {
+      background: var(--gold);
+      transform: scale(1.08);
+    }
+
+    .lookup-icon svg {
+      width: 16px; height: 16px;
+      stroke: var(--gold); fill: none;
+      stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+      transition: stroke 0.2s;
+    }
+
+    .staff-card.has-link:hover .lookup-icon svg { stroke: var(--navy); }
+
+    /* hidden cards for search */
+    .staff-card.hidden { display: none; }
+    .role-group.hidden { display: none; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--navy);
+      padding: 28px 40px;
+      text-align: center;
+    }
+
+    footer p { font-size: 12px; color: rgba(255,255,255,0.38); letter-spacing: 0.3px; }
+    footer strong { color: rgba(255,255,255,0.6); }
+
+    @media (max-width: 600px) {
+      header { padding: 0 20px; }
+      .header-badge { display: none; }
+      .hero { padding: 44px 20px 40px; }
+      main { padding: 36px 20px 60px; }
+      footer { padding: 24px 20px; }
+      .staff-grid { grid-template-columns: 1fr; }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .staff-card { animation: fadeUp 0.45s ease both; }
+    .staff-card:nth-child(1)  { animation-delay: 0.04s; }
+    .staff-card:nth-child(2)  { animation-delay: 0.09s; }
+    .staff-card:nth-child(3)  { animation-delay: 0.14s; }
+    .staff-card:nth-child(4)  { animation-delay: 0.19s; }
+    .staff-card:nth-child(5)  { animation-delay: 0.24s; }
+    .staff-card:nth-child(6)  { animation-delay: 0.29s; }
+    .staff-card:nth-child(7)  { animation-delay: 0.34s; }
+    .staff-card:nth-child(8)  { animation-delay: 0.39s; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand">
+      <div class="brand-logo">VC</div>
+      <div class="brand-text">
+        <span class="brand-name">Village Capital &amp; Investment</span>
+        <span class="brand-sub">Branch NMLS Directory</span>
+      </div>
+    </div>
+    <div class="header-badge">Internal Use Only</div>
+  </header>
+
+  <div class="hero">
+    <div class="hero-eyebrow">Branch Staff · NMLS Lookup</div>
+    <h1>Branch <span>NMLS Directory</span></h1>
+    <p>Quick access to NMLS Consumer Access profiles for every licensed team member. Click any card to look up their license.</p>
+    <div class="search-wrap">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+      <input type="text" id="searchInput" placeholder="Search by name, role, or NMLS #…" oninput="filterCards()" />
+    </div>
+  </div>
+
+  <main>
+
+    <!-- LEADERSHIP -->
+    <div class="role-group" id="group-leadership">
+      <div class="role-group-title">Leadership</div>
+      <div class="staff-grid">
+
+        <div class="staff-card has-link" onclick="window.open('https://www.nmlsconsumeraccess.org/Home.aspx/SubSearch?searchText=296801&page=1','_blank')" data-search="kc smalley branch manager 296801">
+          <div class="avatar">KS</div>
+          <div class="staff-info">
+            <div class="staff-name">KC Smalley</div>
+            <div class="staff-role">Branch Manager</div>
+            <div class="nmls-badge">NMLS # 296801</div>
+          </div>
+          <div class="lookup-icon">
+            <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </div>
+        </div>
+
+        <div class="staff-card" data-search="candace taylor processing manager">
+          <div class="avatar no-nmls">CT</div>
+          <div class="staff-info">
+            <div class="staff-name">Candace Taylor</div>
+            <div class="staff-role">Processing Manager</div>
+            <div class="no-nmls-badge">Not Licensed</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- LOAN OFFICERS -->
+    <div class="role-group" id="group-lo">
+      <div class="role-group-title">Loan Officers</div>
+      <div class="staff-grid">
+
+        <div class="staff-card has-link" onclick="window.open('https://www.nmlsconsumeraccess.org/Home.aspx/SubSearch?searchText=2768575&page=1','_blank')" data-search="kyler moffett loan officer 2768575">
+          <div class="avatar">KM</div>
+          <div class="staff-info">
+            <div class="staff-name">Kyler Moffett</div>
+            <div class="staff-role">Loan Officer</div>
+            <div class="nmls-badge">NMLS # 2768575</div>
+          </div>
+          <div class="lookup-icon">
+            <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </div>
+        </div>
+
+        <div class="staff-card has-link" onclick="window.open('https://www.nmlsconsumeraccess.org/Home.aspx/SubSearch?searchText=2768574&page=1','_blank')" data-search="robert beguhl loan officer 2768574">
+          <div class="avatar">RB</div>
+          <div class="staff-info">
+            <div class="staff-name">Robert Beguhl</div>
+            <div class="staff-role">Loan Officer</div>
+            <div class="nmls-badge">NMLS # 2768574</div>
+          </div>
+          <div class="lookup-icon">
+            <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </div>
+        </div>
+
+        <div class="staff-card has-link" onclick="window.open('https://www.nmlsconsumeraccess.org/Home.aspx/SubSearch?searchText=2361685&page=1','_blank')" data-search="drake knowles loan officer 2361685">
+          <div class="avatar">DK</div>
+          <div class="staff-info">
+            <div class="staff-name">Drake Knowles</div>
+            <div class="staff-role">Loan Officer</div>
+            <div class="nmls-badge">NMLS # 2361685</div>
+          </div>
+          <div class="lookup-icon">
+            <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </div>
+        </div>
+
+        <div class="staff-card has-link" onclick="window.open('https://www.nmlsconsumeraccess.org/Home.aspx/SubSearch?searchText=2627062&page=1','_blank')" data-search="cammon cooper loan officer 2627062">
+          <div class="avatar">CC</div>
+          <div class="staff-info">
+            <div class="staff-name">Cammon Cooper</div>
+            <div class="staff-role">Loan Officer</div>
+            <div class="nmls-badge">NMLS # 2627062</div>
+          </div>
+          <div class="lookup-icon">
+            <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </div>
+        </div>
+
+        <div class="staff-card has-link" onclick="window.open('https://www.nmlsconsumeraccess.org/Home.aspx/SubSearch?searchText=2584242&page=1','_blank')" data-search="benji frandsen loan officer 2584242">
+          <div class="avatar">BF</div>
+          <div class="staff-info">
+            <div class="staff-name">Benji Frandsen</div>
+            <div class="staff-role">Loan Officer</div>
+            <div class="nmls-badge">NMLS # 2584242</div>
+          </div>
+          <div class="lookup-icon">
+            <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </div>
+        </div>
+
+        <div class="staff-card has-link" onclick="window.open('https://www.nmlsconsumeraccess.org/Home.aspx/SubSearch?searchText=2769035&page=1','_blank')" data-search="amber talbot loan officer 2769035">
+          <div class="avatar">AT</div>
+          <div class="staff-info">
+            <div class="staff-name">Amber Talbot</div>
+            <div class="staff-role">Loan Officer</div>
+            <div class="nmls-badge">NMLS # 2769035</div>
+          </div>
+          <div class="lookup-icon">
+            <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </div>
+        </div>
+
+        <div class="staff-card has-link" onclick="window.open('https://www.nmlsconsumeraccess.org/Home.aspx/SubSearch?searchText=2790065&page=1','_blank')" data-search="tanner romney loan officer 2790065">
+          <div class="avatar">TR</div>
+          <div class="staff-info">
+            <div class="staff-name">Tanner Romney</div>
+            <div class="staff-role">Loan Officer</div>
+            <div class="nmls-badge">NMLS # 2790065</div>
+          </div>
+          <div class="lookup-icon">
+            <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </div>
+        </div>
+
+        <div class="staff-card has-link" onclick="window.open('https://www.nmlsconsumeraccess.org/Home.aspx/SubSearch?searchText=964955&page=1','_blank')" data-search="ricky nelson loan officer 964955">
+          <div class="avatar">RN</div>
+          <div class="staff-info">
+            <div class="staff-name">Ricky Nelson</div>
+            <div class="staff-role">Loan Officer</div>
+            <div class="nmls-badge">NMLS # 964955</div>
+          </div>
+          <div class="lookup-icon">
+            <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </div>
+        </div>
+
+        <div class="staff-card has-link" onclick="window.open('https://www.nmlsconsumeraccess.org/Home.aspx/SubSearch?searchText=2061604&page=1','_blank')" data-search="sean morgan loan officer 2061604">
+          <div class="avatar">SM</div>
+          <div class="staff-info">
+            <div class="staff-name">Sean Morgan</div>
+            <div class="staff-role">Loan Officer</div>
+            <div class="nmls-badge">NMLS # 2061604</div>
+          </div>
+          <div class="lookup-icon">
+            <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </div>
+        </div>
+
+        <div class="staff-card has-link" onclick="window.open('https://www.nmlsconsumeraccess.org/Home.aspx/SubSearch?searchText=1507743&page=1','_blank')" data-search="aaron johnson loan officer 1507743">
+          <div class="avatar">AJ</div>
+          <div class="staff-info">
+            <div class="staff-name">Aaron Johnson</div>
+            <div class="staff-role">Loan Officer</div>
+            <div class="nmls-badge">NMLS # 1507743</div>
+          </div>
+          <div class="lookup-icon">
+            <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </div>
+        </div>
+
+        <div class="staff-card has-link" onclick="window.open('https://www.nmlsconsumeraccess.org/Home.aspx/SubSearch?searchText=308516&page=1','_blank')" data-search="dawna johnson loan officer 308516">
+          <div class="avatar">DJ</div>
+          <div class="staff-info">
+            <div class="staff-name">Dawna Johnson</div>
+            <div class="staff-role">Loan Officer</div>
+            <div class="nmls-badge">NMLS # 308516</div>
+          </div>
+          <div class="lookup-icon">
+            <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- OPERATIONS / SUPPORT -->
+    <div class="role-group" id="group-ops">
+      <div class="role-group-title">Operations &amp; Support</div>
+      <div class="staff-grid">
+
+        <div class="staff-card" data-search="lindsay smalley jr processor loan">
+          <div class="avatar no-nmls">LS</div>
+          <div class="staff-info">
+            <div class="staff-name">Lindsay Smalley</div>
+            <div class="staff-role">Jr. Processor / Loan</div>
+            <div class="no-nmls-badge">Not Licensed</div>
+          </div>
+        </div>
+
+        <div class="staff-card" data-search="jadyn smalley re disclosure">
+          <div class="avatar no-nmls">JS</div>
+          <div class="staff-info">
+            <div class="staff-name">Jadyn Smalley</div>
+            <div class="staff-role">Re-Disclosure</div>
+            <div class="no-nmls-badge">Not Licensed</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <footer>
+    <p><strong>Village Capital &amp; Investment LLC</strong> · Branch NMLS Directory · Internal Use Only · NMLS #3317</p>
+  </footer>
+
+  <script>
+    function filterCards() {
+      const query = document.getElementById('searchInput').value.toLowerCase().trim();
+      const groups = document.querySelectorAll('.role-group');
+
+      groups.forEach(group => {
+        const cards = group.querySelectorAll('.staff-card');
+        let visibleCount = 0;
+
+        cards.forEach(card => {
+          const searchData = card.getAttribute('data-search') || '';
+          if (!query || searchData.includes(query)) {
+            card.classList.remove('hidden');
+            visibleCount++;
+          } else {
+            card.classList.add('hidden');
+          }
+        });
+
+        group.classList.toggle('hidden', visibleCount === 0);
+      });
+    }
+  </script>
+
+</body>
+</html>
