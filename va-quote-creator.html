@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VA Quote Creator | Village Capital & Investment</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;0,700;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0d1f3c;
+  --navy-mid: #1a3358;
+  --navy-light: #274880;
+  --gold: #c9a84c;
+  --gold-light: #e8c96a;
+  --steel: #4a6fa5;
+  --steel-light: #7a9fd4;
+  --cream: #f7f4ee;
+  --off-white: #fafaf7;
+  --border: #ddd9cc;
+  --text: #1a1a2e;
+  --text-muted: #5a6a82;
+  --red: #b33a3a;
+  --green: #2d6e4e;
+  --shadow: 0 4px 24px rgba(13,31,60,0.10);
+  --shadow-sm: 0 2px 8px rgba(13,31,60,0.07);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Source Sans 3', sans-serif;
+  background: var(--cream);
+  color: var(--text);
+  font-size: 15px;
+  min-height: 100vh;
+}
+
+/* ===== HEADER ===== */
+.site-header {
+  background: var(--navy);
+  padding: 0 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 72px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+}
+.site-header .logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem;
+  color: var(--gold);
+  letter-spacing: 0.02em;
+}
+.site-header .logo span { color: #fff; font-weight: 400; font-size: 0.85rem; display: block; font-family: 'Source Sans 3', sans-serif; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2px; }
+.site-header .tagline { color: var(--steel-light); font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; }
+
+/* ===== LAYOUT ===== */
+.page-wrap { max-width: 1400px; margin: 0 auto; padding: 32px 24px 80px; }
+
+.section-block {
+  background: var(--off-white);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  margin-bottom: 24px;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+.section-title {
+  background: var(--navy);
+  color: var(--gold);
+  font-family: 'Playfair Display', serif;
+  font-size: 0.9rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.section-title .dot { width: 6px; height: 6px; background: var(--gold); border-radius: 50%; flex-shrink: 0; }
+.section-body { padding: 20px; }
+
+/* ===== FORM GRID ===== */
+.form-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px 20px; }
+.form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 20px; }
+.form-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px 20px; }
+.form-grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 14px 20px; }
+.col-span-2 { grid-column: span 2; }
+.col-span-3 { grid-column: span 3; }
+
+.field { display: flex; flex-direction: column; gap: 4px; }
+.field label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); }
+.field input, .field select {
+  border: 1.5px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 10px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 0.9rem;
+  color: var(--text);
+  background: white;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  width: 100%;
+}
+.field input:focus, .field select:focus { outline: none; border-color: var(--steel); box-shadow: 0 0 0 3px rgba(74,111,165,0.15); }
+.field input[type=number] { font-family: 'DM Mono', monospace; }
+.field .hint { font-size: 0.68rem; color: var(--text-muted); font-style: italic; }
+
+/* ===== OPTIONS GRID ===== */
+.options-header {
+  display: grid;
+  grid-template-columns: 200px repeat(3, 1fr);
+  gap: 0;
+  margin-bottom: 0;
+}
+.option-col-header {
+  padding: 16px 16px 14px;
+  border-left: 1px solid var(--border);
+}
+.option-col-header:first-child { border-left: none; background: var(--navy); }
+.option-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem;
+  color: var(--gold);
+  line-height: 1;
+}
+.option-name-input {
+  font-size: 0.85rem;
+  font-weight: 600;
+  border: 1.5px solid rgba(255,255,255,0.2) !important;
+  background: rgba(255,255,255,0.08) !important;
+  color: white !important;
+  border-radius: 6px;
+  padding: 6px 10px;
+  width: 100%;
+  margin-top: 8px;
+  font-family: 'Source Sans 3', sans-serif;
+}
+.option-name-input::placeholder { color: rgba(255,255,255,0.4); }
+.option-name-input:focus { outline: none; border-color: var(--gold) !important; }
+.opt-bg-1 { background: #f0f4fb; }
+.opt-bg-2 { background: #f3f7f0; }
+.opt-bg-3 { background: #fdf6ec; }
+
+.option-section-label {
+  background: var(--navy-mid);
+  color: rgba(255,255,255,0.7);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 7px 16px;
+  grid-column: 1 / -1;
+}
+.option-row {
+  display: grid;
+  grid-template-columns: 200px repeat(3, 1fr);
+  border-bottom: 1px solid var(--border);
+}
+.option-row:last-child { border-bottom: none; }
+.option-row-label {
+  padding: 10px 16px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  background: var(--navy);
+  color: rgba(255,255,255,0.65);
+  letter-spacing: 0.03em;
+}
+.option-cell {
+  padding: 8px 12px;
+  border-left: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+}
+.option-cell input, .option-cell select {
+  border: 1.5px solid var(--border);
+  border-radius: 5px;
+  padding: 6px 8px;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.85rem;
+  width: 100%;
+  background: white;
+  transition: border-color 0.15s;
+}
+.option-cell input:focus, .option-cell select:focus { outline: none; border-color: var(--steel); box-shadow: 0 0 0 3px rgba(74,111,165,0.12); }
+.option-cell.opt-bg-1 input, .option-cell.opt-bg-1 select { background: #edf2fb; }
+.option-cell.opt-bg-2 input, .option-cell.opt-bg-2 select { background: #edf5ea; }
+.option-cell.opt-bg-3 input, .option-cell.opt-bg-3 select { background: #fef3e2; }
+
+/* ===== CALCULATED RESULTS ===== */
+.calc-value {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--navy);
+  padding: 4px 8px;
+  background: rgba(13,31,60,0.06);
+  border-radius: 4px;
+  width: 100%;
+  text-align: right;
+}
+.calc-value.positive { color: var(--green); }
+.calc-value.negative { color: var(--red); }
+
+/* ===== BUTTONS ===== */
+.btn-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; padding: 20px; background: var(--cream); border-top: 1px solid var(--border); }
+.btn {
+  padding: 12px 24px;
+  border-radius: 7px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border: none;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.btn-primary { background: var(--navy); color: var(--gold); }
+.btn-primary:hover { background: var(--navy-light); transform: translateY(-1px); box-shadow: var(--shadow); }
+.btn-gold { background: var(--gold); color: var(--navy); }
+.btn-gold:hover { background: var(--gold-light); transform: translateY(-1px); box-shadow: var(--shadow); }
+.btn-outline { background: transparent; color: var(--navy); border: 2px solid var(--navy); }
+.btn-outline:hover { background: var(--navy); color: white; }
+.btn-sm { padding: 8px 16px; font-size: 0.78rem; }
+.btn-print-opt {
+  background: white;
+  border: 1.5px solid var(--border);
+  color: var(--navy-mid);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  padding: 8px 14px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Source Sans 3', sans-serif;
+  transition: all 0.15s;
+  text-transform: uppercase;
+}
+.btn-print-opt:hover { border-color: var(--navy); background: var(--navy); color: white; }
+
+.print-actions-row {
+  display: grid;
+  grid-template-columns: 200px repeat(3, 1fr);
+  border-top: 2px solid var(--navy);
+}
+.print-actions-label {
+  background: var(--navy);
+  color: var(--gold);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+}
+.print-actions-cell {
+  padding: 12px;
+  border-left: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* ===== STATUS BAR ===== */
+.status-bar {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: var(--green);
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  box-shadow: var(--shadow);
+  display: none;
+  align-items: center;
+  gap: 8px;
+  z-index: 200;
+}
+.status-bar.show { display: flex; }
+
+/* ===== PRINT STYLES ===== */
+@media print {
+  body * { visibility: hidden; }
+  .print-zone, .print-zone * { visibility: visible; }
+  .print-zone { position: fixed; top: 0; left: 0; width: 100%; background: white; }
+  .no-print { display: none !important; }
+  body { background: white; }
+}
+
+/* ===== PRINT DOCUMENT STYLES ===== */
+.print-zone { display: none; }
+.print-zone.active { display: block; }
+
+.doc-page {
+  width: 100%;
+  max-width: 750px;
+  margin: 0 auto;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 10pt;
+  color: #111;
+  padding: 20px;
+}
+
+.doc-company-header {
+  background: #0d1f3c;
+  color: white;
+  padding: 14px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 14px;
+}
+.doc-company-name { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: #c9a84c; }
+.doc-company-sub { font-size: 0.7rem; color: rgba(255,255,255,0.7); margin-top: 3px; }
+.doc-title-line { text-align: right; }
+.doc-title-line h2 { font-size: 1rem; color: #c9a84c; font-family: 'Playfair Display', serif; }
+.doc-title-line p { font-size: 0.72rem; color: rgba(255,255,255,0.7); }
+
+.doc-disclaimer {
+  background: #fff8e7;
+  border: 1px solid #e8c96a;
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-size: 0.7rem;
+  color: #5a4800;
+  margin-bottom: 12px;
+  line-height: 1.4;
+}
+
+.doc-info-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.doc-info-box { background: #f5f5f5; border: 1px solid #ddd; padding: 8px 12px; border-radius: 4px; }
+.doc-info-box .label { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: #666; }
+.doc-info-box .value { font-size: 0.88rem; font-weight: 600; color: #0d1f3c; margin-top: 2px; }
+
+.doc-table { width: 100%; border-collapse: collapse; margin-bottom: 12px; font-size: 0.82rem; }
+.doc-table th { background: #0d1f3c; color: #c9a84c; padding: 7px 10px; text-align: left; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; }
+.doc-table th.right, .doc-table td.right { text-align: right; }
+.doc-table td { padding: 6px 10px; border-bottom: 1px solid #e8e8e8; }
+.doc-table tr:nth-child(even) td { background: #f9f9f9; }
+.doc-table tr.section-hdr td { background: #1a3358; color: white; font-weight: 700; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; padding: 5px 10px; }
+.doc-table tr.total-row td { font-weight: 700; background: #eef2fa; border-top: 2px solid #0d1f3c; }
+.doc-table tr.subtotal-row td { font-weight: 600; background: #f0f4fb; font-style: italic; }
+
+.doc-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+.doc-box { border: 1px solid #ddd; border-radius: 4px; overflow: hidden; }
+.doc-box-title { background: #274880; color: white; padding: 6px 12px; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; }
+.doc-box table { width: 100%; font-size: 0.82rem; border-collapse: collapse; }
+.doc-box table td { padding: 5px 10px; border-bottom: 1px solid #eee; }
+.doc-box table td:last-child { text-align: right; font-family: 'DM Mono', monospace; font-weight: 600; }
+.doc-box table tr:last-child td { border-bottom: none; }
+.doc-box table tr.total-row td { font-weight: 700; background: #f0f4fb; border-top: 2px solid #274880; }
+
+.doc-footer {
+  border-top: 2px solid #0d1f3c;
+  padding-top: 10px;
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.doc-footer-nmls { font-size: 0.72rem; color: #555; }
+.doc-footer-lo { font-size: 0.72rem; color: #555; text-align: right; }
+.doc-footer-company { font-size: 0.75rem; font-weight: 700; color: #0d1f3c; }
+
+.money { font-family: 'DM Mono', monospace; }
+.text-green { color: #2d6e4e; font-weight: 700; }
+.text-red { color: #b33a3a; }
+.text-gold { color: #8a6800; font-weight: 700; }
+
+.comparison-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.comparison-col-hdr { background: #274880; color: white; padding: 7px 12px; font-size: 0.75rem; font-weight: 700; text-align: center; }
+.comparison-col-hdr.proposed { background: #0d1f3c; }
+
+/* ===== PRINT PREVIEW MODAL ===== */
+.modal-overlay {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(13,31,60,0.7);
+  z-index: 1000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+.modal-overlay.open { display: flex; }
+.modal-box {
+  background: white;
+  border-radius: 12px;
+  max-width: 820px;
+  width: 95vw;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+}
+.modal-header {
+  background: var(--navy);
+  color: white;
+  padding: 16px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 12px 12px 0 0;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.modal-header h3 { font-family: 'Playfair Display', serif; color: var(--gold); }
+.modal-header-btns { display: flex; gap: 10px; }
+.modal-close { background: none; border: 1.5px solid rgba(255,255,255,0.3); color: white; padding: 6px 14px; border-radius: 5px; cursor: pointer; font-size: 0.8rem; font-family: 'Source Sans 3', sans-serif; font-weight: 600; }
+.modal-close:hover { background: rgba(255,255,255,0.1); }
+.modal-print-btn { background: var(--gold); color: var(--navy); border: none; padding: 8px 18px; border-radius: 5px; cursor: pointer; font-weight: 700; font-size: 0.85rem; font-family: 'Source Sans 3', sans-serif; }
+.modal-print-btn:hover { background: var(--gold-light); }
+.modal-body { padding: 24px; }
+
+/* ===== CHECKBOX ROW ===== */
+.checkbox-row { display: flex; align-items: center; gap: 8px; }
+.checkbox-row input[type=checkbox] { width: 16px; height: 16px; accent-color: var(--navy); }
+.checkbox-row label { font-size: 0.85rem; font-weight: 600; color: var(--text); cursor: pointer; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+  .options-header, .option-row, .print-actions-row { grid-template-columns: 140px repeat(3, 1fr); }
+  .form-grid-4 { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 600px) {
+  .site-header { padding: 0 16px; }
+  .page-wrap { padding: 16px 12px 60px; }
+  .form-grid-3, .form-grid-4 { grid-template-columns: 1fr 1fr; }
+  .options-header, .option-row, .print-actions-row { grid-template-columns: 120px repeat(3, 1fr); }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header no-print">
+  <div class="logo">
+    Village Capital & Investment
+    <span>NMLS # 3317</span>
+  </div>
+  <div class="tagline">VA Quote Creator &nbsp;·&nbsp; Loan Officer Tool</div>
+</header>
+
+<!-- MAIN -->
+<main class="page-wrap no-print">
+
+  <!-- BORROWER / LO INFO -->
+  <div class="section-block">
+    <div class="section-title"><span class="dot"></span>Borrower & Loan Officer Information</div>
+    <div class="section-body">
+      <div class="form-grid-4" style="margin-bottom:16px;">
+        <div class="field">
+          <label>Borrower First Name</label>
+          <input type="text" id="borrowerFirst" placeholder="First">
+        </div>
+        <div class="field">
+          <label>Borrower Last Name</label>
+          <input type="text" id="borrowerLast" placeholder="Last">
+        </div>
+        <div class="field">
+          <label>Co-Borrower Name</label>
+          <input type="text" id="coBorrower" placeholder="Co-Borrower">
+        </div>
+        <div class="field">
+          <label>Application ID</label>
+          <input type="text" id="appId" placeholder="Optional">
+        </div>
+      </div>
+      <div class="form-grid-3" style="margin-bottom:16px;">
+        <div class="field col-span-2">
+          <label>Subject Property Address</label>
+          <input type="text" id="propAddress" placeholder="123 Main St, City, State ZIP">
+        </div>
+        <div class="field">
+          <label>Date Prepared</label>
+          <input type="date" id="datePrepared">
+        </div>
+      </div>
+      <div class="form-grid-4">
+        <div class="field">
+          <label>Loan Officer Name</label>
+          <input type="text" id="loName" placeholder="LO Full Name" value="Test LO">
+        </div>
+        <div class="field">
+          <label>LO NMLS #</label>
+          <input type="text" id="loNmls" placeholder="NMLS Number" value="296801">
+        </div>
+        <div class="field">
+          <label>LO Phone</label>
+          <input type="text" id="loPhone" placeholder="801-xxx-xxxx" value="801-341-7074">
+        </div>
+        <div class="field">
+          <label>LO Email</label>
+          <input type="text" id="loEmail" placeholder="lo@villagecap.com">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CURRENT LOAN INFO -->
+  <div class="section-block">
+    <div class="section-title"><span class="dot"></span>Current Loan & Property Information</div>
+    <div class="section-body">
+      <div class="form-grid-4" style="margin-bottom:16px;">
+        <div class="field">
+          <label>Current Loan Balance / Payoff ($)</label>
+          <input type="number" id="currentBalance" placeholder="0.00" value="0">
+        </div>
+        <div class="field">
+          <label>Current Interest Rate (%)</label>
+          <input type="number" id="currentRate" placeholder="0.000" step="0.001" value="0">
+        </div>
+        <div class="field">
+          <label>Current P&I Payment ($)</label>
+          <input type="number" id="currentPI" placeholder="0.00" value="0">
+        </div>
+        <div class="field">
+          <label>Current Escrow Payment ($)</label>
+          <input type="number" id="currentEscrow" placeholder="0.00" value="0">
+        </div>
+      </div>
+      <div class="form-grid-4" style="margin-bottom:16px;">
+        <div class="field">
+          <label>Appraised / Est. Value ($)</label>
+          <input type="number" id="appraised" placeholder="0.00" value="0">
+        </div>
+        <div class="field">
+          <label>Monthly Insurance ($)</label>
+          <input type="number" id="insurance" placeholder="0.00" value="0">
+        </div>
+        <div class="field">
+          <label>Monthly Taxes ($)</label>
+          <input type="number" id="taxes" placeholder="0.00" value="0">
+        </div>
+        <div class="field">
+          <label>Est. Escrow Balance ($)</label>
+          <input type="number" id="escrowBalance" placeholder="0.00" value="0">
+        </div>
+      </div>
+      <div class="form-grid-4">
+        <div class="field">
+          <label>Est. Closing Date</label>
+          <input type="date" id="closingDate">
+        </div>
+        <div class="field">
+          <label>Est. 1st Payment Date</label>
+          <input type="date" id="firstPayDate">
+        </div>
+        <div class="field">
+          <label>Payments Skipped</label>
+          <select id="paymentsSkipped">
+            <option value="1">1 Payment</option>
+            <option value="2" selected>2 Payments</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Loan Type</label>
+          <select id="loanType">
+            <option value="IRRRL">VA IRRRL</option>
+            <option value="PURCHASE">VA Purchase</option>
+            <option value="CASHOUT">VA Cash-Out Refi</option>
+          </select>
+        </div>
+      </div>
+      <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border);">
+        <div class="form-grid-4">
+          <div class="field">
+            <label>VA Funding Fee Type</label>
+            <select id="fundingFeeType">
+              <option value="irrrl">IRRRL (0.5%)</option>
+              <option value="first_0">Purchase/CO – 1st Use, 0% down (2.3%)</option>
+              <option value="first_5">Purchase/CO – 1st Use, 5%+ down (1.65%)</option>
+              <option value="first_10">Purchase/CO – 1st Use, 10%+ down (1.4%)</option>
+              <option value="sub_0">Purchase/CO – Sub. Use, 0% down (3.6%)</option>
+              <option value="sub_5">Purchase/CO – Sub. Use, 5%+ down (1.65%)</option>
+              <option value="custom">Custom %</option>
+              <option value="exempt">Exempt (0%)</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Custom Funding Fee % <span style="color:var(--steel)">(if custom)</span></label>
+            <input type="number" id="customFundingFee" placeholder="e.g. 2.3" step="0.01" value="0.5">
+          </div>
+          <div class="field">
+            <label>Finance Funding Fee?</label>
+            <select id="financeFee">
+              <option value="yes" selected>Yes – Add to Loan</option>
+              <option value="no">No – Pay at Closing</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Current Amort. Type</label>
+            <select id="currentAmortType">
+              <option value="FIXED">Fixed</option>
+              <option value="ARM">ARM</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOAN OPTIONS -->
+  <div class="section-block">
+    <div class="section-title"><span class="dot"></span>Loan Options (3 Scenarios)</div>
+
+    <!-- Option Column Headers -->
+    <div class="options-header">
+      <div class="option-col-header" style="background:var(--navy);display:flex;align-items:center;">
+        <span style="color:rgba(255,255,255,0.4);font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;">Field</span>
+      </div>
+      <div class="option-col-header opt-bg-1">
+        <div class="option-num" style="color:var(--steel);">01</div>
+        <input class="option-name-input" id="optName1" placeholder="e.g. 30 Year Fixed" value="30 Year Fixed" style="background:rgba(74,111,165,0.12)!important;color:var(--navy)!important;border-color:rgba(74,111,165,0.3)!important;">
+      </div>
+      <div class="option-col-header opt-bg-2">
+        <div class="option-num" style="color:#4a9a6a;">02</div>
+        <input class="option-name-input" id="optName2" placeholder="e.g. 30 Year Fixed w/Cash" value="30 Year Fixed" style="background:rgba(74,154,106,0.12)!important;color:var(--navy)!important;border-color:rgba(74,154,106,0.3)!important;">
+      </div>
+      <div class="option-col-header opt-bg-3">
+        <div class="option-num" style="color:#b87c2a;">03</div>
+        <input class="option-name-input" id="optName3" placeholder="e.g. 3-1 Hybrid ARM" value="3-1 Hybrid ARM" style="background:rgba(184,124,42,0.12)!important;color:var(--navy)!important;border-color:rgba(184,124,42,0.3)!important;">
+      </div>
+    </div>
+
+    <!-- LOAN PARAMS -->
+    <div class="option-section-label">Loan Parameters</div>
+    <div id="optionRows">
+      <!-- Rows injected by JS -->
+    </div>
+
+    <!-- FEE INPUTS -->
+    <div class="option-section-label">Fees &amp; Costs</div>
+    <div id="feeRows"></div>
+
+    <!-- CALCULATED RESULTS -->
+    <div class="option-section-label">Calculated Results</div>
+    <div id="resultRows"></div>
+
+    <!-- PRINT ACTIONS -->
+    <div class="print-actions-row">
+      <div class="print-actions-label">Print</div>
+      <div class="print-actions-cell opt-bg-1">
+        <button class="btn-print-opt" onclick="showPreview(1,'prequote')">📄 Pre-Quote</button>
+        <button class="btn-print-opt" onclick="showPreview(1,'fees')">📋 Fees Worksheet</button>
+      </div>
+      <div class="print-actions-cell opt-bg-2">
+        <button class="btn-print-opt" onclick="showPreview(2,'prequote')">📄 Pre-Quote</button>
+        <button class="btn-print-opt" onclick="showPreview(2,'fees')">📋 Fees Worksheet</button>
+      </div>
+      <div class="print-actions-cell opt-bg-3">
+        <button class="btn-print-opt" onclick="showPreview(3,'prequote')">📄 Pre-Quote</button>
+        <button class="btn-print-opt" onclick="showPreview(3,'fees')">📋 Fees Worksheet</button>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="calcAll()">⟳&nbsp; Calculate All Options</button>
+      <button class="btn btn-gold" onclick="printAll()">🖨&nbsp; Print All 3 Options</button>
+      <span style="font-size:0.78rem;color:var(--text-muted);margin-left:auto;">Results auto-calculate on input change. Use Print buttons for individual option documents.</span>
+    </div>
+  </div>
+
+</main>
+
+<!-- PRINT PREVIEW MODAL -->
+<div class="modal-overlay" id="previewModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3 id="previewTitle">Document Preview</h3>
+      <div class="modal-header-btns">
+        <button class="modal-print-btn" onclick="doPrint()">🖨 Print This Document</button>
+        <button class="modal-close" onclick="closeModal()">✕ Close</button>
+      </div>
+    </div>
+    <div class="modal-body" id="previewContent"></div>
+  </div>
+</div>
+
+<!-- PRINT ZONE (actual print target) -->
+<div class="print-zone" id="printZone"></div>
+
+<!-- STATUS -->
+<div class="status-bar" id="statusBar">✓ Calculations updated</div>
+
+<script>
+// ============================================================
+// DATA MODEL
+// ============================================================
+const optionRowDefs = [
+  { id:'term', label:'Term (Months)', type:'number', default:[360,360,360] },
+  { id:'baseLoan', label:'Base Loan Amount ($)', type:'number', default:[0,0,0] },
+  { id:'rate', label:'Interest Rate (%)', type:'number', default:[0,0,4.25], step:'0.001' },
+  { id:'amortType', label:'Amortization Type', type:'select', options:['Fixed','ARM'], default:['Fixed','Fixed','ARM'] },
+];
+
+const feeRowDefs = [
+  { id:'origFee', label:'Origination Fee (%)', type:'number', default:[1,1,1], step:'0.001' },
+  { id:'discountPts', label:'Discount Points (%)', type:'number', default:[0,0,0], step:'0.001' },
+  { id:'creditReport', label:'Credit Report / Flood ($)', type:'number', default:[109,109,20] },
+  { id:'appraisal', label:'Appraisal ($)', type:'number', default:[0,650,650] },
+  { id:'closingFee', label:'Closing / Escrow Fee ($)', type:'number', default:[150,150,150] },
+  { id:'titleIns', label:"Lender's Title Insurance ($)", type:'number', default:[0,0,0] },
+  { id:'recording', label:'Govt / Recording ($)', type:'number', default:[50,50,50] },
+  { id:'daysInterest', label:'# Days Interest', type:'number', default:[3,3,3] },
+];
+
+const resultRowDefs = [
+  { id:'fundingFeeAmt', label:'VA Funding Fee ($)' },
+  { id:'totalLoan', label:'Total Loan Amount ($)' },
+  { id:'pi', label:'P&I Payment ($)' },
+  { id:'totalPayment', label:'Total Monthly Payment ($)' },
+  { id:'ltv', label:'LTV (%)' },
+  { id:'totalClosingCosts', label:'Total Closing Costs ($)' },
+  { id:'totalPrepaids', label:'Total Prepaids ($)' },
+  { id:'totalFundsToClose', label:'Total Funds to Close ($)' },
+  { id:'paySavings', label:'Monthly Payment Savings ($)' },
+  { id:'recoup', label:'Recoup Period (months)' },
+];
+
+// Build option input rows
+function buildRows(defs, containerId, prefix) {
+  const container = document.getElementById(containerId);
+  container.innerHTML = '';
+  defs.forEach(def => {
+    const row = document.createElement('div');
+    row.className = 'option-row';
+    let label = `<div class="option-row-label">${def.label}</div>`;
+    let cells = '';
+    [1,2,3].forEach(n => {
+      const bg = `opt-bg-${n}`;
+      const id = `${prefix}_${def.id}_${n}`;
+      if(def.type === 'select') {
+        cells += `<div class="option-cell ${bg}"><select id="${id}" onchange="calcAll()">${def.options.map(o=>`<option value="${o}">${o}</option>`).join('')}</select></div>`;
+      } else {
+        const step = def.step || '1';
+        cells += `<div class="option-cell ${bg}"><input type="number" id="${id}" value="${def.default[n-1]}" step="${step}" oninput="calcAll()"></div>`;
+      }
+    });
+    row.innerHTML = label + cells;
+    container.appendChild(row);
+    // Set select defaults
+    if(def.type === 'select') {
+      [1,2,3].forEach(n => {
+        document.getElementById(`${prefix}_${def.id}_${n}`).value = def.default[n-1];
+      });
+    }
+  });
+}
+
+function buildResultRows(defs) {
+  const container = document.getElementById('resultRows');
+  container.innerHTML = '';
+  defs.forEach(def => {
+    const row = document.createElement('div');
+    row.className = 'option-row';
+    let label = `<div class="option-row-label">${def.label}</div>`;
+    let cells = '';
+    [1,2,3].forEach(n => {
+      const bg = `opt-bg-${n}`;
+      cells += `<div class="option-cell ${bg}"><div class="calc-value" id="r_${def.id}_${n}">—</div></div>`;
+    });
+    row.innerHTML = label + cells;
+    container.appendChild(row);
+  });
+}
+
+// ============================================================
+// CALCULATION ENGINE
+// ============================================================
+function getVal(id) { return parseFloat(document.getElementById(id)?.value || 0) || 0; }
+function getStr(id) { return document.getElementById(id)?.value || ''; }
+
+function getFundingFeeRate() {
+  const type = getStr('fundingFeeType');
+  if(type==='irrrl') return 0.005;
+  if(type==='first_0') return 0.023;
+  if(type==='first_5') return 0.0165;
+  if(type==='first_10') return 0.014;
+  if(type==='sub_0') return 0.036;
+  if(type==='sub_5') return 0.0165;
+  if(type==='custom') return getVal('customFundingFee')/100;
+  if(type==='exempt') return 0;
+  return 0.005;
+}
+
+function calcPMT(principal, annualRate, termMonths) {
+  if(!principal || principal <= 0) return 0;
+  if(annualRate === 0 || !annualRate) return principal / termMonths;
+  const r = annualRate / 12;
+  return principal * r * Math.pow(1+r, termMonths) / (Math.pow(1+r, termMonths) - 1);
+}
+
+function calcAPR(totalLoan, monthlyPayment, termMonths, totalFees) {
+  // Simplified APR: solve for rate where PV of payments = loan - upfront fees
+  if(!monthlyPayment || !totalLoan) return 0;
+  const netLoan = totalLoan - totalFees;
+  if(netLoan <= 0) return 0;
+  // Newton-Raphson
+  let r = monthlyPayment / totalLoan - 1/termMonths;
+  for(let i=0; i<100; i++) {
+    if(r <= 0) r = 0.0001;
+    const f = netLoan - monthlyPayment * (1-Math.pow(1+r,-termMonths))/r;
+    const df = monthlyPayment * ((1-Math.pow(1+r,-termMonths))/(r*r) - termMonths*Math.pow(1+r,-termMonths-1)/r);
+    const nr = r - f/df;
+    if(Math.abs(nr-r) < 1e-8) { r=nr; break; }
+    r = nr;
+  }
+  return r * 12;
+}
+
+function calcDailyInterest(loan, rate) {
+  if(!rate) return 0;
+  return loan * rate / 365;
+}
+
+function calcOption(n) {
+  const term = getVal(`opt_term_${n}`);
+  const baseLoan = getVal(`opt_baseLoan_${n}`);
+  const rate = getVal(`opt_rate_${n}`) / 100;
+  const ffRate = getFundingFeeRate();
+  const finFee = getStr('financeFee') === 'yes';
+
+  const origFeePct = getVal(`fee_origFee_${n}`) / 100;
+  const discPtsPct = getVal(`fee_discountPts_${n}`) / 100;
+  const creditReport = getVal(`fee_creditReport_${n}`);
+  const appraisal = getVal(`fee_appraisal_${n}`);
+  const closingFee = getVal(`fee_closingFee_${n}`);
+  const titleIns = getVal(`fee_titleIns_${n}`);
+  const recording = getVal(`fee_recording_${n}`);
+  const daysInt = getVal(`fee_daysInterest_${n}`);
+
+  const insurance = getVal('insurance');
+  const taxes = getVal('taxes');
+  const appraised = getVal('appraised');
+
+  // Funding fee
+  const fundingFeeAmt = baseLoan * ffRate;
+  const totalLoan = finFee ? baseLoan + fundingFeeAmt : baseLoan;
+
+  // P&I
+  const pi = calcPMT(totalLoan, rate, term);
+
+  // Escrow
+  const escrow = insurance + taxes;
+  const totalPayment = pi + escrow;
+
+  // LTV
+  const ltv = appraised > 0 ? (totalLoan / appraised * 100) : 0;
+
+  // Fees
+  const origFeeAmt = baseLoan * origFeePct;
+  const discPtsAmt = baseLoan * discPtsPct;
+  const dailyInt = calcDailyInterest(totalLoan, rate);
+  const dailyIntTotal = dailyInt * daysInt;
+
+  const totalClosingCosts = origFeeAmt + discPtsAmt + creditReport + appraisal + closingFee + titleIns + recording + (finFee ? 0 : fundingFeeAmt);
+
+  // Prepaids
+  const hazardReserve = insurance * 3;
+  const taxReserve = taxes * 3;
+  const totalPrepaids = hazardReserve + taxReserve + dailyIntTotal;
+
+  const totalFundsToClose = totalClosingCosts + totalPrepaids + (finFee ? 0 : fundingFeeAmt);
+
+  // Payment comparison
+  const currentTotalPayment = getVal('currentPI') + getVal('currentEscrow') + insurance + taxes;
+  const paySavings = currentTotalPayment - totalPayment;
+  const piSavings = getVal('currentPI') - pi;
+  const recoup = piSavings !== 0 ? Math.abs(totalClosingCosts / piSavings) : null;
+
+  return {
+    n, term, baseLoan, rate, totalLoan, fundingFeeAmt,
+    origFeeAmt, discPtsAmt, creditReport, appraisal, closingFee, titleIns, recording,
+    daysInt, dailyInt, dailyIntTotal,
+    pi, escrow, totalPayment, ltv,
+    totalClosingCosts, totalPrepaids, totalFundsToClose,
+    paySavings, piSavings, recoup,
+    insurance, taxes, hazardReserve, taxReserve,
+    finFee, ffRate, fundingFeeAmt
+  };
+}
+
+function setResult(id, val, fmt='money') {
+  const el = document.getElementById(id);
+  if(!el) return;
+  if(val === null || val === undefined || isNaN(val)) { el.textContent = '—'; el.className='calc-value'; return; }
+  if(fmt === 'money') { el.textContent = fmtMoney(val); }
+  else if(fmt === 'pct') { el.textContent = val.toFixed(3) + '%'; }
+  else if(fmt === 'months') { el.textContent = val !== null ? Math.ceil(val) + ' mo' : '—'; }
+  else { el.textContent = val; }
+
+  if(fmt === 'money' && id.includes('paySavings')) {
+    el.className = val >= 0 ? 'calc-value positive' : 'calc-value negative';
+  } else {
+    el.className = 'calc-value';
+  }
+}
+
+function calcAll() {
+  [1,2,3].forEach(n => {
+    const r = calcOption(n);
+    setResult(`r_fundingFeeAmt_${n}`, r.fundingFeeAmt);
+    setResult(`r_totalLoan_${n}`, r.totalLoan);
+    setResult(`r_pi_${n}`, r.pi);
+    setResult(`r_totalPayment_${n}`, r.totalPayment);
+    setResult(`r_ltv_${n}`, r.ltv, 'pct');
+    setResult(`r_totalClosingCosts_${n}`, r.totalClosingCosts);
+    setResult(`r_totalPrepaids_${n}`, r.totalPrepaids);
+    setResult(`r_totalFundsToClose_${n}`, r.totalFundsToClose);
+    setResult(`r_paySavings_${n}`, r.paySavings);
+    setResult(`r_recoup_${n}`, r.recoup, 'months');
+  });
+  showStatus();
+}
+
+// ============================================================
+// FORMATTING
+// ============================================================
+function fmtMoney(n, prefix='$') {
+  if(n === null || n === undefined || isNaN(n)) return '—';
+  return prefix + Math.abs(n).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}) + (n<0?' CR':'');
+}
+function fmtPct(n) { return (n*100).toFixed(3)+'%'; }
+function fmtDate(d) {
+  if(!d) return new Date().toLocaleDateString('en-US',{month:'short',day:'2-digit',year:'numeric'});
+  const dt = new Date(d+'T00:00:00');
+  return dt.toLocaleDateString('en-US',{month:'short',day:'2-digit',year:'numeric'});
+}
+
+// ============================================================
+// DOCUMENT GENERATION
+// ============================================================
+function getDocData(n) {
+  const r = calcOption(n);
+  return {
+    ...r,
+    borrower: [getStr('borrowerFirst'),getStr('borrowerLast')].filter(Boolean).join(' ') || ' ',
+    coBorrower: getStr('coBorrower'),
+    appId: getStr('appId'),
+    address: getStr('propAddress') || ' ',
+    date: fmtDate(getStr('datePrepared')),
+    loName: getStr('loName'),
+    loNmls: getStr('loNmls'),
+    loPhone: getStr('loPhone'),
+    optName: getStr(`optName${n}`),
+    loanType: getStr('loanType'),
+    paymentsSkipped: getVal('paymentsSkipped'),
+    currentBalance: getVal('currentBalance'),
+    currentRate: getVal('currentRate'),
+    currentPI: getVal('currentPI'),
+    currentEscrow: getVal('currentEscrow'),
+    appraised: getVal('appraised'),
+    escrowBalance: getVal('escrowBalance'),
+    amortType: getStr(`opt_amortType_${n}`),
+    closingDate: fmtDate(getStr('closingDate')),
+    firstPayDate: fmtDate(getStr('firstPayDate')),
+    missedPmts: getVal('currentPI') * getVal('paymentsSkipped') + getVal('currentEscrow') * getVal('paymentsSkipped'),
+    origFeePct: getVal(`fee_origFee_${n}`),
+    discPtsPct: getVal(`fee_discountPts_${n}`),
+  };
+}
+
+function buildPreQuote(d) {
+  const amortLabel = d.amortType;
+  const piSavingsMonthly = d.currentPI - d.pi;
+  const piSavingsYearly = piSavingsMonthly * 12;
+  const totalSavingsMonthly = d.currentPI + d.currentEscrow - d.totalPayment;
+
+  return `
+<div class="doc-page" id="docPreQuote_${d.n}">
+  <div class="doc-company-header">
+    <div>
+      <div class="doc-company-name">Village Capital &amp; Investment</div>
+      <div class="doc-company-sub">NMLS # 3317 &nbsp;·&nbsp; 384 S 400 W Suite 100 Lindon, UT 84042</div>
+    </div>
+    <div class="doc-title-line">
+      <h2>Mortgage Refinance Estimate</h2>
+      <p>VA ${d.loanType} &nbsp;·&nbsp; Option ${d.n}: ${d.optName}</p>
+    </div>
+  </div>
+
+  <div class="doc-disclaimer">
+    ⚠ <strong>This is NOT an official "Loan Estimate" (LE).</strong> Your actual rate, payment, and costs could be higher. Get an official Loan Estimate before choosing a loan. This Pre-Quote is provided for informational purposes only.
+  </div>
+
+  <div class="doc-info-row">
+    <div class="doc-info-box"><div class="label">Applicant(s)</div><div class="value">${d.borrower}${d.coBorrower?' / '+d.coBorrower:''}</div></div>
+    <div class="doc-info-box"><div class="label">Subject Property</div><div class="value">${d.address}</div></div>
+    <div class="doc-info-box"><div class="label">Application ID</div><div class="value">${d.appId || 'Pending'}</div></div>
+    <div class="doc-info-box"><div class="label">Date Prepared</div><div class="value">${d.date}</div></div>
+    <div class="doc-info-box"><div class="label">Loan Type</div><div class="value">VA ${d.loanType}</div></div>
+    <div class="doc-info-box"><div class="label">Closing / 1st Payment</div><div class="value">${d.closingDate} / ${d.firstPayDate}</div></div>
+  </div>
+
+  <div class="doc-two-col">
+    <div class="doc-box">
+      <div class="doc-box-title">Existing Loan Information</div>
+      <table>
+        <tr><td>Original Loan Amount</td><td>${fmtMoney(d.currentBalance)}</td></tr>
+        <tr><td>Interest Rate</td><td>${fmtPct(d.currentRate/100)}</td></tr>
+        <tr><td>Amortization Type</td><td>FIXED</td></tr>
+        <tr><td>Term</td><td>${d.term} months</td></tr>
+        <tr><td>P&I Payment</td><td>${fmtMoney(d.currentPI)}</td></tr>
+        <tr><td>Escrow Payment</td><td>${fmtMoney(d.currentEscrow)}</td></tr>
+        <tr class="total-row"><td>Total Payment</td><td>${fmtMoney(d.currentPI + d.currentEscrow)}</td></tr>
+      </table>
+    </div>
+    <div class="doc-box">
+      <div class="doc-box-title" style="background:#0d1f3c;">Proposed Loan — ${d.optName}</div>
+      <table>
+        <tr><td>New Loan Amount</td><td>${fmtMoney(d.totalLoan)}</td></tr>
+        <tr><td>Interest Rate</td><td>${fmtPct(d.rate)}</td></tr>
+        <tr><td>Amortization Type</td><td>${amortLabel.toUpperCase()}</td></tr>
+        <tr><td>Term</td><td>${d.term} months</td></tr>
+        <tr><td>Proposed P&I</td><td>${fmtMoney(d.pi)}</td></tr>
+        <tr><td>Escrow Payment</td><td>${fmtMoney(d.escrow)}</td></tr>
+        <tr class="total-row"><td>Total Payment</td><td>${fmtMoney(d.totalPayment)}</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="doc-two-col">
+    <div class="doc-box">
+      <div class="doc-box-title">Details of Transaction</div>
+      <table>
+        <tr><td>Origination Points (${d.origFeePct}%)</td><td>${fmtMoney(d.origFeeAmt)}</td></tr>
+        <tr><td>Discount Points (${d.discPtsPct}%)</td><td>${fmtMoney(d.discPtsAmt)}</td></tr>
+        <tr><td>VA Funding Fee (${(d.ffRate*100).toFixed(2)}%)</td><td>${fmtMoney(d.fundingFeeAmt)}</td></tr>
+        <tr><td>Appraisal Fee</td><td>${fmtMoney(d.appraisal)}</td></tr>
+        <tr><td>Credit Report / Flood Cert</td><td>${fmtMoney(d.creditReport)}</td></tr>
+        <tr><td>Closing / Escrow Fee</td><td>${fmtMoney(d.closingFee)}</td></tr>
+        <tr><td>Title Fees</td><td>${fmtMoney(d.titleIns)}</td></tr>
+        <tr><td>Govt / Recording Fees</td><td>${fmtMoney(d.recording)}</td></tr>
+      </table>
+    </div>
+    <div class="doc-box">
+      <div class="doc-box-title" style="background:#0d1f3c;">Property &amp; Payoff Details</div>
+      <table>
+        <tr><td>Property Value</td><td>${fmtMoney(d.appraised)}</td></tr>
+        <tr><td>Payoff Amount</td><td>${fmtMoney(d.currentBalance)}</td></tr>
+        <tr><td>LTV</td><td>${d.ltv > 0 ? d.ltv.toFixed(2)+'%' : '—'}</td></tr>
+        <tr><td>Current Escrow Balance</td><td>${fmtMoney(d.escrowBalance)}</td></tr>
+        <tr><td>Missed Mortgage Payments (${d.paymentsSkipped})</td><td>${fmtMoney(d.missedPmts)}</td></tr>
+        <tr><td>Total Closing Costs</td><td>${fmtMoney(d.totalClosingCosts)}</td></tr>
+        <tr class="total-row"><td>Total Funds to Close</td><td>${fmtMoney(d.totalFundsToClose)}</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="doc-box" style="margin-bottom:12px;">
+    <div class="doc-box-title" style="background:#2d6e4e;">Payment Comparison &amp; Savings</div>
+    <table>
+      <tr>
+        <td>P&I Payment Difference (Monthly)</td>
+        <td class="${piSavingsMonthly>=0?'text-green':'text-red'}">${fmtMoney(piSavingsMonthly)}</td>
+        <td style="width:40%">P&I Payment Difference (Yearly)</td>
+        <td class="${piSavingsYearly>=0?'text-green':'text-red'}">${fmtMoney(piSavingsYearly)}</td>
+      </tr>
+      <tr>
+        <td>Total Payment Difference (Monthly)</td>
+        <td class="${totalSavingsMonthly>=0?'text-green':'text-red'}">${fmtMoney(totalSavingsMonthly)}</td>
+        <td>Recoup Period</td>
+        <td class="text-gold">${d.recoup !== null ? Math.ceil(d.recoup)+' months' : '—'}</td>
+      </tr>
+      <tr>
+        <td>Escrow Refund (Est.)</td>
+        <td>${fmtMoney(d.escrowBalance)}</td>
+        <td>Payments Skipped</td>
+        <td>${d.paymentsSkipped} payment(s) — ${fmtMoney(d.missedPmts)}</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="doc-footer">
+    <div>
+      <div class="doc-footer-company">Village Capital &amp; Investment LLC — NMLS # 3317</div>
+      <div class="doc-footer-nmls">384 S 400 W Suite 100 Lindon, UT 84042</div>
+    </div>
+    <div class="doc-footer-lo">
+      <strong>${d.loName}</strong> &nbsp;|&nbsp; NMLS: ${d.loNmls}<br>
+      ${d.loPhone}
+    </div>
+  </div>
+</div>`;
+}
+
+function buildFeesWorksheet(d) {
+  return `
+<div class="doc-page" id="docFees_${d.n}">
+  <div class="doc-company-header">
+    <div>
+      <div class="doc-company-name">Village Capital &amp; Investment</div>
+      <div class="doc-company-sub">NMLS # 3317 &nbsp;·&nbsp; 384 S 400 W Suite 100 Lindon, UT 84042</div>
+    </div>
+    <div class="doc-title-line">
+      <h2>Fees Worksheet</h2>
+      <p>Fee Details &amp; Summary — Option ${d.n}: ${d.optName}</p>
+    </div>
+  </div>
+
+  <div class="doc-disclaimer">
+    <strong>THIS IS NOT A GOOD FAITH ESTIMATE (GFE).</strong> This "Fees Worksheet" is provided for informational purposes ONLY, to assist you in determining an estimate of cash that may be required to close and an estimate of your proposed monthly mortgage payment. Actual charges may be more or less, and your transaction may not involve a fee for every item listed.
+  </div>
+
+  <div class="doc-info-row">
+    <div class="doc-info-box"><div class="label">Applicant(s)</div><div class="value">${d.borrower}${d.coBorrower?' / '+d.coBorrower:''}</div></div>
+    <div class="doc-info-box"><div class="label">Prepared By</div><div class="value">Village Capital and Investment</div></div>
+    <div class="doc-info-box"><div class="label">Application No.</div><div class="value">${d.appId || 'Pending'}</div></div>
+    <div class="doc-info-box"><div class="label">Date Prepared</div><div class="value">${d.date}</div></div>
+    <div class="doc-info-box"><div class="label">Loan Program</div><div class="value">VA ${d.loanType}</div></div>
+    <div class="doc-info-box"><div class="label">Total Loan Amount</div><div class="value">${fmtMoney(d.totalLoan)} at ${fmtPct(d.rate)} — ${d.term} mo</div></div>
+  </div>
+
+  <table class="doc-table">
+    <thead>
+      <tr><th style="width:40%">Fee</th><th>Paid To</th><th>Paid By</th><th class="right">Amount</th></tr>
+    </thead>
+    <tbody>
+      <tr class="section-hdr"><td colspan="4">ORIGINATION CHARGES</td></tr>
+      <tr><td>Origination Charge (${d.origFeePct}%)</td><td>Village Capital</td><td>Borrower</td><td class="right money">${fmtMoney(d.origFeeAmt)}</td></tr>
+      <tr class="section-hdr"><td colspan="4">OTHER CHARGES</td></tr>
+      <tr><td>Loan Discount Fee (${d.discPtsPct}%)</td><td>Village Capital</td><td>Borrower</td><td class="right money">${fmtMoney(d.discPtsAmt)}</td></tr>
+      <tr><td>Credit Report / Flood Certification</td><td>Third Party</td><td>Borrower</td><td class="right money">${fmtMoney(d.creditReport)}</td></tr>
+      <tr><td>Appraisal</td><td>Appraiser</td><td>Borrower</td><td class="right money">${fmtMoney(d.appraisal)}</td></tr>
+      <tr><td>VA Funding Fee (${(d.ffRate*100).toFixed(2)}%) ${d.finFee?'[Financed]':'[Paid at Closing]'}</td><td>VA</td><td>Borrower</td><td class="right money">${fmtMoney(d.fundingFeeAmt)}</td></tr>
+      <tr><td>Closing / Escrow Fee</td><td>Title/Escrow Co.</td><td>Borrower</td><td class="right money">${fmtMoney(d.closingFee)}</td></tr>
+      <tr><td>Lender's Title Insurance</td><td>Title Co.</td><td>Borrower</td><td class="right money">${fmtMoney(d.titleIns)}</td></tr>
+      <tr><td>Mortgage / Recording Charges</td><td>Govt</td><td>Borrower</td><td class="right money">${fmtMoney(d.recording)}</td></tr>
+      <tr class="subtotal-row"><td colspan="3">Total Closing Costs</td><td class="right money">${fmtMoney(d.totalClosingCosts)}</td></tr>
+      <tr class="section-hdr"><td colspan="4">PREPAIDS &amp; RESERVES</td></tr>
+      <tr><td>Hazard Insurance Reserves (3 months)</td><td></td><td>Borrower</td><td class="right money">${fmtMoney(d.hazardReserve)}</td></tr>
+      <tr><td>County Property Tax Reserves (3 months)</td><td></td><td>Borrower</td><td class="right money">${fmtMoney(d.taxReserve)}</td></tr>
+      <tr><td>Daily Interest Charges (${d.daysInt} days × ${fmtMoney(d.dailyInt)}/day)</td><td></td><td>Borrower</td><td class="right money">${fmtMoney(d.dailyIntTotal)}</td></tr>
+      <tr class="subtotal-row"><td colspan="3">Total Prepaids &amp; Reserves</td><td class="right money">${fmtMoney(d.totalPrepaids)}</td></tr>
+      <tr class="total-row"><td colspan="3">TOTAL ESTIMATED FUNDS NEEDED TO CLOSE</td><td class="right money">${fmtMoney(d.totalFundsToClose)}</td></tr>
+    </tbody>
+  </table>
+
+  <div class="doc-two-col">
+    <div class="doc-box">
+      <div class="doc-box-title">Transaction Summary</div>
+      <table>
+        <tr><td>Refi / Payoff (+)</td><td>${fmtMoney(d.currentBalance)}</td></tr>
+        <tr><td>VA Funding Fee (+)</td><td>${fmtMoney(d.fundingFeeAmt)}</td></tr>
+        <tr><td>Est. Closing Costs (+)</td><td>${fmtMoney(d.totalClosingCosts)}</td></tr>
+        <tr><td>Est. Prepaids (+)</td><td>${fmtMoney(d.totalPrepaids)}</td></tr>
+        <tr><td>Loan Amount (-)</td><td>${fmtMoney(d.totalLoan)}</td></tr>
+        <tr class="total-row"><td>Total Cash to/from Borrower</td><td>${fmtMoney(d.currentBalance + d.totalClosingCosts + d.totalPrepaids - d.totalLoan)}</td></tr>
+      </table>
+    </div>
+    <div class="doc-box">
+      <div class="doc-box-title" style="background:#0d1f3c;">Estimated Monthly Payment</div>
+      <table>
+        <tr><td>Principal &amp; Interest</td><td>${fmtMoney(d.pi)}</td></tr>
+        <tr><td>Hazard Insurance</td><td>${fmtMoney(d.insurance)}</td></tr>
+        <tr><td>Real Estate Taxes</td><td>${fmtMoney(d.taxes)}</td></tr>
+        <tr><td>Mortgage Insurance</td><td>$0.00</td></tr>
+        <tr class="total-row"><td>Total Monthly Payment</td><td>${fmtMoney(d.totalPayment)}</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="doc-footer">
+    <div>
+      <div class="doc-footer-company">Village Capital &amp; Investment LLC — NMLS # 3317</div>
+      <div class="doc-footer-nmls">384 S 400 W Suite 100 Lindon, UT 84042</div>
+    </div>
+    <div class="doc-footer-lo">
+      <strong>${d.loName}</strong> &nbsp;|&nbsp; NMLS: ${d.loNmls}<br>
+      ${d.loPhone}
+    </div>
+  </div>
+</div>`;
+}
+
+// ============================================================
+// PRINT / PREVIEW
+// ============================================================
+let currentPrintContent = '';
+
+function showPreview(n, type) {
+  calcAll();
+  const d = getDocData(n);
+  const html = type === 'prequote' ? buildPreQuote(d) : buildFeesWorksheet(d);
+  const title = type === 'prequote' ? `Pre-Quote — Option ${n}: ${d.optName}` : `Fees Worksheet — Option ${n}: ${d.optName}`;
+  document.getElementById('previewTitle').textContent = title;
+  document.getElementById('previewContent').innerHTML = html;
+  document.getElementById('previewModal').classList.add('open');
+  currentPrintContent = html;
+}
+
+function closeModal() {
+  document.getElementById('previewModal').classList.remove('open');
+}
+
+function doPrint() {
+  const zone = document.getElementById('printZone');
+  zone.innerHTML = currentPrintContent;
+  zone.classList.add('active');
+  setTimeout(()=>{ window.print(); zone.classList.remove('active'); }, 150);
+}
+
+function printAll() {
+  calcAll();
+  let allHtml = '';
+  [1,2,3].forEach(n => {
+    const d = getDocData(n);
+    allHtml += buildPreQuote(d) + '<div style="page-break-after:always;"></div>';
+    allHtml += buildFeesWorksheet(d) + '<div style="page-break-after:always;"></div>';
+  });
+  const zone = document.getElementById('printZone');
+  zone.innerHTML = allHtml;
+  zone.classList.add('active');
+  setTimeout(()=>{ window.print(); zone.classList.remove('active'); }, 150);
+}
+
+// ============================================================
+// STATUS
+// ============================================================
+let statusTimer;
+function showStatus() {
+  const bar = document.getElementById('statusBar');
+  bar.classList.add('show');
+  clearTimeout(statusTimer);
+  statusTimer = setTimeout(()=>bar.classList.remove('show'), 1800);
+}
+
+// Close modal on overlay click
+document.getElementById('previewModal').addEventListener('click', function(e) {
+  if(e.target === this) closeModal();
+});
+
+// ============================================================
+// INIT
+// ============================================================
+buildRows(optionRowDefs, 'optionRows', 'opt');
+buildRows(feeRowDefs, 'feeRows', 'fee');
+buildResultRows(resultRowDefs);
+
+// Set today's date
+const today = new Date().toISOString().split('T')[0];
+document.getElementById('datePrepared').value = today;
+
+// First calculation
+calcAll();
+
+// Auto-recalc on any change to shared fields
+['currentBalance','currentRate','currentPI','currentEscrow','appraised','insurance','taxes',
+ 'escrowBalance','paymentsSkipped','loanType','fundingFeeType','customFundingFee','financeFee',
+ 'closingDate','firstPayDate'].forEach(id => {
+  const el = document.getElementById(id);
+  if(el) el.addEventListener('change', calcAll);
+  if(el) el.addEventListener('input', calcAll);
+});
+</script>
+</body>
+</html>
