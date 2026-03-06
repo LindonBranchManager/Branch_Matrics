@@ -197,7 +197,9 @@ body {
   font-weight: 600;
   color: var(--text-muted);
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
   background: var(--navy);
   color: rgba(255,255,255,0.65);
   letter-spacing: 0.03em;
@@ -529,6 +531,7 @@ body {
   .options-header, .option-row, .print-actions-row { grid-template-columns: 120px repeat(3, 1fr); }
 }
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body>
 
@@ -956,7 +959,7 @@ body {
     <div class="modal-header">
       <h3 id="previewTitle">Document Preview</h3>
       <div class="modal-header-btns">
-        <button class="modal-print-btn" onclick="doPrint()">🖨 Print This Document</button>
+        <button class="modal-print-btn" onclick="doPrint()">📥 Download PDF</button>
         <button class="modal-close" onclick="closeModal()">✕ Close</button>
       </div>
     </div>
@@ -1159,9 +1162,9 @@ const feeRowDefs = [
   { id:'origFee',      label:'Origination Fee (%)',         type:'number', default:['','',''], step:'0.001' },
   { id:'discountPts',  label:'Discount Points (%)',          type:'number', default:['','',''], step:'0.001' },
   { id:'creditReport', label:'Credit Report / Flood ($)',    type:'number', default:['','',''], mirror:true, saveable:true },
-  { id:'appraisal',    label:'Appraisal ($)',                type:'number', default:['','',''] },
+  { id:'appraisal',    label:'Appraisal ($)',                type:'number', default:['','',''], mirror:true, saveable:true },
   { id:'closingFee',   label:'Closing / Escrow Fee ($)',     type:'number', default:['','',''], mirror:true, saveable:true },
-  { id:'titleIns',     label:"Lender's Title Insurance ($)", type:'number', default:['','',''], link:'https://www.firstam.com/title-fee-calculator/index.html' },
+  { id:'titleIns',     label:"Lender's Title Insurance ($)", type:'number', default:['','',''], link:'https://www.firstam.com/title-fee-calculator/index.html', mirror:true, saveable:true },
   { id:'recording',    label:'Govt / Recording ($)',         type:'number', default:['','',''], mirror:true, saveable:true },
   { id:'daysInterest', label:'# Days Interest',              type:'number', default:['','',''], mirror:true, saveable:true, perDiem:true },
 ];
@@ -1237,7 +1240,7 @@ function updatePerDiems() {
 
 // ── Cookie defaults ───────────────────────────────────────
 const COOKIE_KEY = 'qlDefaults';
-const SAVEABLE_FEES = ['creditReport','closingFee','recording','daysInterest'];
+const SAVEABLE_FEES = ['creditReport','appraisal','closingFee','titleIns','recording','daysInterest'];
 
 function saveDefaults() {
   const vals = {};
@@ -1827,6 +1830,7 @@ function buildFeesWorksheet(d) {
 // PRINT / PREVIEW
 // ============================================================
 let currentPrintContent = '';
+let currentDocData = null;
 
 function showPreview(n, type) {
   calcAll();
@@ -1837,6 +1841,7 @@ function showPreview(n, type) {
   document.getElementById('previewContent').innerHTML = html;
   document.getElementById('previewModal').classList.add('open');
   currentPrintContent = html;
+  currentDocData = { ...d, previewType: type };
 }
 
 function closeModal() {
@@ -1844,10 +1849,80 @@ function closeModal() {
 }
 
 function doPrint() {
-  const zone = document.getElementById('printZone');
-  zone.innerHTML = currentPrintContent;
-  zone.classList.add('active');
-  setTimeout(()=>{ window.print(); zone.classList.remove('active'); }, 150);
+  const d = currentDocData;
+  if (!d) return;
+  const safeFile = s => (s||'').replace(/[^a-z0-9]/gi,'_');
+  const date = new Date().toISOString().split('T')[0];
+  const borrower = [d.borrowerFirst||'', d.borrowerLast||''].filter(Boolean).join('_') || 'Borrower';
+  const filename = `${safeFile(borrower)}_${safeFile(d.optName)}_${d.previewType==='prequote'?'PreQuote':'Fees'}_${date}.pdf`;
+  generatePDF(currentPrintContent, filename);
+}
+
+// ── Core PDF generator ───────────────────────────────────────
+async function generatePDF(htmlContent, filename, onDone) {
+  if (typeof html2pdf === 'undefined') {
+    alert('PDF library is still loading — please try again in a moment.');
+    return;
+  }
+  const wrapper = document.createElement('div');
+  wrapper.style.cssText = 'width:780px;position:absolute;left:-9999px;top:0;background:white;font-family:serif;';
+  wrapper.innerHTML = htmlContent;
+  document.body.appendChild(wrapper);
+
+  const opt = {
+    margin:      [0.45, 0.45, 0.45, 0.45],
+    filename:    filename,
+    image:       { type:'jpeg', quality:0.97 },
+    html2canvas: { scale:2, useCORS:true, logging:false, backgroundColor:'#ffffff' },
+    jsPDF:       { unit:'in', format:'letter', orientation:'portrait' }
+  };
+
+  try {
+    await html2pdf().set(opt).from(wrapper).save();
+    showToast(`✅ PDF saved: ${filename}`);
+    if (onDone) onDone(filename);
+  } catch(e) {
+    showToast('⚠ PDF generation failed — try again', true);
+    console.error(e);
+  } finally {
+    document.body.removeChild(wrapper);
+  }
+}
+
+async function generatePDFBlob(htmlContent) {
+  if (typeof html2pdf === 'undefined') return null;
+  const wrapper = document.createElement('div');
+  wrapper.style.cssText = 'width:780px;position:absolute;left:-9999px;top:0;background:white;';
+  wrapper.innerHTML = htmlContent;
+  document.body.appendChild(wrapper);
+  const opt = {
+    margin: [0.45, 0.45, 0.45, 0.45],
+    image:  { type:'jpeg', quality:0.97 },
+    html2canvas: { scale:2, useCORS:true, logging:false, backgroundColor:'#ffffff' },
+    jsPDF:  { unit:'in', format:'letter', orientation:'portrait' }
+  };
+  try {
+    const blob = await html2pdf().set(opt).from(wrapper).outputPdf('blob');
+    return blob;
+  } finally {
+    document.body.removeChild(wrapper);
+  }
+}
+
+// ── Toast notification ───────────────────────────────────────
+function showToast(msg, isError=false) {
+  let t = document.getElementById('pdfToast');
+  if (!t) {
+    t = document.createElement('div');
+    t.id = 'pdfToast';
+    t.style.cssText = 'position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:#0d1f3c;color:white;padding:12px 22px;border-radius:8px;font-size:0.85rem;font-weight:600;z-index:9999;box-shadow:0 4px 18px rgba(0,0,0,0.3);transition:opacity 0.3s;pointer-events:none;';
+    document.body.appendChild(t);
+  }
+  t.textContent = msg;
+  t.style.background = isError ? '#8a2020' : '#0d1f3c';
+  t.style.opacity = '1';
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.style.opacity = '0', 4500);
 }
 
 function printSelected() {
@@ -1858,30 +1933,43 @@ function printSelected() {
     return;
   }
 
+  const borrower = [getStr('borrowerFirst'), getStr('borrowerLast')].filter(Boolean).join('_') || 'Borrower';
+  const date = new Date().toISOString().split('T')[0];
+  const optLabel = selected.length === 1 ? `Option${selected[0]}` : `${selected.length}Options`;
+  const filename = `${borrower.replace(/[^a-z0-9]/gi,'_')}_${optLabel}_${date}.pdf`;
+
   let allHtml = '';
-
-  // ── If multiple options selected, prepend a side-by-side comparison summary page ──
   if (selected.length > 1) {
-    allHtml += buildComparisonPage(selected) + '<div style="page-break-after:always;"></div>';
+    allHtml += buildComparisonPage(selected);
+    allHtml += '<div style="page-break-after:always;"></div>';
   }
-
-  // ── Then individual Pre-Quote + Fees Worksheet for each selected option ──
   selected.forEach((n, idx) => {
     const d = getDocData(n);
     allHtml += buildPreQuote(d);
-    if (idx < selected.length - 1 || true) {
-      allHtml += '<div style="page-break-after:always;"></div>';
-    }
+    allHtml += '<div style="page-break-after:always;"></div>';
     allHtml += buildFeesWorksheet(d);
-    if (idx < selected.length - 1) {
-      allHtml += '<div style="page-break-after:always;"></div>';
-    }
+    if (idx < selected.length - 1) allHtml += '<div style="page-break-after:always;"></div>';
   });
 
-  const zone = document.getElementById('printZone');
-  zone.innerHTML = allHtml;
-  zone.classList.add('active');
-  setTimeout(() => { window.print(); zone.classList.remove('active'); }, 150);
+  generatePDF(allHtml, filename);
+}
+
+function printAll() {
+  calcAll();
+  const borrower = [getStr('borrowerFirst'), getStr('borrowerLast')].filter(Boolean).join('_') || 'Borrower';
+  const date = new Date().toISOString().split('T')[0];
+  const filename = `${borrower.replace(/[^a-z0-9]/gi,'_')}_All3Options_${date}.pdf`;
+
+  let allHtml = buildComparisonPage([1,2,3]);
+  allHtml += '<div style="page-break-after:always;"></div>';
+  [1,2,3].forEach((n, idx) => {
+    const d = getDocData(n);
+    allHtml += buildPreQuote(d) + '<div style="page-break-after:always;"></div>';
+    allHtml += buildFeesWorksheet(d);
+    if (idx < 2) allHtml += '<div style="page-break-after:always;"></div>';
+  });
+
+  generatePDF(allHtml, filename);
 }
 
 function buildComparisonPage(selectedNums) {
@@ -2009,36 +2097,55 @@ function printAll() {
 // ============================================================
 // EMAIL TO BORROWER
 // ============================================================
-function emailBorrower() {
+async function emailBorrower() {
   const borrower      = [getStr('borrowerFirst'), getStr('borrowerLast')].filter(Boolean).join(' ') || 'Borrower';
   const borrowerEmail = getStr('borrowerEmail');
   const loName        = getStr('loSelect') || 'Your Loan Officer';
   const loPhone       = getStr('loPhone')  || '';
   const loEmail       = getStr('loEmail')  || '';
   const address       = getFullAddress();
+  const dateStr       = new Date().toISOString().split('T')[0];
+  const safeFile      = s => s.replace(/[^a-z0-9]/gi, '_');
 
   if (!borrowerEmail) {
-    alert('Please enter the borrower\'s email address first.');
+    alert("Please enter the borrower's email address first.");
     return;
   }
 
-  // Build a summary of all 3 options
-  const optionLines = [1,2,3].map(n => {
+  // Build combined PDF of all selected/active options
+  const selected = [1,2,3].filter(n => document.getElementById(`optInclude${n}`)?.checked);
+  const activeNums = selected.length > 0 ? selected : [1,2,3];
+
+  let allHtml = '';
+  if (activeNums.length > 1) {
+    allHtml += buildComparisonPage(activeNums) + '<div style="page-break-after:always;"></div>';
+  }
+  activeNums.forEach((n, idx) => {
+    const d = getDocData(n);
+    allHtml += buildPreQuote(d) + '<div style="page-break-after:always;"></div>';
+    allHtml += buildFeesWorksheet(d);
+    if (idx < activeNums.length - 1) allHtml += '<div style="page-break-after:always;"></div>';
+  });
+
+  const pdfName = `${safeFile(borrower)}_QuoteSummary_${dateStr}.pdf`;
+  showToast('⏳ Generating PDF…');
+  await generatePDF(allHtml, pdfName);
+
+  const optionLines = activeNums.map(n => {
     const r       = calcOption(n);
     const optName = getStr(`optName${n}`) || `Option ${n}`;
     if (!r.baseLoan) return null;
     return [
       `  Option ${n}: ${optName}`,
-      `  ├ Rate:          ${(r.rate * 100).toFixed(3)}%`,
-      `  ├ Total Loan:    ${fmtMoney(r.totalLoan)}`,
-      `  ├ P&I Payment:   ${fmtMoney(r.pi)}`,
-      `  ├ Total Payment: ${fmtMoney(r.totalPayment)}`,
+      `  ├ Rate:           ${(r.rate * 100).toFixed(3)}%`,
+      `  ├ Total Loan:     ${fmtMoney(r.totalLoan)}`,
+      `  ├ P&I Payment:    ${fmtMoney(r.pi)}`,
+      `  ├ Total Payment:  ${fmtMoney(r.totalPayment)}`,
       `  └ Funds to Close: ${fmtMoney(r.totalFundsToClose)}`,
     ].join('\n');
   }).filter(Boolean);
 
   const subject = `Your Loan Quote Summary — ${borrower} — Village Capital & Investment`;
-
   const body = [
     `Hi ${borrower.split(' ')[0]},`,
     '',
@@ -2054,10 +2161,12 @@ function emailBorrower() {
     'These figures are estimates and not an official Loan Estimate (LE).',
     'Your actual rate, payment, and costs could vary.',
     '',
-    'Please don\'t hesitate to reach out with any questions — I\'m happy to walk',
-    'you through any of these options in detail.',
+    `📎 Full quote details attached as PDF: "${pdfName}"`,
+    '   (Check Downloads and drag into this email to attach)',
     '',
-    `${loName}`,
+    "Please don't hesitate to reach out with any questions!",
+    '',
+    loName,
     loPhone ? `📞 ${loPhone}` : '',
     loEmail ? `✉  ${loEmail}` : '',
     'Village Capital & Investment | NMLS #3317',
@@ -2065,13 +2174,14 @@ function emailBorrower() {
   ].filter(l => l !== null).join('\n');
 
   const gmailUrl = `https://mail.google.com/mail/?view=cm&to=${encodeURIComponent(borrowerEmail)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-  window.open(gmailUrl, '_blank');
+  setTimeout(() => window.open(gmailUrl, '_blank'), 600);
+  showToast(`✅ PDF saved — drag from Downloads into Gmail to attach`);
 }
 
 // ============================================================
 // EMAIL TO LO
 // ============================================================
-function emailToLO(n) {
+async function emailToLO(n) {
   const d = getDocData(n);
   const borrower   = d.borrower || 'Borrower';
   const loName     = d.loName   || 'LO';
@@ -2084,27 +2194,15 @@ function emailToLO(n) {
     return;
   }
 
-  // ── 1. Build & download the quote file ──────────────────
   const safeFile = name => name.replace(/[^a-z0-9]/gi, '_');
-  const fileName = `${safeFile(borrower)}_${safeFile(loName)}_${safeFile(optName)}_${dateStr}.html`;
+  const pdfName = `${safeFile(borrower)}_${safeFile(loName)}_${safeFile(optName)}_${dateStr}.pdf`;
+  const allHtml = buildPreQuote(d) + '<div style="page-break-after:always;"></div>' + buildFeesWorksheet(d);
 
-  // Build a standalone HTML snapshot of both docs for this option
-  const docStyles = document.querySelector('style') ? document.querySelector('style').outerHTML : '';
-  const prequoteHtml  = buildPreQuote(d);
-  const feesHtml      = buildFeesWorksheet(d);
-  const snapshot = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>${fileName}</title>${docStyles}</head><body style="background:#f5f5f5;padding:20px;">${prequoteHtml}${feesHtml}</body></html>`;
+  showToast('⏳ Generating PDF…');
+  await generatePDF(allHtml, pdfName);
 
-  const blob = new Blob([snapshot], { type: 'text/html' });
-  const url  = URL.createObjectURL(blob);
-  const a    = document.createElement('a');
-  a.href     = url;
-  a.download = fileName;
-  a.click();
-  URL.revokeObjectURL(url);
-
-  // ── 2. Open Gmail compose pre-filled ────────────────────
   const subject = `Quote Lab — ${borrower} — ${optName} — ${dateStr}`;
-
+  const r = calcOption(n);
   const body = [
     `Hi ${loName.split(' ')[0]},`,
     '',
@@ -2113,40 +2211,34 @@ function emailToLO(n) {
     '── LOAN SUMMARY ──────────────────────',
     `Program:        ${d.prog} — ${d.loanType}`,
     `Option:         ${optName}`,
-    `Base Loan:      ${fmtMoney(d.baseLoan)}`,
-    `Total Loan:     ${fmtMoney(d.totalLoan)}`,
-    `Rate:           ${(d.rate * 100).toFixed(3)}%`,
-    `Term:           ${d.term} months`,
-    `P&I Payment:    ${fmtMoney(d.pi)}`,
-    `Total Payment:  ${fmtMoney(d.totalPayment)}`,
-    `LTV:            ${d.ltv > 0 ? d.ltv.toFixed(2) + '%' : '—'}`,
+    `Base Loan:      ${fmtMoney(r.baseLoan)}`,
+    `Total Loan:     ${fmtMoney(r.totalLoan)}`,
+    `Rate:           ${(r.rate * 100).toFixed(3)}%`,
+    `Term:           ${r.term} months`,
+    `P&I Payment:    ${fmtMoney(r.pi)}`,
+    `Total Payment:  ${fmtMoney(r.totalPayment)}`,
+    `LTV:            ${r.ltv > 0 ? r.ltv.toFixed(2) + '%' : '—'}`,
     '',
     '── CLOSING COSTS ─────────────────────',
-    `Total Closing:  ${fmtMoney(d.totalClosingCosts)}`,
-    `Total Prepaids: ${fmtMoney(d.totalPrepaids)}`,
-    `Funds to Close: ${fmtMoney(d.totalFundsToClose)}`,
+    `Total Closing:  ${fmtMoney(r.totalClosingCosts)}`,
+    `Total Prepaids: ${fmtMoney(r.totalPrepaids)}`,
+    `Funds to Close: ${fmtMoney(r.totalFundsToClose)}`,
     '',
     '── SAVINGS ───────────────────────────',
-    `Monthly Savings: ${fmtMoney(d.paySavings)}`,
-    `Recoup Period:   ${d.recoup !== null ? Math.ceil(d.recoup) + ' months' : '—'}`,
+    `Monthly Savings: ${fmtMoney(r.paySavings)}`,
+    `Recoup Period:   ${r.recoup !== null ? Math.ceil(r.recoup) + ' months' : '—'}`,
     '',
-    `The full Pre-Quote and Fees Worksheet are attached as "${fileName}".`,
-    'Open the file in any browser to view and print.',
+    `📎 PDF: "${pdfName}" — check your Downloads folder and drag it into this email.`,
     '',
     '──────────────────────────────────────',
     'Generated by Quote Lab | Village Capital & Investment | NMLS #3317',
   ].join('\n');
 
   const gmailUrl = `https://mail.google.com/mail/?view=cm&to=${encodeURIComponent(loEmail)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-  setTimeout(() => window.open(gmailUrl, '_blank'), 400);
-
-  // ── 3. Show confirmation ─────────────────────────────────
-  const bar = document.getElementById('statusBar');
-  bar.textContent = `✓ File downloaded & Gmail opened for ${loName}`;
-  bar.classList.add('show');
-  clearTimeout(statusTimer);
-  statusTimer = setTimeout(() => bar.classList.remove('show'), 4000);
+  setTimeout(() => window.open(gmailUrl, '_blank'), 600);
+  showToast(`✅ PDF saved — drag from Downloads into Gmail to attach`);
 }
+
 
 let statusTimer;
 function showStatus() {
