@@ -140,6 +140,37 @@ body {
 }
 .option-name-input::placeholder { color: rgba(255,255,255,0.4); }
 .option-name-input:focus { outline: none; border-color: var(--gold) !important; }
+.option-name-select {
+  font-size: 0.82rem;
+  font-weight: 600;
+  border: 1.5px solid rgba(255,255,255,0.2) !important;
+  background: rgba(255,255,255,0.12) !important;
+  color: var(--navy) !important;
+  border-radius: 6px;
+  padding: 6px 10px;
+  width: 100%;
+  margin-top: 8px;
+  font-family: 'Source Sans 3', sans-serif;
+  cursor: pointer;
+}
+.option-name-select:focus { outline: none; border-color: var(--gold) !important; }
+.opt-include-wrap {
+  display: flex; align-items: center; gap: 7px;
+  margin-top: 8px; font-size: 0.7rem; font-weight: 700;
+  color: var(--steel); user-select: none; cursor: pointer;
+}
+.opt-include-wrap input[type=checkbox] {
+  width: 15px; height: 15px; accent-color: var(--navy); cursor: pointer;
+}
+.btn-print-combined {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--navy); color: white;
+  border: 2px solid var(--navy);
+  font-size: 0.8rem; font-weight: 700;
+  padding: 8px 18px; border-radius: 7px; cursor: pointer;
+  letter-spacing: 0.02em; transition: all 0.15s;
+}
+.btn-print-combined:hover { background: #0d1f3c; border-color: #0d1f3c; }
 .opt-bg-1 { background: #f0f4fb; }
 .opt-bg-2 { background: #f3f7f0; }
 .opt-bg-3 { background: #fdf6ec; }
@@ -804,15 +835,42 @@ body {
       </div>
       <div class="option-col-header opt-bg-1">
         <div class="option-num" style="color:var(--steel);">01</div>
-        <input class="option-name-input" id="optName1" placeholder="e.g. 30 Year Fixed" value="30 Year Fixed" style="background:rgba(74,111,165,0.12)!important;color:var(--navy)!important;border-color:rgba(74,111,165,0.3)!important;">
+        <select class="option-name-select" id="optName1" style="background:rgba(74,111,165,0.12)!important;border-color:rgba(74,111,165,0.3)!important;">
+          <option>30 Year Fixed</option>
+          <option>25 Year Fixed</option>
+          <option>20 Year Fixed</option>
+          <option>15 Year Fixed</option>
+          <option>10 Year Fixed</option>
+          <option>5/1 Hybrid ARM</option>
+          <option>3/1 Hybrid ARM</option>
+        </select>
+        <label class="opt-include-wrap"><input type="checkbox" id="optInclude1" checked> Include in combined print</label>
       </div>
       <div class="option-col-header opt-bg-2">
         <div class="option-num" style="color:#4a9a6a;">02</div>
-        <input class="option-name-input" id="optName2" placeholder="e.g. 30 Year Fixed w/Cash" value="30 Year Fixed" style="background:rgba(74,154,106,0.12)!important;color:var(--navy)!important;border-color:rgba(74,154,106,0.3)!important;">
+        <select class="option-name-select" id="optName2" style="background:rgba(74,154,106,0.12)!important;border-color:rgba(74,154,106,0.3)!important;">
+          <option>30 Year Fixed</option>
+          <option>25 Year Fixed</option>
+          <option>20 Year Fixed</option>
+          <option>15 Year Fixed</option>
+          <option>10 Year Fixed</option>
+          <option>5/1 Hybrid ARM</option>
+          <option>3/1 Hybrid ARM</option>
+        </select>
+        <label class="opt-include-wrap"><input type="checkbox" id="optInclude2" checked> Include in combined print</label>
       </div>
       <div class="option-col-header opt-bg-3">
         <div class="option-num" style="color:#b87c2a;">03</div>
-        <input class="option-name-input" id="optName3" placeholder="e.g. 3-1 Hybrid ARM" value="3-1 Hybrid ARM" style="background:rgba(184,124,42,0.12)!important;color:var(--navy)!important;border-color:rgba(184,124,42,0.3)!important;">
+        <select class="option-name-select" id="optName3" style="background:rgba(184,124,42,0.12)!important;border-color:rgba(184,124,42,0.3)!important;">
+          <option>30 Year Fixed</option>
+          <option>25 Year Fixed</option>
+          <option>20 Year Fixed</option>
+          <option>15 Year Fixed</option>
+          <option>10 Year Fixed</option>
+          <option>5/1 Hybrid ARM</option>
+          <option value="3/1 Hybrid ARM" selected>3/1 Hybrid ARM</option>
+        </select>
+        <label class="opt-include-wrap"><input type="checkbox" id="optInclude3" checked> Include in combined print</label>
       </div>
     </div>
 
@@ -883,9 +941,10 @@ body {
         <div class="arm-warning" id="armWarn3"><span class="warn-icon">⚠️</span> IRRRL Fixed→ARM: proposed rate must be at least 2% below current rate (<span id="armWarnRate3"></span>). VA will not approve.</div>
       </div>
     </div>
-      <button class="btn btn-primary" onclick="calcAll()">⟳&nbsp; Calculate All Options</button>
-      <button class="btn btn-gold" onclick="printAll()">🖨&nbsp; Print All 3 Options</button>
-      <span style="font-size:0.78rem;color:var(--text-muted);margin-left:auto;">Results auto-calculate on input change. Use Print buttons for individual option documents.</span>
+      <button class="btn btn-primary" onclick="calcAll()">⟳&nbsp; Recalculate</button>
+      <button class="btn-print-combined" onclick="printSelected()">🖨&nbsp; Print Selected Options</button>
+      <button class="btn btn-gold" onclick="printAll()">🖨&nbsp; Print All 3</button>
+      <span style="font-size:0.75rem;color:var(--text-muted);margin-left:auto;">Check the boxes in each column header to choose which options appear in combined print</span>
     </div>
   </div>
 
@@ -1791,7 +1850,146 @@ function doPrint() {
   setTimeout(()=>{ window.print(); zone.classList.remove('active'); }, 150);
 }
 
+function printSelected() {
+  calcAll();
+  const selected = [1,2,3].filter(n => document.getElementById(`optInclude${n}`)?.checked);
+  if (selected.length === 0) {
+    alert('Please check at least one option using the "Include in combined print" checkboxes in the column headers.');
+    return;
+  }
+
+  let allHtml = '';
+
+  // ── If multiple options selected, prepend a side-by-side comparison summary page ──
+  if (selected.length > 1) {
+    allHtml += buildComparisonPage(selected) + '<div style="page-break-after:always;"></div>';
+  }
+
+  // ── Then individual Pre-Quote + Fees Worksheet for each selected option ──
+  selected.forEach((n, idx) => {
+    const d = getDocData(n);
+    allHtml += buildPreQuote(d);
+    if (idx < selected.length - 1 || true) {
+      allHtml += '<div style="page-break-after:always;"></div>';
+    }
+    allHtml += buildFeesWorksheet(d);
+    if (idx < selected.length - 1) {
+      allHtml += '<div style="page-break-after:always;"></div>';
+    }
+  });
+
+  const zone = document.getElementById('printZone');
+  zone.innerHTML = allHtml;
+  zone.classList.add('active');
+  setTimeout(() => { window.print(); zone.classList.remove('active'); }, 150);
+}
+
+function buildComparisonPage(selectedNums) {
+  const borrower  = [getStr('borrowerFirst'), getStr('borrowerLast')].filter(Boolean).join(' ') || 'Borrower';
+  const address   = getFullAddress();
+  const date      = new Date().toLocaleDateString('en-US', {month:'short', day:'2-digit', year:'numeric'});
+  const loName    = getStr('loSelect');
+  const loNmls    = getStr('loNmls');
+  const loPhone   = getStr('loPhone');
+  const prog      = getStr('loanProgram');
+  const loanType  = getStr('loanType');
+
+  const cols = selectedNums.map(n => ({ n, d: getDocData(n), r: calcOption(n) }));
+  const colColors = { 1:'#3a5f9a', 2:'#2d6e4e', 3:'#8a6800' };
+  const colBg     = { 1:'#eef2fb', 2:'#edf5ea', 3:'#fef3e2' };
+
+  // Header row for each option
+  const headerCells = cols.map(({n, d}) =>
+    `<th style="background:${colColors[n]};color:white;padding:10px 14px;text-align:center;width:${Math.floor(60/cols.length)}%;">
+      <div style="font-size:1.1rem;font-weight:800;">Option ${n}</div>
+      <div style="font-size:0.82rem;font-weight:600;opacity:0.9;">${d.optName}</div>
+    </th>`
+  ).join('');
+
+  const rows = [
+    { label: 'Interest Rate',         fmt: r => `${(r.rate*100).toFixed(3)}%` },
+    { label: 'Term',                   fmt: r => `${r.term} months` },
+    { label: 'Base Loan Amount',       fmt: r => fmtMoney(r.baseLoan),   bold: true },
+    { label: 'Upfront Fee',            fmt: r => `${fmtMoney(r.upfrontFeeAmt)} (${(r.upfrontFeeRate*100).toFixed(2)}%)` },
+    { label: 'Total Loan Amount',      fmt: r => fmtMoney(r.totalLoan),  bold: true },
+    { label: '─',                      divider: true },
+    { label: 'P&I Payment',            fmt: r => fmtMoney(r.pi),         bold: true },
+    { label: 'Hazard Insurance',       fmt: r => fmtMoney(r.insurance) },
+    { label: 'Taxes',                  fmt: r => fmtMoney(r.taxes) },
+    { label: 'Total Monthly Payment',  fmt: r => fmtMoney(r.totalPayment), bold: true },
+    { label: '─',                      divider: true },
+    { label: 'Total Closing Costs',    fmt: r => fmtMoney(r.totalClosingCosts) },
+    { label: 'Total Prepaids',         fmt: r => fmtMoney(r.totalPrepaids) },
+    { label: 'Est. Cash to Close',     fmt: r => fmtMoney(r.totalFundsToClose), bold: true },
+    { label: '─',                      divider: true },
+    { label: 'LTV',                    fmt: r => r.ltv > 0 ? r.ltv.toFixed(2)+'%' : '—' },
+    { label: 'Monthly Savings vs Current', fmt: r => {
+        const s = r.paySavings;
+        return `<span style="color:${s>=0?'#2d6e4e':'#b33a3a'};font-weight:700;">${fmtMoney(s)}</span>`;
+      }
+    },
+    { label: 'Recoup Period',          fmt: r => r.recoup !== null ? Math.ceil(r.recoup)+' months' : '—' },
+  ];
+
+  const tableRows = rows.map(row => {
+    if (row.divider) {
+      return `<tr><td colspan="${cols.length + 1}" style="padding:4px 0;border:none;background:#f5f5f5;"></td></tr>`;
+    }
+    const cells = cols.map(({n, r}) =>
+      `<td style="background:${colBg[n]};text-align:center;padding:8px 12px;${row.bold?'font-weight:700;font-size:1.0rem;':''}">${row.fmt(r)}</td>`
+    ).join('');
+    return `<tr>
+      <td style="padding:7px 12px;font-size:0.8rem;color:#444;border-right:2px solid #ddd;white-space:nowrap;">${row.label}</td>
+      ${cells}
+    </tr>`;
+  }).join('');
+
+  return `
+<div class="doc-page" style="font-family:'Source Sans 3',sans-serif;">
+  <div class="doc-company-header">
+    <div>
+      <div class="doc-company-name">Village Capital &amp; Investment</div>
+      <div class="doc-company-sub">NMLS # 3317 &nbsp;·&nbsp; 384 S 400 W Suite 100 Lindon, UT 84042</div>
+    </div>
+    <div class="doc-title-line">
+      <h2>Loan Option Comparison</h2>
+      <p>${prog} — ${loanType} &nbsp;·&nbsp; ${selected.length} Options</p>
+    </div>
+  </div>
+  <div class="doc-disclaimer">
+    ⚠ <strong>This is NOT an official Loan Estimate (LE).</strong> Figures are estimates for comparison purposes only. Actual rate, payment, and costs could be higher.
+  </div>
+  <div class="doc-info-row" style="margin-bottom:14px;">
+    <div class="doc-info-box"><div class="label">Applicant</div><div class="value">${borrower}</div></div>
+    <div class="doc-info-box"><div class="label">Property</div><div class="value">${address || '—'}</div></div>
+    <div class="doc-info-box"><div class="label">Date</div><div class="value">${date}</div></div>
+    <div class="doc-info-box"><div class="label">Loan Officer</div><div class="value">${loName} &nbsp;|&nbsp; NMLS ${loNmls}</div></div>
+  </div>
+  <table style="width:100%;border-collapse:collapse;font-size:0.85rem;">
+    <thead>
+      <tr>
+        <th style="background:#0d1f3c;color:white;padding:10px 14px;text-align:left;width:40%;">Loan Details</th>
+        ${headerCells}
+      </tr>
+    </thead>
+    <tbody>
+      ${tableRows}
+    </tbody>
+  </table>
+  <div class="doc-footer" style="margin-top:20px;">
+    <div>
+      <div class="doc-footer-company">Village Capital &amp; Investment LLC — NMLS # 3317</div>
+      <div class="doc-footer-nmls">384 S 400 W Suite 100 Lindon, UT 84042</div>
+    </div>
+    <div class="doc-footer-lo">
+      <strong>${loName}</strong> &nbsp;|&nbsp; NMLS: ${loNmls}<br>${loPhone}
+    </div>
+  </div>
+</div>`;
+}
+
 function printAll() {
+
   calcAll();
   let allHtml = '';
   [1,2,3].forEach(n => {
@@ -1950,6 +2148,8 @@ function emailToLO(n) {
   statusTimer = setTimeout(() => bar.classList.remove('show'), 4000);
 }
 
+let statusTimer;
+function showStatus() {
 
   const bar = document.getElementById('statusBar');
   bar.classList.add('show');
