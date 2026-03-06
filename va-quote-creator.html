@@ -1220,9 +1220,10 @@ const resultRowDefs = [
   { id:'baseLoan',        label:'Base Loan Amount ($)',       hint:'Payoff + Cash Out + All Fees' },
   { id:'fundingFeeAmt',   label:'Upfront Fee ($)',            hint:'VA FF / FHA UFMIP / 0 for Conv' },
   { id:'totalLoan',       label:'Total Loan Amount ($)',      hint:'Base Loan + Upfront Fee' },
-  { id:'loanPayment',     label:'── Payment ──',              hint:'', divider:true },
+  { id:'loanPayment',     label:'── Payment & Rate ──',       hint:'', divider:true },
   { id:'pi',              label:'P&I Payment ($)' },
   { id:'totalPayment',    label:'Total Monthly Payment ($)',  hint:'P&I + Escrow + MI' },
+  { id:'apr',             label:'APR (%)',                    hint:'Includes fees — required disclosure' },
   { id:'ltv',             label:'LTV (%)' },
   { id:'loanCosts',       label:'── Costs ──',                hint:'', divider:true },
   { id:'totalClosingCosts', label:'Total Closing Costs ($)',  hint:'Itemized fees' },
@@ -1504,8 +1505,14 @@ function calcOption(n) {
                      upfrontFeeAmt, finFee, piSavings, totalClosingCosts, prog };
   const recoup = calcVARecoup({ ...partialR, pi });
 
+  // ── APR ──────────────────────────────────────────────────────────────
+  // APR fees = all lender/third-party fees (origination, discount, credit report,
+  // closing fee, title, recording) + upfront mortgage insurance if financed
+  const aprFees = origFeeAmt + discPtsAmt + creditReport + closingFee + titleIns + recording + upfrontFeeAmt;
+  const apr = calcAPR(totalLoan, pi, term, aprFees);
+
   return {
-    n, term, baseLoan, rate, totalLoan, ltv,
+    n, term, baseLoan, rate, apr, totalLoan, ltv,
     payoff, cashOut,
     upfrontFeeAmt, upfrontFeeRate, upfrontFeeLabel,
     origFeeAmt, origFeePct: origFeePct * 100,
@@ -1578,6 +1585,7 @@ function calcAll() {
     setResult(`r_totalLoan_${n}`,         r.totalLoan);
     setResult(`r_pi_${n}`,                r.pi);
     setResult(`r_totalPayment_${n}`,      r.totalPayment);
+    setResult(`r_apr_${n}`,               r.apr > 0 ? r.apr * 100 : null, 'pct');
     setResult(`r_ltv_${n}`,              r.ltv, 'pct');
     setResult(`r_totalClosingCosts_${n}`, r.totalClosingCosts);
     setResult(`r_totalPrepaids_${n}`,     r.totalPrepaids);
@@ -1699,6 +1707,7 @@ function buildPreQuote(d) {
         <tr><td>+ ${d.upfrontFeeLabel} (${(d.upfrontFeeRate*100).toFixed(2)}%)</td><td>${fmtMoney(d.upfrontFeeAmt)} ${d.finFee ? '[Financed]' : '[At Closing]'}</td></tr>
         <tr class="total-row"><td>= Total Loan Amount</td><td>${fmtMoney(d.totalLoan)}</td></tr>
         <tr><td>Interest Rate</td><td>${fmtPct(d.rate)}</td></tr>
+        <tr><td><strong>APR</strong></td><td><strong>${d.apr > 0 ? (d.apr*100).toFixed(3)+'%' : '—'}</strong></td></tr>
         <tr><td>Amortization Type</td><td>${amortLabel.toUpperCase()}</td></tr>
         <tr><td>Term</td><td>${d.term} months</td></tr>
         <tr><td>Proposed P&I</td><td>${fmtMoney(d.pi)}</td></tr>
@@ -1803,6 +1812,7 @@ function buildFeesWorksheet(d) {
     <div class="doc-info-box"><div class="label">Date Prepared</div><div class="value">${d.date}</div></div>
     <div class="doc-info-box"><div class="label">Loan Program</div><div class="value">${d.prog} — ${d.loanType}</div></div>
     <div class="doc-info-box"><div class="label">Total Loan Amount</div><div class="value">${fmtMoney(d.totalLoan)} at ${fmtPct(d.rate)} — ${d.term} mo</div></div>
+    <div class="doc-info-box"><div class="label">APR</div><div class="value" style="color:#0d1f3c;font-weight:700;">${d.apr > 0 ? (d.apr*100).toFixed(3)+'%' : '—'} <span style="font-size:0.65rem;font-weight:400;color:#666;">(incl. fees)</span></div></div>
   </div>
 
   <table class="doc-table">
@@ -2000,6 +2010,7 @@ function buildComparisonPage(selectedNums) {
 
   const rows = [
     { label: 'Interest Rate',         fmt: r => `${(r.rate*100).toFixed(3)}%` },
+    { label: 'APR',                    fmt: r => r.apr > 0 ? `<strong>${(r.apr*100).toFixed(3)}%</strong>` : '—' },
     { label: 'Term',                   fmt: r => `${r.term} months` },
     { label: 'Base Loan Amount',       fmt: r => fmtMoney(r.baseLoan),   bold: true },
     { label: 'Upfront Fee',            fmt: r => `${fmtMoney(r.upfrontFeeAmt)} (${(r.upfrontFeeRate*100).toFixed(2)}%)` },
