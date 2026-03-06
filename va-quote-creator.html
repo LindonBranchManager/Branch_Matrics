@@ -829,7 +829,14 @@ body {
 
   <!-- LOAN OPTIONS -->
   <div class="section-block">
-    <div class="section-title"><span class="dot"></span>Loan Options (3 Scenarios)</div>
+    <div class="section-title">
+      <span class="dot"></span>
+      <span style="flex:1;">Loan Options (3 Scenarios)</span>
+      <span style="display:flex;gap:8px;align-items:center;margin-left:auto;">
+        <button class="btn-set-default" onclick="saveDefaults()">⭐ Save as Default</button>
+        <button class="btn-clear-default" onclick="clearDefaults()">✕ Clear Defaults</button>
+      </span>
+    </div>
 
     <!-- Option Column Headers -->
     <div class="options-header">
@@ -884,15 +891,9 @@ body {
     </div>
 
     <!-- FEE INPUTS -->
-    <div class="option-section-label">Fees &amp; Costs
-      <span style="float:right;font-weight:400;">
-        <button class="btn-set-default" onclick="saveDefaults()">⭐ Save as Default</button>
-        &nbsp;
-        <button class="btn-clear-default" onclick="clearDefaults()">✕ Clear Defaults</button>
-      </span>
-    </div>
+    <div class="option-section-label">Fees &amp; Costs</div>
     <div id="defaultBar" style="display:none;" class="default-bar">
-      ⭐ <strong>Defaults loaded</strong> — Credit Report, Closing Fee, Recording &amp; Days Interest pre-filled from your saved defaults.
+      ⭐ <strong>Defaults loaded</strong> — Fees pre-filled from your saved defaults.
     </div>
     <div id="feeRows"></div>
 
