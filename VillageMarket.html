@@ -3,195 +3,304 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>🍬 The Snack Shack</title>
+<title>🏪 Village Market</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  :root{--yellow:#FFD93D;--orange:#FF6B35;--red:#EF233C;--green:#06D6A0;--dark:#1A1A2E;--cream:#FFF8E7;--shadow:0 4px 20px rgba(0,0,0,.12);}
-  *{box-sizing:border-box;margin:0;padding:0;}
-  body{font-family:'Nunito',sans-serif;background:var(--cream);min-height:100vh;
-    background-image:radial-gradient(circle at 20% 50%,rgba(255,217,61,.15) 0%,transparent 50%),radial-gradient(circle at 80% 20%,rgba(255,107,53,.1) 0%,transparent 50%);}
-  header{background:var(--dark);padding:14px 20px;display:flex;justify-content:space-between;
-    align-items:center;position:sticky;top:0;z-index:100;box-shadow:0 2px 20px rgba(0,0,0,.3);}
-  .logo{font-family:'Fredoka One',cursive;color:var(--yellow);font-size:1.5rem;}
-  .logo span{color:var(--orange);}
-  .admin-btn{background:transparent;border:2px solid rgba(255,255,255,.2);color:white;padding:6px 14px;
-    border-radius:20px;font-family:'Nunito',sans-serif;font-weight:700;font-size:.8rem;cursor:pointer;transition:all .2s;}
-  .admin-btn:hover{border-color:var(--yellow);color:var(--yellow);}
-  .tabs{display:flex;background:white;border-bottom:3px solid var(--yellow);padding:0 16px;gap:4px;overflow-x:auto;}
-  .tab{padding:11px 14px;border:none;background:none;font-family:'Nunito',sans-serif;font-weight:700;font-size:.82rem;
-    color:#999;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-3px;transition:all .2s;white-space:nowrap;flex-shrink:0;}
-  .tab.active{color:var(--orange);border-bottom-color:var(--orange);}
-  .page{display:none;padding:18px 16px 50px;max-width:500px;margin:0 auto;}
-  .page.active{display:block;}
+:root {
+  --navy:#0d2340; --navy-mid:#153256; --navy-light:#1e4678;
+  --gold:#c9a84c; --gold-light:#e2c47a; --gold-pale:#f7f0e0;
+  --off-white:#f5f3ef; --warm-gray:#e8e4dd;
+  --text-dark:#1a1a2e; --text-muted:#5a6a7e;
+  --green:#1a6b3a; --green-light:#2a9b56;
+  --red:#8b1a1a; --red-light:#c94c4c;
+  --white:#fff;
+  --shadow:0 4px 20px rgba(13,35,64,.10);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:var(--off-white);min-height:100vh;color:var(--text-dark);}
 
-  /* SCAN */
-  .scan-hero{background:var(--dark);border-radius:20px;padding:18px;margin-bottom:18px;}
-  #scanner-container{position:relative;border-radius:14px;overflow:hidden;background:#000;width:100%;aspect-ratio:4/3;margin-bottom:14px;}
-  #scanner-container video{width:100%;height:100%;object-fit:cover;}
-  #scanner-container canvas{position:absolute;top:0;left:0;width:100%;height:100%;}
-  .scan-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;}
-  .scan-frame{width:65%;aspect-ratio:3/2;border:3px solid var(--yellow);border-radius:12px;box-shadow:0 0 0 9999px rgba(0,0,0,.4);position:relative;}
-  .scan-line{position:absolute;left:5%;right:5%;height:2px;background:var(--orange);top:50%;animation:scanline 1.5s ease-in-out infinite;box-shadow:0 0 8px var(--orange);}
-  @keyframes scanline{0%,100%{top:20%}50%{top:80%}}
-  .scan-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:white;gap:10px;}
-  .scan-icon{font-size:2.8rem;}
-  .scan-placeholder p{font-size:.88rem;color:rgba(255,255,255,.7);}
-  .start-scan-btn{background:var(--yellow);color:var(--dark);border:none;padding:14px 32px;border-radius:50px;
-    font-family:'Fredoka One',cursive;font-size:1.1rem;cursor:pointer;transition:all .2s;width:100%;}
-  .start-scan-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(255,217,61,.4);}
-  .stop-scan-btn{background:var(--red);color:white;border:none;padding:12px 28px;border-radius:50px;
-    font-family:'Nunito',sans-serif;font-weight:800;font-size:.95rem;cursor:pointer;width:100%;margin-top:10px;}
-  .result-card{background:white;border-radius:20px;padding:20px;box-shadow:var(--shadow);display:none;animation:slideUp .3s ease;}
-  .result-card.show{display:block;}
-  @keyframes slideUp{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
-  .result-item-name{font-family:'Fredoka One',cursive;font-size:1.4rem;color:var(--dark);margin-bottom:2px;}
-  .result-item-price{font-size:1.9rem;font-weight:800;color:var(--orange);margin-bottom:10px;}
-  .result-meta{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
-  .badge{padding:4px 12px;border-radius:20px;font-size:.78rem;font-weight:700;}
-  .badge-stock{background:#E8FFF5;color:#06D6A0;}
-  .badge-low{background:#FFF3E0;color:#FF6B35;}
-  .badge-out{background:#FFE8E8;color:#EF233C;}
-  .venmo-btn{display:flex;align-items:center;justify-content:center;gap:10px;background:#3D95CE;color:white;border:none;
-    padding:16px;border-radius:14px;font-family:'Nunito',sans-serif;font-weight:800;font-size:1rem;cursor:pointer;
-    width:100%;text-decoration:none;transition:all .2s;margin-bottom:10px;}
-  .venmo-btn:hover{background:#2d7ab5;}
-  .rescan-btn{background:transparent;border:2px solid var(--dark);color:var(--dark);padding:11px;border-radius:14px;
-    font-family:'Nunito',sans-serif;font-weight:700;width:100%;cursor:pointer;font-size:.92rem;transition:all .2s;}
-  .rescan-btn:hover{background:var(--dark);color:white;}
-  .not-found-card{background:#fff8f8;border:2px solid #ffe0e0;border-radius:16px;padding:20px;text-align:center;display:none;}
-  .not-found-card.show{display:block;}
-  .not-found-card h3{color:var(--red);font-family:'Fredoka One',cursive;margin-bottom:6px;}
-  .nf-code{font-family:monospace;background:#f0f0f0;padding:4px 10px;border-radius:6px;font-size:.85rem;}
+/* ── HEADER ── */
+header{background:var(--navy);padding:0 20px;display:flex;align-items:center;justify-content:space-between;height:64px;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(0,0,0,.25);}
+.header-left{display:flex;align-items:center;gap:14px;}
+.home-link{font-size:11px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:rgba(255,255,255,.4);text-decoration:none;transition:color .2s;}
+.home-link:hover{color:rgba(255,255,255,.8);}
+.header-divider{width:1px;height:20px;background:rgba(255,255,255,.15);}
+.logo{font-family:'Cormorant Garamond',serif;color:var(--gold);font-size:1.35rem;font-weight:700;letter-spacing:.3px;}
+.logo span{color:var(--gold-light);}
+.header-right{display:flex;align-items:center;gap:10px;}
+.emp-badge{background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);color:var(--gold-light);font-size:11px;font-weight:500;padding:5px 12px;border-radius:20px;display:none;}
+.emp-credit{background:rgba(26,107,58,.2);border:1px solid rgba(42,155,86,.3);color:#6ee7a0;font-size:11px;font-weight:600;padding:5px 12px;border-radius:20px;display:none;}
+.admin-btn{background:transparent;border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.6);padding:6px 14px;border-radius:20px;font-family:'DM Sans',sans-serif;font-weight:600;font-size:.75rem;cursor:pointer;transition:all .2s;letter-spacing:.5px;}
+.admin-btn:hover{border-color:var(--gold);color:var(--gold);}
 
-  /* MENU */
-  .section-title{font-family:'Fredoka One',cursive;font-size:1.2rem;color:var(--dark);margin-bottom:12px;display:flex;align-items:center;gap:8px;}
-  .search-bar{width:100%;padding:10px 14px;border:2px solid #eee;border-radius:12px;font-family:'Nunito',sans-serif;font-size:.92rem;margin-bottom:14px;transition:border .2s;}
-  .search-bar:focus{outline:none;border-color:var(--orange);}
-  .inv-grid{display:flex;flex-direction:column;gap:7px;}
-  .cat-header{font-family:'Fredoka One',cursive;font-size:.82rem;color:#bbb;padding:10px 4px 4px;letter-spacing:1px;text-transform:uppercase;}
-  .inv-card{background:white;border-radius:13px;padding:11px 13px;display:flex;align-items:center;gap:11px;box-shadow:0 2px 8px rgba(0,0,0,.06);}
-  .inv-emoji{font-size:1.7rem;width:38px;text-align:center;flex-shrink:0;}
-  .inv-info{flex:1;min-width:0;}
-  .inv-name{font-weight:800;color:var(--dark);font-size:.88rem;margin-bottom:1px;}
-  .inv-barcode{font-size:.68rem;color:#ccc;font-family:monospace;}
-  .inv-right{text-align:right;flex-shrink:0;}
-  .inv-price{font-weight:800;color:var(--orange);font-size:.92rem;}
-  .inv-qty{font-size:.76rem;color:#999;margin-top:1px;}
-  .qty-low{color:var(--red);font-weight:700;}
-  .no-bc{display:inline-block;background:#FFF3E0;color:#FF6B35;font-size:.66rem;font-weight:700;padding:2px 6px;border-radius:7px;margin-top:2px;}
+/* ── TABS ── */
+.tabs{display:flex;background:var(--navy-mid);border-bottom:1px solid rgba(201,168,76,.15);padding:0 16px;gap:2px;overflow-x:auto;}
+.tab{padding:11px 16px;border:none;background:none;font-family:'DM Sans',sans-serif;font-weight:500;font-size:.78rem;letter-spacing:.5px;text-transform:uppercase;color:rgba(255,255,255,.35);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .2s;white-space:nowrap;flex-shrink:0;}
+.tab.active{color:var(--gold);border-bottom-color:var(--gold);}
+.tab:hover{color:rgba(255,255,255,.7);}
 
-  /* ADMIN */
-  .admin-gate{background:white;border-radius:20px;padding:28px 20px;text-align:center;box-shadow:var(--shadow);}
-  .admin-gate h2{font-family:'Fredoka One',cursive;font-size:1.3rem;margin-bottom:14px;}
-  .pin-dots{display:flex;justify-content:center;gap:12px;margin-bottom:18px;}
-  .pin-dot{width:13px;height:13px;border-radius:50%;border:2px solid var(--dark);transition:background .2s;}
-  .pin-dot.filled{background:var(--dark);}
-  .pin-pad{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;max-width:230px;margin:0 auto 14px;}
-  .pin-key{padding:13px;background:var(--cream);border:none;border-radius:11px;font-family:'Fredoka One',cursive;font-size:1.15rem;cursor:pointer;transition:all .15s;color:var(--dark);}
-  .pin-key:hover{background:var(--yellow);}
-  .pin-key:active{transform:scale(.95);}
-  .pin-key.del{background:#FFE8E8;color:var(--red);}
-  .pin-key.ok{background:var(--green);color:white;}
-  .pin-error{color:var(--red);font-size:.83rem;display:none;}
-  .pin-error.show{display:block;}
-  .admin-panel{display:none;}
-  .admin-panel.show{display:block;}
-  .settings-box{background:white;border-radius:16px;padding:16px;margin-bottom:14px;box-shadow:0 2px 10px rgba(0,0,0,.06);}
-  .settings-box h3{font-family:'Fredoka One',cursive;font-size:1rem;margin-bottom:12px;color:var(--dark);}
-  .form-group{margin-bottom:12px;}
-  label{display:block;font-weight:700;margin-bottom:5px;font-size:.82rem;color:#666;}
-  input,select{width:100%;padding:10px 13px;border:2px solid #eee;border-radius:10px;font-family:'Nunito',sans-serif;font-size:.92rem;color:var(--dark);transition:border .2s;background:white;}
-  input:focus,select:focus{outline:none;border-color:var(--orange);}
-  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-  .add-btn{background:var(--orange);color:white;border:none;padding:13px;border-radius:12px;font-family:'Fredoka One',cursive;font-size:1.05rem;cursor:pointer;width:100%;transition:all .2s;margin-top:4px;}
-  .add-btn:hover{background:#e55a28;}
-  .admin-item{background:var(--cream);border-radius:11px;padding:10px 12px;display:flex;align-items:center;gap:10px;margin-bottom:7px;}
-  .admin-item-info{flex:1;font-size:.87rem;}
-  .admin-item-name{font-weight:700;}
-  .admin-item-sub{color:#999;font-size:.76rem;}
-  .qty-controls{display:flex;align-items:center;gap:6px;margin-top:4px;}
-  .qty-btn{background:white;border:1px solid #ddd;width:24px;height:24px;border-radius:7px;cursor:pointer;font-size:.85rem;font-weight:800;color:var(--dark);}
-  .qty-val{font-weight:800;font-size:.88rem;color:var(--dark);min-width:22px;text-align:center;}
-  .del-item-btn{background:#FFE8E8;color:var(--red);border:none;width:28px;height:28px;border-radius:7px;cursor:pointer;font-size:.85rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-  .assign-bc-btn{background:#E8F4FF;color:#3D95CE;border:none;width:28px;height:28px;border-radius:7px;cursor:pointer;font-size:.8rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+/* ── PAGES ── */
+.page{display:none;padding:20px 16px 60px;max-width:500px;margin:0 auto;}
+.page.active{display:block;}
 
-  /* ASSIGN MODAL */
-  .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:flex-end;justify-content:center;z-index:200;}
-  .modal-overlay.show{display:flex;}
-  .modal-box{background:white;width:100%;max-width:500px;border-radius:24px 24px 0 0;padding:22px 18px 34px;animation:slideUp .3s ease;}
-  .modal-box h3{font-family:'Fredoka One',cursive;font-size:1.2rem;margin-bottom:4px;}
-  .modal-box p{font-size:.84rem;color:#999;margin-bottom:12px;}
-  .modal-scanner{position:relative;border-radius:14px;overflow:hidden;background:#000;width:100%;aspect-ratio:4/3;margin-bottom:12px;}
-  .modal-scanner video{width:100%;height:100%;object-fit:cover;}
-  .modal-scanner canvas{position:absolute;top:0;left:0;width:100%;height:100%;}
-  .modal-overlay2{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;}
-  .modal-frame{width:65%;aspect-ratio:3/2;border:3px solid var(--yellow);border-radius:12px;box-shadow:0 0 0 9999px rgba(0,0,0,.4);position:relative;}
-  .modal-line{position:absolute;left:5%;right:5%;height:2px;background:var(--orange);top:50%;animation:scanline 1.5s ease-in-out infinite;box-shadow:0 0 8px var(--orange);}
-  .modal-close{background:transparent;border:2px solid #eee;padding:11px;border-radius:12px;font-family:'Nunito',sans-serif;font-weight:700;width:100%;cursor:pointer;font-size:.9rem;}
+/* ── LOGIN PAGE ── */
+.login-card{background:var(--white);border-radius:20px;padding:32px 24px;box-shadow:var(--shadow);text-align:center;margin-top:12px;}
+.login-icon{font-size:3rem;margin-bottom:14px;}
+.login-title{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:700;color:var(--navy);margin-bottom:6px;}
+.login-sub{font-size:.87rem;color:var(--text-muted);margin-bottom:24px;line-height:1.6;}
+.emp-input{width:100%;padding:14px 16px;border:2px solid var(--warm-gray);border-radius:12px;font-family:'DM Sans',sans-serif;font-size:1.1rem;text-align:center;letter-spacing:3px;color:var(--navy);font-weight:600;transition:border .2s;background:var(--off-white);}
+.emp-input:focus{outline:none;border-color:var(--gold);}
+.login-btn{width:100%;margin-top:12px;background:var(--navy);color:var(--white);border:none;padding:14px;border-radius:12px;font-family:'DM Sans',sans-serif;font-weight:600;font-size:.95rem;cursor:pointer;transition:background .2s;letter-spacing:.3px;}
+.login-btn:hover{background:var(--navy-light);}
+.login-error{color:var(--red-light);font-size:.83rem;margin-top:10px;display:none;}
+.login-error.show{display:block;}
+.login-welcome{background:rgba(26,107,58,.08);border:1px solid rgba(42,155,86,.25);border-radius:12px;padding:14px 16px;margin-top:16px;display:none;text-align:left;}
+.login-welcome.show{display:block;}
+.welcome-name{font-weight:700;color:var(--green);font-size:.97rem;}
+.welcome-credit{font-size:.83rem;color:var(--text-muted);margin-top:3px;}
 
-  /* TOAST */
-  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--dark);color:white;padding:11px 22px;border-radius:50px;font-weight:700;font-size:.88rem;transition:transform .3s ease;z-index:999;white-space:nowrap;}
-  .toast.show{transform:translateX(-50%) translateY(0);}
-  .lock-btn{background:#f0f0f0;color:#666;border:none;padding:12px;border-radius:12px;font-family:'Nunito',sans-serif;font-weight:700;width:100%;cursor:pointer;font-size:.92rem;margin-top:6px;}
+/* ── SCAN PAGE ── */
+.scan-hero{background:var(--navy);border-radius:20px;padding:18px;margin-bottom:18px;}
+#scanner-container{position:relative;border-radius:14px;overflow:hidden;background:#000;width:100%;aspect-ratio:4/3;margin-bottom:14px;}
+#scanner-container video{width:100%;height:100%;object-fit:cover;}
+#scanner-container canvas{position:absolute;top:0;left:0;width:100%;height:100%;}
+.scan-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;}
+.scan-frame{width:65%;aspect-ratio:3/2;border:3px solid var(--gold);border-radius:12px;box-shadow:0 0 0 9999px rgba(0,0,0,.45);position:relative;}
+.scan-line{position:absolute;left:5%;right:5%;height:2px;background:var(--gold-light);top:50%;animation:scanline 1.5s ease-in-out infinite;box-shadow:0 0 8px var(--gold);}
+@keyframes scanline{0%,100%{top:20%}50%{top:80%}}
+.scan-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:white;gap:10px;}
+.scan-icon-big{font-size:2.8rem;}
+.scan-placeholder p{font-size:.88rem;color:rgba(255,255,255,.6);}
+.start-scan-btn{background:var(--gold);color:var(--navy);border:none;padding:14px 32px;border-radius:50px;font-family:'DM Sans',sans-serif;font-weight:700;font-size:1rem;cursor:pointer;transition:all .2s;width:100%;}
+.start-scan-btn:hover{background:var(--gold-light);}
+.stop-scan-btn{background:var(--red-light);color:white;border:none;padding:12px 28px;border-radius:50px;font-family:'DM Sans',sans-serif;font-weight:700;font-size:.95rem;cursor:pointer;width:100%;margin-top:10px;}
+
+/* RESULT CARD */
+.result-card{background:var(--white);border-radius:20px;padding:20px;box-shadow:var(--shadow);display:none;animation:slideUp .3s ease;border:1px solid var(--warm-gray);}
+.result-card.show{display:block;}
+@keyframes slideUp{from{transform:translateY(16px);opacity:0}to{transform:translateY(0);opacity:1}}
+.result-item-name{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:700;color:var(--navy);margin-bottom:2px;}
+.result-item-price{font-size:1.8rem;font-weight:700;color:var(--gold);margin-bottom:10px;font-family:'Cormorant Garamond',serif;}
+.result-meta{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;}
+.badge{padding:4px 12px;border-radius:20px;font-size:.76rem;font-weight:600;}
+.badge-stock{background:rgba(26,107,58,.1);color:var(--green);}
+.badge-low{background:rgba(201,168,76,.12);color:#8a6a1a;}
+.badge-out{background:rgba(139,26,26,.08);color:var(--red-light);}
+.credit-notice{background:rgba(26,107,58,.08);border:1px solid rgba(42,155,86,.25);border-radius:10px;padding:10px 14px;font-size:.83rem;color:var(--green);margin-bottom:12px;display:none;}
+.credit-notice.show{display:block;}
+.pay-btns{display:flex;flex-direction:column;gap:8px;margin-bottom:10px;}
+.use-credit-btn{background:var(--green);color:white;border:none;padding:15px;border-radius:12px;font-family:'DM Sans',sans-serif;font-weight:700;font-size:.95rem;cursor:pointer;width:100%;transition:all .2s;}
+.use-credit-btn:hover{background:#156030;}
+.venmo-btn{display:flex;align-items:center;justify-content:center;gap:10px;background:#3D95CE;color:white;border:none;padding:15px;border-radius:12px;font-family:'DM Sans',sans-serif;font-weight:700;font-size:.95rem;cursor:pointer;width:100%;text-decoration:none;transition:all .2s;}
+.venmo-btn:hover{background:#2d7ab5;}
+.rescan-btn{background:transparent;border:2px solid var(--warm-gray);color:var(--text-muted);padding:11px;border-radius:12px;font-family:'DM Sans',sans-serif;font-weight:600;width:100%;cursor:pointer;font-size:.9rem;transition:all .2s;}
+.rescan-btn:hover{border-color:var(--navy);color:var(--navy);}
+.not-found-card{background:#fff;border:2px solid var(--warm-gray);border-radius:16px;padding:20px;text-align:center;display:none;}
+.not-found-card.show{display:block;}
+.not-found-card h3{color:var(--red-light);font-family:'Cormorant Garamond',serif;font-size:1.3rem;margin-bottom:6px;}
+.nf-code{font-family:monospace;background:var(--off-white);padding:4px 10px;border-radius:6px;font-size:.85rem;}
+
+/* ── MENU ── */
+.section-title{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:700;color:var(--navy);margin-bottom:14px;}
+.search-bar{width:100%;padding:10px 14px;border:2px solid var(--warm-gray);border-radius:12px;font-family:'DM Sans',sans-serif;font-size:.92rem;margin-bottom:14px;transition:border .2s;background:var(--white);}
+.search-bar:focus{outline:none;border-color:var(--gold);}
+.inv-grid{display:flex;flex-direction:column;gap:7px;}
+.cat-header{font-family:'Cormorant Garamond',serif;font-size:.9rem;font-weight:700;color:var(--text-muted);padding:10px 4px 4px;letter-spacing:1px;text-transform:uppercase;border-bottom:1px solid var(--warm-gray);margin-bottom:4px;}
+.inv-card{background:var(--white);border-radius:13px;padding:11px 13px;display:flex;align-items:center;gap:11px;box-shadow:0 2px 8px rgba(13,35,64,.05);border:1px solid var(--warm-gray);}
+.inv-emoji{font-size:1.7rem;width:38px;text-align:center;flex-shrink:0;}
+.inv-info{flex:1;min-width:0;}
+.inv-name{font-weight:600;color:var(--navy);font-size:.88rem;margin-bottom:1px;}
+.inv-barcode{font-size:.68rem;color:#ccc;font-family:monospace;}
+.inv-right{text-align:right;flex-shrink:0;}
+.inv-price{font-weight:700;color:var(--gold);font-size:.92rem;font-family:'Cormorant Garamond',serif;}
+.inv-qty{font-size:.76rem;color:var(--text-muted);margin-top:1px;}
+.qty-low{color:var(--red-light);font-weight:700;}
+.no-bc{display:inline-block;background:rgba(201,168,76,.12);color:#8a6a1a;font-size:.66rem;font-weight:700;padding:2px 6px;border-radius:7px;margin-top:2px;}
+.buy-btn{background:var(--navy);color:var(--white);border:none;padding:6px 14px;border-radius:8px;font-family:'DM Sans',sans-serif;font-weight:600;font-size:.78rem;cursor:pointer;transition:background .2s;flex-shrink:0;margin-left:6px;}
+.buy-btn:hover{background:var(--navy-light);}
+.buy-btn:disabled{background:var(--warm-gray);color:var(--text-muted);cursor:not-allowed;}
+
+/* ── ADMIN ── */
+.admin-gate{background:var(--white);border-radius:20px;padding:28px 20px;text-align:center;box-shadow:var(--shadow);border:1px solid var(--warm-gray);}
+.admin-gate h2{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:700;margin-bottom:16px;color:var(--navy);}
+.pin-dots{display:flex;justify-content:center;gap:12px;margin-bottom:20px;}
+.pin-dot{width:13px;height:13px;border-radius:50%;border:2px solid var(--navy-mid);transition:background .2s;}
+.pin-dot.filled{background:var(--navy);}
+.pin-pad{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;max-width:230px;margin:0 auto 14px;}
+.pin-key{padding:14px;background:var(--off-white);border:1px solid var(--warm-gray);border-radius:11px;font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:700;cursor:pointer;transition:all .15s;color:var(--navy);}
+.pin-key:hover{background:var(--gold-pale);border-color:var(--gold);}
+.pin-key:active{transform:scale(.95);}
+.pin-key.del{background:#fff0f0;color:var(--red-light);border-color:#f5d0d0;}
+.pin-key.ok{background:var(--navy);color:var(--white);border-color:var(--navy);}
+.pin-error{color:var(--red-light);font-size:.83rem;display:none;margin-top:6px;}
+.pin-error.show{display:block;}
+.admin-panel{display:none;}
+.admin-panel.show{display:block;}
+.settings-box{background:var(--white);border-radius:16px;padding:18px;margin-bottom:14px;box-shadow:0 2px 10px rgba(13,35,64,.06);border:1px solid var(--warm-gray);}
+.settings-box h3{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:700;margin-bottom:14px;color:var(--navy);}
+.form-group{margin-bottom:12px;}
+label{display:block;font-weight:600;margin-bottom:5px;font-size:.78rem;letter-spacing:.4px;text-transform:uppercase;color:var(--text-muted);}
+input,select,textarea{width:100%;padding:10px 13px;border:2px solid var(--warm-gray);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:.92rem;color:var(--text-dark);transition:border .2s;background:var(--white);}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--gold);}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.add-btn{background:var(--navy);color:var(--white);border:none;padding:12px;border-radius:12px;font-family:'DM Sans',sans-serif;font-weight:600;font-size:.92rem;cursor:pointer;width:100%;transition:background .2s;margin-top:4px;}
+.add-btn:hover{background:var(--navy-light);}
+.add-btn.gold{background:var(--gold);color:var(--navy);}
+.add-btn.gold:hover{background:var(--gold-light);}
+.add-btn.green{background:var(--green);color:var(--white);}
+.add-btn.green:hover{background:#156030;}
+.admin-item{background:var(--off-white);border-radius:11px;padding:10px 12px;display:flex;align-items:center;gap:10px;margin-bottom:7px;border:1px solid var(--warm-gray);}
+.admin-item-info{flex:1;font-size:.87rem;}
+.admin-item-name{font-weight:700;color:var(--navy);}
+.admin-item-sub{color:var(--text-muted);font-size:.76rem;}
+.qty-controls{display:flex;align-items:center;gap:6px;margin-top:4px;}
+.qty-btn{background:var(--white);border:1px solid var(--warm-gray);width:24px;height:24px;border-radius:7px;cursor:pointer;font-size:.85rem;font-weight:800;color:var(--navy);}
+.qty-val{font-weight:700;font-size:.88rem;color:var(--navy);min-width:22px;text-align:center;}
+.del-item-btn{background:#fff0f0;color:var(--red-light);border:none;width:28px;height:28px;border-radius:7px;cursor:pointer;font-size:.85rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.assign-bc-btn{background:#EEF4FF;color:var(--navy-light);border:none;width:28px;height:28px;border-radius:7px;cursor:pointer;font-size:.8rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+
+/* PURCHASE LOG TABLE */
+.log-table-wrap{overflow-x:auto;margin-top:8px;}
+.log-table{width:100%;border-collapse:collapse;font-size:.8rem;}
+.log-table th{background:var(--navy);color:var(--white);padding:8px 10px;text-align:left;font-weight:500;font-size:.72rem;letter-spacing:.4px;text-transform:uppercase;white-space:nowrap;}
+.log-table td{padding:7px 10px;border-bottom:1px solid var(--warm-gray);color:var(--text-dark);white-space:nowrap;}
+.log-table tr:hover td{background:var(--off-white);}
+.export-btn{background:var(--off-white);color:var(--text-muted);border:1px solid var(--warm-gray);padding:7px 16px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:.8rem;font-weight:600;cursor:pointer;margin-bottom:10px;transition:all .2s;}
+.export-btn:hover{border-color:var(--navy);color:var(--navy);}
+
+/* CREDIT TABLE */
+.emp-row{background:var(--off-white);border-radius:10px;padding:9px 12px;display:flex;align-items:center;gap:10px;margin-bottom:6px;border:1px solid var(--warm-gray);}
+.emp-row-info{flex:1;}
+.emp-row-name{font-weight:700;font-size:.87rem;color:var(--navy);}
+.emp-row-num{font-size:.73rem;color:var(--text-muted);}
+.emp-credit-badge{font-weight:700;font-size:.87rem;color:var(--green);background:rgba(26,107,58,.08);padding:4px 10px;border-radius:20px;white-space:nowrap;}
+.del-emp-btn{background:#fff0f0;color:var(--red-light);border:none;width:26px;height:26px;border-radius:7px;cursor:pointer;font-size:.8rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:flex-end;justify-content:center;z-index:200;}
+.modal-overlay.show{display:flex;}
+.modal-box{background:var(--white);width:100%;max-width:500px;border-radius:24px 24px 0 0;padding:22px 18px 34px;animation:slideUp .3s ease;}
+.modal-box h3{font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:700;margin-bottom:4px;color:var(--navy);}
+.modal-box p{font-size:.84rem;color:var(--text-muted);margin-bottom:12px;}
+.modal-scanner{position:relative;border-radius:14px;overflow:hidden;background:#000;width:100%;aspect-ratio:4/3;margin-bottom:12px;}
+.modal-scanner video{width:100%;height:100%;object-fit:cover;}
+.modal-scanner canvas{position:absolute;top:0;left:0;width:100%;height:100%;}
+.modal-overlay2{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;}
+.modal-frame{width:65%;aspect-ratio:3/2;border:3px solid var(--gold);border-radius:12px;box-shadow:0 0 0 9999px rgba(0,0,0,.4);position:relative;}
+.modal-line{position:absolute;left:5%;right:5%;height:2px;background:var(--gold-light);top:50%;animation:scanline 1.5s ease-in-out infinite;box-shadow:0 0 8px var(--gold);}
+.modal-close{background:var(--off-white);border:1px solid var(--warm-gray);padding:11px;border-radius:12px;font-family:'DM Sans',sans-serif;font-weight:600;width:100%;cursor:pointer;font-size:.9rem;color:var(--text-dark);}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--navy);color:white;padding:11px 22px;border-radius:50px;font-weight:600;font-size:.88rem;transition:transform .3s ease;z-index:999;white-space:nowrap;border:1px solid rgba(201,168,76,.3);}
+.toast.show{transform:translateX(-50%) translateY(0);}
+.lock-btn{background:var(--off-white);color:var(--text-muted);border:1px solid var(--warm-gray);padding:12px;border-radius:12px;font-family:'DM Sans',sans-serif;font-weight:600;width:100%;cursor:pointer;font-size:.92rem;margin-top:6px;transition:all .2s;}
+.lock-btn:hover{border-color:var(--navy);color:var(--navy);}
+.locked-notice{background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.2);border-radius:12px;padding:16px;text-align:center;font-size:.88rem;color:var(--text-muted);margin-top:8px;}
+.locked-notice strong{color:var(--navy);display:block;margin-bottom:4px;font-family:'Cormorant Garamond',serif;font-size:1.1rem;}
+
+/* EMAILJS NOTE */
+.setup-note{background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.2);border-radius:10px;padding:12px 14px;font-size:.78rem;color:var(--text-muted);margin-bottom:12px;line-height:1.6;}
+.setup-note strong{color:var(--navy);}
+.setup-note code{background:var(--off-white);padding:1px 5px;border-radius:4px;font-family:monospace;font-size:.76rem;}
 </style>
 </head>
 <body>
 
 <header>
-  <div class="logo" id="logo-text">🍬 Snack <span>Shack</span></div>
-  <button class="admin-btn" onclick="goToAdmin()">⚙️ Admin</button>
+  <div class="header-left">
+    <a class="home-link" href="index.html">← Home</a>
+    <div class="header-divider"></div>
+    <div class="logo">🏪 Village <span>Market</span></div>
+  </div>
+  <div class="header-right">
+    <div class="emp-credit" id="header-credit"></div>
+    <div class="emp-badge" id="header-emp"></div>
+    <button class="admin-btn" onclick="goToAdmin()">⚙️ Admin</button>
+  </div>
 </header>
 
 <div class="tabs">
-  <button class="tab active" onclick="switchTab('scan',this)">📷 Scan</button>
-  <button class="tab" onclick="switchTab('inventory',this)">🛒 Menu</button>
-  <button class="tab" onclick="switchTab('admin',this)">🔧 Manage</button>
+  <button class="tab active" id="tab-login"  onclick="switchTab('login',this)">🔑 Login</button>
+  <button class="tab"        id="tab-scan"   onclick="switchTab('scan',this)">📷 Scan</button>
+  <button class="tab"        id="tab-menu"   onclick="switchTab('menu',this)">🛒 Menu</button>
+  <button class="tab"        id="tab-admin"  onclick="switchTab('admin',this)">🔧 Manage</button>
 </div>
 
-<!-- SCAN -->
-<div class="page active" id="page-scan">
-  <div class="scan-hero">
-    <div id="scanner-container">
-      <div class="scan-placeholder" id="scan-placeholder">
-        <div class="scan-icon">📷</div>
-        <p>Tap below to scan a snack</p>
-      </div>
-      <div class="scan-overlay" id="scan-overlay" style="display:none;">
-        <div class="scan-frame"><div class="scan-line"></div></div>
-      </div>
+<!-- ══════════════════ LOGIN ══════════════════ -->
+<div class="page active" id="page-login">
+  <div class="login-card">
+    <div class="login-icon">🏪</div>
+    <div class="login-title">Village Market</div>
+    <div class="login-sub">Enter your employee number to access the market and track your purchases.</div>
+    <input class="emp-input" type="tel" id="emp-number-input" placeholder="0000" maxlength="6"
+      oninput="clearLoginError()" onkeydown="if(event.key==='Enter')doLogin()">
+    <button class="login-btn" onclick="doLogin()">Sign In →</button>
+    <div class="login-error" id="login-error">Employee number not found. See your manager to get set up.</div>
+    <div class="login-welcome" id="login-welcome">
+      <div class="welcome-name" id="welcome-name"></div>
+      <div class="welcome-credit" id="welcome-credit"></div>
     </div>
-    <button class="start-scan-btn" id="start-btn" onclick="startScanner()">📷 Tap to Scan Barcode</button>
-    <button class="stop-scan-btn" id="stop-btn" style="display:none;" onclick="stopScanner()">✕ Cancel</button>
   </div>
-  <div class="result-card" id="result-card">
-    <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
-      <div id="result-emoji" style="font-size:2.4rem;"></div>
-      <div>
-        <div class="result-item-name" id="result-name"></div>
-        <div class="result-item-price" id="result-price"></div>
+</div>
+
+<!-- ══════════════════ SCAN ══════════════════ -->
+<div class="page" id="page-scan">
+  <div class="locked-notice" id="scan-locked" style="display:none">
+    <strong>Login Required</strong>Please sign in with your employee number to use the scanner.
+  </div>
+  <div id="scan-content">
+    <div class="scan-hero">
+      <div id="scanner-container">
+        <div class="scan-placeholder" id="scan-placeholder">
+          <div class="scan-icon-big">📷</div>
+          <p>Tap below to scan a barcode</p>
+        </div>
+        <div class="scan-overlay" id="scan-overlay" style="display:none;">
+          <div class="scan-frame"><div class="scan-line"></div></div>
+        </div>
       </div>
+      <button class="start-scan-btn" id="start-btn" onclick="startScanner()">📷 Scan Barcode</button>
+      <button class="stop-scan-btn" id="stop-btn" style="display:none;" onclick="stopScanner()">✕ Cancel</button>
     </div>
-    <div class="result-meta"><div class="badge" id="result-stock-badge"></div></div>
-    <a class="venmo-btn" id="venmo-link" href="#" target="_blank">💙 Pay with Venmo</a>
-    <button class="rescan-btn" onclick="resetScan()">↩ Scan Another Item</button>
-  </div>
-  <div class="not-found-card" id="not-found-card">
-    <h3>❓ Item Not Found</h3>
-    <p>Barcode: <span class="nf-code" id="nf-barcode"></span></p>
-    <p>Ask your snack admin to assign this barcode in the Manage tab.</p>
-    <button class="rescan-btn" style="margin-top:12px;" onclick="resetScan()">↩ Try Again</button>
+    <div class="result-card" id="result-card">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+        <div id="result-emoji" style="font-size:2.4rem;"></div>
+        <div>
+          <div class="result-item-name" id="result-name"></div>
+          <div class="result-item-price" id="result-price"></div>
+        </div>
+      </div>
+      <div class="result-meta"><div class="badge" id="result-stock-badge"></div></div>
+      <div class="credit-notice" id="credit-notice"></div>
+      <div class="pay-btns">
+        <button class="use-credit-btn" id="use-credit-btn" onclick="payWithCredit()" style="display:none;">✅ Use Store Credit</button>
+        <a class="venmo-btn" id="venmo-link" href="#" target="_blank" onclick="logVenmoPurchase()">💙 Pay with Venmo</a>
+      </div>
+      <button class="rescan-btn" onclick="resetScan()">↩ Scan Another Item</button>
+    </div>
+    <div class="not-found-card" id="not-found-card">
+      <h3>❓ Item Not Found</h3>
+      <p>Barcode: <span class="nf-code" id="nf-barcode"></span></p>
+      <p style="font-size:.83rem;color:#aaa;">Ask your manager to assign this barcode in the Manage tab.</p>
+      <button class="rescan-btn" style="margin-top:12px;" onclick="resetScan()">↩ Try Again</button>
+    </div>
   </div>
 </div>
 
-<!-- MENU -->
-<div class="page" id="page-inventory">
-  <div class="section-title">🛒 Snack Menu</div>
-  <input class="search-bar" type="text" placeholder="🔍 Search snacks..." oninput="renderInventory(this.value)">
-  <div class="inv-grid" id="inv-grid"></div>
+<!-- ══════════════════ MENU ══════════════════ -->
+<div class="page" id="page-menu">
+  <div class="locked-notice" id="menu-locked" style="display:none">
+    <strong>Login Required</strong>Please sign in with your employee number to browse the menu.
+  </div>
+  <div id="menu-content">
+    <div class="section-title">🛒 Village Market Menu</div>
+    <input class="search-bar" type="text" placeholder="🔍 Search items..." oninput="renderInventory(this.value)">
+    <div class="inv-grid" id="inv-grid"></div>
+  </div>
 </div>
 
-<!-- ADMIN -->
+<!-- ══════════════════ ADMIN ══════════════════ -->
 <div class="page" id="page-admin">
   <div class="admin-gate" id="admin-gate">
     <h2>🔐 Admin Access</h2>
@@ -200,193 +309,207 @@
       <div class="pin-dot" id="d2"></div><div class="pin-dot" id="d3"></div>
     </div>
     <div class="pin-pad">
-      <button class="pin-key" onclick="pinKey('1')">1</button>
-      <button class="pin-key" onclick="pinKey('2')">2</button>
-      <button class="pin-key" onclick="pinKey('3')">3</button>
-      <button class="pin-key" onclick="pinKey('4')">4</button>
-      <button class="pin-key" onclick="pinKey('5')">5</button>
-      <button class="pin-key" onclick="pinKey('6')">6</button>
-      <button class="pin-key" onclick="pinKey('7')">7</button>
-      <button class="pin-key" onclick="pinKey('8')">8</button>
-      <button class="pin-key" onclick="pinKey('9')">9</button>
-      <button class="pin-key del" onclick="pinKey('del')">⌫</button>
-      <button class="pin-key" onclick="pinKey('0')">0</button>
-      <button class="pin-key ok" onclick="pinKey('ok')">✓</button>
+      <button class="pin-key" onclick="pinKey('1')">1</button><button class="pin-key" onclick="pinKey('2')">2</button><button class="pin-key" onclick="pinKey('3')">3</button>
+      <button class="pin-key" onclick="pinKey('4')">4</button><button class="pin-key" onclick="pinKey('5')">5</button><button class="pin-key" onclick="pinKey('6')">6</button>
+      <button class="pin-key" onclick="pinKey('7')">7</button><button class="pin-key" onclick="pinKey('8')">8</button><button class="pin-key" onclick="pinKey('9')">9</button>
+      <button class="pin-key del" onclick="pinKey('del')">⌫</button><button class="pin-key" onclick="pinKey('0')">0</button><button class="pin-key ok" onclick="pinKey('ok')">✓</button>
     </div>
     <div class="pin-error" id="pin-error">Incorrect PIN. Try again.</div>
-    <p style="font-size:.73rem;color:#ccc;margin-top:10px;">Default PIN: 1234</p>
+    <p style="font-size:.73rem;color:#bbb;margin-top:10px;">Default PIN: 1234</p>
   </div>
 
   <div class="admin-panel" id="admin-panel">
+
+    <!-- Shop Settings -->
     <div class="settings-box">
       <h3>⚙️ Shop Settings</h3>
-      <div class="form-group">
-        <label>Venmo Username</label>
-        <input type="text" id="venmo-user" placeholder="@your-venmo" oninput="saveSettings()">
-      </div>
-      <div class="form-group">
-        <label>Shop Name</label>
-        <input type="text" id="shop-name" placeholder="The Snack Shack" oninput="saveSettings()">
-      </div>
-      <div class="form-group">
-        <label>Change Admin PIN (4 digits)</label>
-        <input type="password" id="new-pin" placeholder="••••" maxlength="4">
-      </div>
-      <button class="add-btn" style="background:var(--dark);" onclick="changePin()">💾 Save PIN</button>
+      <div class="form-group"><label>Venmo Username</label><input type="text" id="venmo-user" placeholder="@your-venmo" oninput="saveSettings()"></div>
+      <div class="form-group"><label>Shop Name</label><input type="text" id="shop-name" placeholder="Village Market" oninput="saveSettings()"></div>
+      <div class="form-group"><label>Change Admin PIN (4 digits)</label><input type="password" id="new-pin" placeholder="••••" maxlength="4"></div>
+      <button class="add-btn" onclick="changePin()">💾 Save PIN</button>
     </div>
 
+    <!-- Email Alert Settings -->
+    <div class="settings-box">
+      <h3>📧 Low Stock Email Alert</h3>
+      <div class="setup-note">
+        <strong>Setup required:</strong> Uses EmailJS (free). Create an account at <code>emailjs.com</code>, set up a Gmail service, create a template with variables <code>{{item_name}}</code>, <code>{{qty}}</code>, <code>{{to_email}}</code>, then paste your IDs below.
+      </div>
+      <div class="form-group"><label>EmailJS Public Key</label><input type="text" id="ejs-pubkey" placeholder="your_public_key" oninput="saveSettings()"></div>
+      <div class="form-row">
+        <div class="form-group"><label>Service ID</label><input type="text" id="ejs-service" placeholder="service_xxxxx" oninput="saveSettings()"></div>
+        <div class="form-group"><label>Template ID</label><input type="text" id="ejs-template" placeholder="template_xxxxx" oninput="saveSettings()"></div>
+      </div>
+      <div class="form-group"><label>Alert Email</label><input type="email" id="alert-email" placeholder="lismalley@villagecapital.com" oninput="saveSettings()"></div>
+      <div class="form-group"><label>Alert when qty falls to or below</label><input type="number" id="alert-qty" value="5" min="1" max="20" oninput="saveSettings()"></div>
+    </div>
+
+    <!-- Employees -->
+    <div class="settings-box">
+      <h3>👤 Employees</h3>
+      <div class="form-row">
+        <div class="form-group"><label>Employee #</label><input type="tel" id="new-emp-num" placeholder="e.g. 1001" maxlength="6"></div>
+        <div class="form-group"><label>Name</label><input type="text" id="new-emp-name" placeholder="First Last"></div>
+      </div>
+      <button class="add-btn gold" onclick="addEmployee()">➕ Add Employee</button>
+      <div style="margin-top:14px;" id="emp-list"></div>
+    </div>
+
+    <!-- Store Credits -->
+    <div class="settings-box">
+      <h3>🎁 Issue Store Credit</h3>
+      <div class="form-row">
+        <div class="form-group"><label>Employee</label><select id="credit-emp-select"></select></div>
+        <div class="form-group"><label>Amount ($)</label><input type="number" id="credit-amount" placeholder="5.00" step="0.25" min="0.25"></div>
+      </div>
+      <button class="add-btn green" onclick="issueCredit()">🎁 Issue Credit</button>
+    </div>
+
+    <!-- Assign Barcodes -->
     <div class="settings-box">
       <h3>📷 Assign Barcodes</h3>
-      <p style="font-size:.82rem;color:#999;margin-bottom:10px;">Pick an item then scan its physical barcode. Items marked ⚠️ still need a barcode. You can also tap 📷 next to any item below.</p>
-      <div class="form-group">
-        <label>Select Item</label>
-        <select id="assign-select"></select>
-      </div>
-      <button class="add-btn" style="background:var(--green);color:var(--dark);" onclick="openAssignScanner(null)">📷 Scan Barcode to Assign</button>
+      <div class="form-group"><label>Select Item</label><select id="assign-select"></select></div>
+      <button class="add-btn" style="background:var(--green);" onclick="openAssignScanner(null)">📷 Scan to Assign Barcode</button>
     </div>
 
+    <!-- Add Item -->
     <div class="settings-box">
       <h3>➕ Add New Item</h3>
-      <div class="form-group">
-        <label>Item Name</label>
-        <input type="text" id="new-name" placeholder="e.g. Kind Bar Almond">
-      </div>
+      <div class="form-group"><label>Item Name</label><input type="text" id="new-name" placeholder="e.g. Kind Bar Almond"></div>
       <div class="form-row">
-        <div class="form-group">
-          <label>Price ($)</label>
-          <input type="number" id="new-price" placeholder="1.50" step="0.05" min="0">
-        </div>
-        <div class="form-group">
-          <label>Quantity</label>
-          <input type="number" id="new-qty" placeholder="10" min="0">
-        </div>
+        <div class="form-group"><label>Price ($)</label><input type="number" id="new-price" placeholder="1.50" step="0.05" min="0"></div>
+        <div class="form-group"><label>Quantity</label><input type="number" id="new-qty" placeholder="10" min="0"></div>
       </div>
-      <div class="form-group">
-        <label>Barcode (optional)</label>
-        <input type="text" id="new-barcode" placeholder="Leave blank to assign later">
-      </div>
+      <div class="form-group"><label>Barcode (optional)</label><input type="text" id="new-barcode" placeholder="Leave blank to assign later"></div>
       <div class="form-row">
-        <div class="form-group">
-          <label>Emoji Icon</label>
-          <input type="text" id="new-emoji" placeholder="🍟" maxlength="2">
-        </div>
-        <div class="form-group">
-          <label>Category</label>
+        <div class="form-group"><label>Emoji</label><input type="text" id="new-emoji" placeholder="🍟" maxlength="2"></div>
+        <div class="form-group"><label>Category</label>
           <select id="new-cat">
-            <option>Candy</option>
-            <option>Chips</option>
-            <option>Health &amp; Protein</option>
-            <option>Drinks</option>
-            <option>Hot &amp; Frozen</option>
-            <option>Other</option>
+            <option>Candy</option><option>Chips</option><option>Health &amp; Protein</option>
+            <option>Drinks</option><option>Hot &amp; Frozen</option><option>Other</option>
           </select>
         </div>
       </div>
       <button class="add-btn" onclick="addItem()">➕ Add Item</button>
     </div>
 
+    <!-- Inventory List -->
     <div class="settings-box">
       <h3>📋 All Items <span id="item-count" style="color:#bbb;font-weight:400;font-size:.84rem;"></span></h3>
       <input class="search-bar" type="text" placeholder="🔍 Filter..." oninput="renderAdminItems(this.value)" style="margin-bottom:10px;">
       <div id="admin-item-list"></div>
     </div>
 
+    <!-- Purchase History -->
+    <div class="settings-box">
+      <h3>📜 Purchase History</h3>
+      <button class="export-btn" onclick="exportCSV()">⬇️ Export CSV</button>
+      <button class="export-btn" onclick="clearHistory()" style="margin-left:6px;color:var(--red-light);border-color:#f5d0d0;">🗑️ Clear History</button>
+      <div class="log-table-wrap" id="purchase-log"></div>
+    </div>
+
     <button class="lock-btn" onclick="lockAdmin()">🔒 Lock Admin</button>
   </div>
 </div>
 
-<!-- ASSIGN MODAL -->
+<!-- ASSIGN BARCODE MODAL -->
 <div class="modal-overlay" id="assign-modal">
   <div class="modal-box">
     <h3>📷 Assign Barcode</h3>
-    <p id="assign-modal-item">Point at the product barcode</p>
+    <p id="assign-modal-item">Point camera at the product barcode</p>
     <div class="modal-scanner" id="modal-scanner-container">
-      <div class="modal-overlay2">
-        <div class="modal-frame"><div class="modal-line"></div></div>
-      </div>
+      <div class="modal-overlay2"><div class="modal-frame"><div class="modal-line"></div></div></div>
     </div>
     <button class="modal-close" onclick="closeAssignScanner()">✕ Cancel</button>
   </div>
 </div>
 
+<!-- BUY FROM MENU MODAL -->
+<div class="modal-overlay" id="buy-modal">
+  <div class="modal-box">
+    <h3 id="buy-modal-title"></h3>
+    <p id="buy-modal-price" style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:700;color:var(--gold);margin-bottom:4px;"></p>
+    <p id="buy-modal-credit-info" style="margin-bottom:16px;"></p>
+    <div class="pay-btns">
+      <button class="use-credit-btn" id="buy-modal-credit-btn" onclick="buyWithCredit()" style="display:none;">✅ Use Store Credit</button>
+      <a class="venmo-btn" id="buy-modal-venmo" href="#" target="_blank" onclick="logMenuVenmoPurchase()">💙 Pay with Venmo</a>
+    </div>
+    <button class="modal-close" style="margin-top:8px;" onclick="closeBuyModal()">✕ Cancel</button>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 <script>
-// ── FULL INVENTORY — barcodes & quantities from updated price sheet ──
+// ══════════════════════════════════════════════════════════════════
+// INVENTORY DATA
+// ══════════════════════════════════════════════════════════════════
 const DEFAULT_INVENTORY = [
-  // ── CANDY ──
-  {id:1,  cat:'Candy', emoji:'🍫', name:'Twix',                         price:1.00, qty:9,  barcode:'040000004356'},
-  {id:2,  cat:'Candy', emoji:'🍫', name:'Snickers',                     price:1.00, qty:7,  barcode:'040000424314'},
-  {id:3,  cat:'Candy', emoji:'🍫', name:'Milky Way',                    price:1.00, qty:7,  barcode:'040000422068'},
-  {id:4,  cat:'Candy', emoji:'🍬', name:"Peanut M&M's",                 price:1.00, qty:4,  barcode:'040000000327'},
-  {id:5,  cat:'Candy', emoji:'🍬', name:"Regular M&M's",                price:1.00, qty:10, barcode:'040000000310'},
-  {id:6,  cat:'Candy', emoji:'🍬', name:"Peanut M&M Box",               price:1.30, qty:12, barcode:'40000497547'},
-  {id:7,  cat:'Candy', emoji:'🍇', name:'Laffy Taffy Grape',            price:1.10, qty:8,  barcode:'79200144364'},
-  {id:8,  cat:'Candy', emoji:'🍉', name:'Laffy Taffy Watermelon',       price:1.10, qty:10, barcode:'79200142360'},
-  {id:9,  cat:'Candy', emoji:'🍒', name:'Laffy Taffy Cherry',           price:1.10, qty:7,  barcode:'79200143367'},
-  {id:10, cat:'Candy', emoji:'🍬', name:'Sour Patch Kids',              price:0.80, qty:20, barcode:'70462098501'},
-  {id:11, cat:'Candy', emoji:'🍉', name:'Sour Patch Watermelon',        price:1.25, qty:11, barcode:'70462006605'},
-  {id:12, cat:'Candy', emoji:'🍭', name:'Sweet Tart Ropes Strawberry',  price:2.00, qty:11, barcode:'79200998899'},
-  {id:13, cat:'Candy', emoji:'🍭', name:'Sweet Tart Ropes Cherry',      price:2.00, qty:7,  barcode:'79200531034'},
-  {id:14, cat:'Candy', emoji:'🍭', name:'Jolly Rancher Ropes',          price:3.25, qty:10, barcode:''},
-  {id:15, cat:'Candy', emoji:'🍬', name:'Sour Punch Straws',            price:0.85, qty:10, barcode:''},
-  {id:16, cat:'Candy', emoji:'🍪', name:'Oreo Pack',                    price:0.50, qty:29, barcode:'19320001987'},
-
-  // ── CHIPS ──
-  {id:20, cat:'Chips', emoji:'🥨', name:'Frito Lay Pretzels (sm)',      price:0.40, qty:4,  barcode:'028400040068'},
-  {id:21, cat:'Chips', emoji:'🌶️', name:'Frito Lay Flamin Puffs (sm)', price:0.40, qty:4,  barcode:'028400091473'},
-  {id:22, cat:'Chips', emoji:'🌻', name:'Frito Lay Sun Chips (sm)',     price:0.40, qty:3,  barcode:'028400002561'},
-  {id:23, cat:'Chips', emoji:'🍿', name:'Frito Lay Regular Puffs (sm)', price:0.40, qty:1,  barcode:'028400091510'},
-  {id:24, cat:'Chips', emoji:'🌽', name:'Cool Ranch Doritos (sm)',      price:0.40, qty:2,  barcode:'028400040112'},
-  {id:25, cat:'Chips', emoji:'🧡', name:'Regular Cheetos (sm)',         price:0.40, qty:4,  barcode:'28400040112'},
-  {id:26, cat:'Chips', emoji:'🌶️', name:"Flamin' Doritos",             price:0.70, qty:7,  barcode:'28400218641'},
-  {id:27, cat:'Chips', emoji:'🧅', name:"Flamin' Funyuns",             price:0.70, qty:6,  barcode:'28400013567'},
-  {id:28, cat:'Chips', emoji:'🍟', name:"Flamin' Fries",               price:0.70, qty:3,  barcode:'28400069151'},
-  {id:29, cat:'Chips', emoji:'🔥', name:"Flamin' Cheetos",             price:0.70, qty:8,  barcode:'28400040150'},
-  {id:30, cat:'Chips', emoji:'🧀', name:'Cheez-It Cheddar Jack',       price:0.75, qty:4,  barcode:'24100939985'},
-  {id:31, cat:'Chips', emoji:'🧀', name:'Cheez-It Original',           price:0.75, qty:4,  barcode:'24100940141'},
-  {id:32, cat:'Chips', emoji:'🧀', name:'Cheez-It White Cheddar',      price:0.75, qty:4,  barcode:'24100940295'},
-  {id:33, cat:'Chips', emoji:'🍿', name:'Popcorn Mini Bag',            price:0.50, qty:11, barcode:'23896800219'},
-
-  // ── HEALTH & PROTEIN ──
-  {id:40, cat:'Health & Protein', emoji:'💪', name:'Built Bar',                 price:1.50, qty:10, barcode:''},
-  {id:41, cat:'Health & Protein', emoji:'🥛', name:'Fairlife Protein Shake',    price:1.90, qty:11, barcode:'811620022118'},
-  {id:42, cat:'Health & Protein', emoji:'🫛', name:'Edamame Snack Pack',        price:1.30, qty:11, barcode:'860006036232'},
-  {id:43, cat:'Health & Protein', emoji:'💪', name:'Spylt Protein',             price:2.90, qty:10, barcode:''},
-  {id:44, cat:'Health & Protein', emoji:'🍫', name:'Dark Chocolate Almonds',    price:0.70, qty:25, barcode:'41570131312'},
-  {id:45, cat:'Health & Protein', emoji:'🥥', name:'Almond Coconut Kind Bar',   price:1.10, qty:8,  barcode:'602652170089'},
-  {id:46, cat:'Health & Protein', emoji:'🍎', name:'Rice Cakes Minis Apple',    price:0.70, qty:2,  barcode:'30000314777'},
-  {id:47, cat:'Health & Protein', emoji:'🍯', name:'Rice Cakes Minis Caramel',  price:0.70, qty:2,  barcode:'30000433812'},
-  {id:48, cat:'Health & Protein', emoji:'🧀', name:'Rice Cakes Minis Cheddar',  price:0.70, qty:2,  barcode:'30000441176'},
-  {id:49, cat:'Health & Protein', emoji:'🥜', name:'Kars Nuts',                 price:2.00, qty:8,  barcode:'77034084412'},
-  {id:50, cat:'Health & Protein', emoji:'🌰', name:'Pistachios',                price:1.00, qty:13, barcode:'14113910712'},
-  {id:51, cat:'Health & Protein', emoji:'🥩', name:'Jack Links Teriyaki Jerky', price:1.25, qty:18, barcode:'17082877673'},
-  {id:52, cat:'Health & Protein', emoji:'🥩', name:'P3 Turkey, Ham & Cheddar',  price:1.75, qty:5,  barcode:'44700078594'},
-  {id:53, cat:'Health & Protein', emoji:'🥩', name:'Hillshire Genoa Salami Snack',price:1.50,qty:5, barcode:'44500201819'},
-
-  // ── DRINKS ──
-  {id:60, cat:'Drinks', emoji:'💀', name:'Liquid Death Fruity Pebbles',   price:1.20, qty:12, barcode:'840442200688'},
-  {id:61, cat:'Drinks', emoji:'⚡', name:'Monster White Zero Ultra',       price:1.80, qty:15, barcode:'070847012474'},
-  {id:62, cat:'Drinks', emoji:'⚡', name:'Monster Ultra Blue',             price:2.50, qty:10, barcode:''},
-  {id:63, cat:'Drinks', emoji:'⚡', name:'Monster Blue Hawaiian',          price:2.50, qty:10, barcode:''},
-  {id:64, cat:'Drinks', emoji:'⚡', name:'Monster Ultra Violet',           price:2.50, qty:10, barcode:''},
-  {id:65, cat:'Drinks', emoji:'⚡', name:'Monster Ultra Black',            price:2.50, qty:10, barcode:''},
-  {id:66, cat:'Drinks', emoji:'🥥', name:'Red Bull Coconut',               price:1.70, qty:4,  barcode:'611269281361'},
-  {id:67, cat:'Drinks', emoji:'🐂', name:'Red Bull Junaberry',             price:1.50, qty:10, barcode:'611269001624'},
-  {id:68, cat:'Drinks', emoji:'⚡', name:'Alani Energy',                   price:2.00, qty:10, barcode:''},
-  {id:69, cat:'Drinks', emoji:'⚡', name:'Bum Energy Dr Bum',              price:2.75, qty:2,  barcode:'850063790383'},
-  {id:70, cat:'Drinks', emoji:'⚡', name:'Bum Energy Root Beer',           price:2.75, qty:3,  barcode:'850057175295'},
-  {id:71, cat:'Drinks', emoji:'⚡', name:'Bum Energy Grape',               price:2.75, qty:3,  barcode:'850063790673'},
-  {id:72, cat:'Drinks', emoji:'⚡', name:'Bum Energy Cola',                price:2.75, qty:3,  barcode:'850073043059'},
-  {id:73, cat:'Drinks', emoji:'🍋', name:'Splash Water Lemon',             price:0.50, qty:20, barcode:'68274911620'},
-  {id:74, cat:'Drinks', emoji:'🍊', name:'Splash Water Mandarin Orange',   price:0.50, qty:24, barcode:'68274911699'},
-  {id:75, cat:'Drinks', emoji:'🫐', name:'Splash Water Berry',             price:0.50, qty:22, barcode:'68274342158'},
-  {id:76, cat:'Drinks', emoji:'🥤', name:'Sprite 16.9oz',                  price:1.00, qty:5,  barcode:'49000024708'},
-  {id:77, cat:'Drinks', emoji:'🥤', name:'Dr Pepper Zero 16.9oz',          price:1.00, qty:2,  barcode:'78000035285'},
-  {id:78, cat:'Drinks', emoji:'🥤', name:'Mountain Dew 16.9oz',            price:1.00, qty:4,  barcode:'12000504082'},
-  {id:79, cat:'Drinks', emoji:'☕', name:'Starbucks Frappuccino',           price:2.25, qty:10, barcode:''},
-
-  // ── HOT & FROZEN ──
+  {id:1,  cat:'Candy', emoji:'🍫', name:'Twix',                          price:1.00, qty:9,  barcode:'040000004356'},
+  {id:2,  cat:'Candy', emoji:'🍫', name:'Snickers',                      price:1.00, qty:7,  barcode:'040000424314'},
+  {id:3,  cat:'Candy', emoji:'🍫', name:'Milky Way',                     price:1.00, qty:7,  barcode:'040000422068'},
+  {id:4,  cat:'Candy', emoji:'🍬', name:"Peanut M&M's",                  price:1.00, qty:4,  barcode:'040000000327'},
+  {id:5,  cat:'Candy', emoji:'🍬', name:"Regular M&M's",                 price:1.00, qty:10, barcode:'040000000310'},
+  {id:6,  cat:'Candy', emoji:'🍬', name:"Peanut M&M Box",                price:1.30, qty:12, barcode:'40000497547'},
+  {id:7,  cat:'Candy', emoji:'🍇', name:'Laffy Taffy Grape',             price:1.10, qty:8,  barcode:'79200144364'},
+  {id:8,  cat:'Candy', emoji:'🍉', name:'Laffy Taffy Watermelon',        price:1.10, qty:10, barcode:'79200142360'},
+  {id:9,  cat:'Candy', emoji:'🍒', name:'Laffy Taffy Cherry',            price:1.10, qty:7,  barcode:'79200143367'},
+  {id:10, cat:'Candy', emoji:'🍬', name:'Sour Patch Kids',               price:0.80, qty:20, barcode:'70462098501'},
+  {id:11, cat:'Candy', emoji:'🍉', name:'Sour Patch Watermelon',         price:1.25, qty:11, barcode:'70462006605'},
+  {id:12, cat:'Candy', emoji:'🍭', name:'Sweet Tart Ropes Strawberry',   price:2.00, qty:11, barcode:'79200998899'},
+  {id:13, cat:'Candy', emoji:'🍭', name:'Sweet Tart Ropes Cherry',       price:2.00, qty:7,  barcode:'79200531034'},
+  {id:14, cat:'Candy', emoji:'🍭', name:'Jolly Rancher Ropes',           price:3.25, qty:10, barcode:''},
+  {id:15, cat:'Candy', emoji:'🍬', name:'Sour Punch Straws',             price:0.85, qty:10, barcode:''},
+  {id:16, cat:'Candy', emoji:'🍪', name:'Oreo Pack',                     price:0.50, qty:29, barcode:'19320001987'},
+  {id:20, cat:'Chips', emoji:'🥨', name:'Frito Lay Pretzels (sm)',       price:0.40, qty:4,  barcode:'028400040068'},
+  {id:21, cat:'Chips', emoji:'🌶️', name:'Frito Lay Flamin Puffs (sm)',  price:0.40, qty:4,  barcode:'028400091473'},
+  {id:22, cat:'Chips', emoji:'🌻', name:'Frito Lay Sun Chips (sm)',      price:0.40, qty:3,  barcode:'028400002561'},
+  {id:23, cat:'Chips', emoji:'🍿', name:'Frito Lay Regular Puffs (sm)',  price:0.40, qty:1,  barcode:'028400091510'},
+  {id:24, cat:'Chips', emoji:'🌽', name:'Cool Ranch Doritos (sm)',       price:0.40, qty:2,  barcode:'028400040112'},
+  {id:25, cat:'Chips', emoji:'🧡', name:'Regular Cheetos (sm)',          price:0.40, qty:4,  barcode:'28400040112'},
+  {id:26, cat:'Chips', emoji:'🌶️', name:"Flamin' Doritos",              price:0.70, qty:7,  barcode:'28400218641'},
+  {id:27, cat:'Chips', emoji:'🧅', name:"Flamin' Funyuns",              price:0.70, qty:6,  barcode:'28400013567'},
+  {id:28, cat:'Chips', emoji:'🍟', name:"Flamin' Fries",                price:0.70, qty:3,  barcode:'28400069151'},
+  {id:29, cat:'Chips', emoji:'🔥', name:"Flamin' Cheetos",              price:0.70, qty:8,  barcode:'28400040150'},
+  {id:30, cat:'Chips', emoji:'🧀', name:'Cheez-It Cheddar Jack',        price:0.75, qty:4,  barcode:'24100939985'},
+  {id:31, cat:'Chips', emoji:'🧀', name:'Cheez-It Original',            price:0.75, qty:4,  barcode:'24100940141'},
+  {id:32, cat:'Chips', emoji:'🧀', name:'Cheez-It White Cheddar',       price:0.75, qty:4,  barcode:'24100940295'},
+  {id:33, cat:'Chips', emoji:'🍿', name:'Popcorn Mini Bag',             price:0.50, qty:11, barcode:'23896800219'},
+  {id:40, cat:'Health & Protein', emoji:'💪', name:'Built Bar',                  price:1.50, qty:10, barcode:''},
+  {id:41, cat:'Health & Protein', emoji:'🥛', name:'Fairlife Protein Shake',     price:1.90, qty:11, barcode:'811620022118'},
+  {id:42, cat:'Health & Protein', emoji:'🫛', name:'Edamame Snack Pack',         price:1.30, qty:11, barcode:'860006036232'},
+  {id:43, cat:'Health & Protein', emoji:'💪', name:'Spylt Protein',              price:2.90, qty:10, barcode:''},
+  {id:44, cat:'Health & Protein', emoji:'🍫', name:'Dark Chocolate Almonds',     price:0.70, qty:25, barcode:'41570131312'},
+  {id:45, cat:'Health & Protein', emoji:'🥥', name:'Almond Coconut Kind Bar',    price:1.10, qty:8,  barcode:'602652170089'},
+  {id:46, cat:'Health & Protein', emoji:'🍎', name:'Rice Cakes Minis Apple',     price:0.70, qty:2,  barcode:'30000314777'},
+  {id:47, cat:'Health & Protein', emoji:'🍯', name:'Rice Cakes Minis Caramel',   price:0.70, qty:2,  barcode:'30000433812'},
+  {id:48, cat:'Health & Protein', emoji:'🧀', name:'Rice Cakes Minis Cheddar',   price:0.70, qty:2,  barcode:'30000441176'},
+  {id:49, cat:'Health & Protein', emoji:'🥜', name:'Kars Nuts',                  price:2.00, qty:8,  barcode:'77034084412'},
+  {id:50, cat:'Health & Protein', emoji:'🌰', name:'Pistachios',                 price:1.00, qty:13, barcode:'14113910712'},
+  {id:51, cat:'Health & Protein', emoji:'🥩', name:'Jack Links Teriyaki Jerky',  price:1.25, qty:18, barcode:'17082877673'},
+  {id:52, cat:'Health & Protein', emoji:'🥩', name:'P3 Turkey, Ham & Cheddar',   price:1.75, qty:5,  barcode:'44700078594'},
+  {id:53, cat:'Health & Protein', emoji:'🥩', name:'Hillshire Genoa Salami',     price:1.50, qty:5,  barcode:'44500201819'},
+  {id:60, cat:'Drinks', emoji:'💀', name:'Liquid Death Fruity Pebbles',    price:1.20, qty:12, barcode:'840442200688'},
+  {id:61, cat:'Drinks', emoji:'⚡', name:'Monster White Zero Ultra',        price:1.80, qty:15, barcode:'070847012474'},
+  {id:62, cat:'Drinks', emoji:'⚡', name:'Monster Ultra Blue',              price:2.50, qty:10, barcode:''},
+  {id:63, cat:'Drinks', emoji:'⚡', name:'Monster Blue Hawaiian',           price:2.50, qty:10, barcode:''},
+  {id:64, cat:'Drinks', emoji:'⚡', name:'Monster Ultra Violet',            price:2.50, qty:10, barcode:''},
+  {id:65, cat:'Drinks', emoji:'⚡', name:'Monster Ultra Black',             price:2.50, qty:10, barcode:''},
+  {id:66, cat:'Drinks', emoji:'🥥', name:'Red Bull Coconut',                price:1.70, qty:4,  barcode:'611269281361'},
+  {id:67, cat:'Drinks', emoji:'🐂', name:'Red Bull Junaberry',              price:1.50, qty:10, barcode:'611269001624'},
+  {id:68, cat:'Drinks', emoji:'⚡', name:'Alani Energy',                    price:2.00, qty:10, barcode:''},
+  {id:69, cat:'Drinks', emoji:'⚡', name:'Bum Energy Dr Bum',               price:2.75, qty:2,  barcode:'850063790383'},
+  {id:70, cat:'Drinks', emoji:'⚡', name:'Bum Energy Root Beer',            price:2.75, qty:3,  barcode:'850057175295'},
+  {id:71, cat:'Drinks', emoji:'⚡', name:'Bum Energy Grape',                price:2.75, qty:3,  barcode:'850063790673'},
+  {id:72, cat:'Drinks', emoji:'⚡', name:'Bum Energy Cola',                 price:2.75, qty:3,  barcode:'850073043059'},
+  {id:73, cat:'Drinks', emoji:'🍋', name:'Splash Water Lemon',              price:0.50, qty:20, barcode:'68274911620'},
+  {id:74, cat:'Drinks', emoji:'🍊', name:'Splash Water Mandarin Orange',    price:0.50, qty:24, barcode:'68274911699'},
+  {id:75, cat:'Drinks', emoji:'🫐', name:'Splash Water Berry',              price:0.50, qty:22, barcode:'68274342158'},
+  {id:76, cat:'Drinks', emoji:'🥤', name:'Sprite 16.9oz',                   price:1.00, qty:5,  barcode:'49000024708'},
+  {id:77, cat:'Drinks', emoji:'🥤', name:'Dr Pepper Zero 16.9oz',           price:1.00, qty:2,  barcode:'78000035285'},
+  {id:78, cat:'Drinks', emoji:'🥤', name:'Mountain Dew 16.9oz',             price:1.00, qty:4,  barcode:'12000504082'},
+  {id:79, cat:'Drinks', emoji:'☕', name:'Starbucks Frappuccino',            price:2.25, qty:10, barcode:''},
   {id:90, cat:'Hot & Frozen', emoji:'🍜', name:'Chow Mein Teriyaki Bowl',          price:1.50, qty:7,  barcode:'70662087299'},
   {id:91, cat:'Hot & Frozen', emoji:'🥩', name:'Hormel Roast Beef & Mash',         price:2.50, qty:6,  barcode:'37600085298'},
   {id:92, cat:'Hot & Frozen', emoji:'🦃', name:'Hormel Turkey & Dressing',         price:2.50, qty:6,  barcode:'37600369183'},
@@ -408,38 +531,100 @@ const DEFAULT_INVENTORY = [
   {id:108,cat:'Hot & Frozen', emoji:'🍝', name:'Amazon Chicken Fettuccine Alfredo',price:9.25, qty:10, barcode:''},
 ];
 
-// ── STATE ──────────────────────────────────────────────────────────
-let inventory = JSON.parse(localStorage.getItem('snack_inventory')||'null');
+// ══════════════════════════════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════════════════════════════
+let inventory  = JSON.parse(localStorage.getItem('vm_inventory')||'null');
 if(!inventory){inventory=DEFAULT_INVENTORY;saveInventory();}
-let settings=JSON.parse(localStorage.getItem('snack_settings')||'{"venmo":"","shop":"The Snack Shack","pin":"1234"}');
-let scanActive=false,assignScanActive=false,pinBuffer='',assignTargetId=null;
+let settings   = JSON.parse(localStorage.getItem('vm_settings')||'null') || {
+  venmo:'', shop:'Village Market', pin:'1234',
+  ejsPubKey:'', ejsService:'', ejsTemplate:'',
+  alertEmail:'lismalley@villagecapital.com', alertQty:5
+};
+let employees  = JSON.parse(localStorage.getItem('vm_employees')||'[]');
+let purchases  = JSON.parse(localStorage.getItem('vm_purchases')||'[]');
+let currentEmp = null; // { num, name, credit }
+let scanActive=false, assignScanActive=false, pinBuffer='', assignTargetId=null;
+let pendingItem=null; // item being purchased from scan or menu
 
-function saveInventory(){localStorage.setItem('snack_inventory',JSON.stringify(inventory));}
+function saveInventory(){ localStorage.setItem('vm_inventory',JSON.stringify(inventory)); }
+function saveEmployees(){ localStorage.setItem('vm_employees',JSON.stringify(employees)); }
+function savePurchases(){ localStorage.setItem('vm_purchases',JSON.stringify(purchases)); }
 function saveSettings(){
-  settings.venmo=(document.getElementById('venmo-user').value||'').replace('@','');
-  settings.shop=document.getElementById('shop-name').value||'The Snack Shack';
-  localStorage.setItem('snack_settings',JSON.stringify(settings));
+  settings.venmo  = (document.getElementById('venmo-user').value||'').replace('@','');
+  settings.shop   = document.getElementById('shop-name').value||'Village Market';
+  settings.ejsPubKey  = document.getElementById('ejs-pubkey').value||'';
+  settings.ejsService = document.getElementById('ejs-service').value||'';
+  settings.ejsTemplate= document.getElementById('ejs-template').value||'';
+  settings.alertEmail = document.getElementById('alert-email').value||'lismalley@villagecapital.com';
+  settings.alertQty   = parseInt(document.getElementById('alert-qty').value)||5;
+  localStorage.setItem('vm_settings',JSON.stringify(settings));
 }
 
-// ── TABS ──────────────────────────────────────────────────────────
+// ══════════════════════════════════════════════════════════════════
+// TABS
+// ══════════════════════════════════════════════════════════════════
 function switchTab(tab,el){
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   if(el)el.classList.add('active');
   document.getElementById('page-'+tab).classList.add('active');
-  if(tab==='inventory')renderInventory('');
-  if(tab==='admin'){renderAdminItems('');renderAssignSelect();}
+  if(tab==='menu'){renderInventory('');updateLoginGates();}
+  if(tab==='scan'){updateLoginGates();}
+  if(tab==='admin'){renderAdminItems('');renderAssignSelect();renderEmpList();renderCreditSelect();renderPurchaseLog();}
   if(tab!=='scan'&&scanActive)stopScanner();
 }
 function goToAdmin(){
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.tab')[2].classList.add('active');
+  document.getElementById('tab-admin').classList.add('active');
   document.getElementById('page-admin').classList.add('active');
-  renderAdminItems('');renderAssignSelect();
+  renderAdminItems('');renderAssignSelect();renderEmpList();renderCreditSelect();renderPurchaseLog();
+}
+function updateLoginGates(){
+  const loggedIn = !!currentEmp;
+  document.getElementById('scan-locked').style.display  = loggedIn?'none':'block';
+  document.getElementById('scan-content').style.display = loggedIn?'block':'none';
+  document.getElementById('menu-locked').style.display  = loggedIn?'none':'block';
+  document.getElementById('menu-content').style.display = loggedIn?'block':'none';
 }
 
-// ── SCANNER ──────────────────────────────────────────────────────
+// ══════════════════════════════════════════════════════════════════
+// EMPLOYEE LOGIN
+// ══════════════════════════════════════════════════════════════════
+function doLogin(){
+  const num = document.getElementById('emp-number-input').value.trim();
+  if(!num){showToast('⚠️ Enter your employee number');return;}
+  const emp = employees.find(e=>e.num===num);
+  if(!emp){
+    document.getElementById('login-error').classList.add('show');
+    document.getElementById('login-welcome').classList.remove('show');
+    return;
+  }
+  currentEmp = emp;
+  document.getElementById('login-error').classList.remove('show');
+  document.getElementById('welcome-name').textContent = '👋 Welcome, '+emp.name+'!';
+  document.getElementById('welcome-credit').textContent = emp.credit>0 ? `Store credit: $${emp.credit.toFixed(2)}` : 'No store credit on file.';
+  document.getElementById('login-welcome').classList.add('show');
+  document.getElementById('header-emp').textContent = emp.name;
+  document.getElementById('header-emp').style.display = 'block';
+  updateCreditBadge();
+  showToast('✅ Welcome, '+emp.name+'!');
+}
+function clearLoginError(){
+  document.getElementById('login-error').classList.remove('show');
+}
+function updateCreditBadge(){
+  if(!currentEmp)return;
+  const credit = currentEmp.credit||0;
+  const badge = document.getElementById('header-credit');
+  if(credit>0){ badge.textContent='💳 $'+credit.toFixed(2); badge.style.display='block'; }
+  else badge.style.display='none';
+}
+
+// ══════════════════════════════════════════════════════════════════
+// BARCODE SCANNER
+// ══════════════════════════════════════════════════════════════════
 function startScanner(){
   document.getElementById('start-btn').style.display='none';
   document.getElementById('stop-btn').style.display='block';
@@ -466,32 +651,238 @@ function stopScanner(){
 function handleBarcode(code){
   const item=inventory.find(i=>i.barcode===code);
   if(!item){document.getElementById('nf-barcode').textContent=code;document.getElementById('not-found-card').classList.add('show');return;}
-  if(item.qty>0){item.qty--;saveInventory();}
-  const venmoUser=settings.venmo||'your-venmo';
-  const note=encodeURIComponent(item.name+' – '+settings.shop);
+  pendingItem = item;
+  showPurchaseOptions(item, 'scan');
+}
+function showPurchaseOptions(item, source){
+  const credit = currentEmp ? (currentEmp.credit||0) : 0;
   document.getElementById('result-emoji').textContent=item.emoji||'🍬';
   document.getElementById('result-name').textContent=item.name;
   document.getElementById('result-price').textContent='$'+item.price.toFixed(2);
+  const venmoUser=settings.venmo||'your-venmo';
+  const note=encodeURIComponent(item.name+' – '+settings.shop);
   document.getElementById('venmo-link').href=`https://venmo.com/${venmoUser}?txn=pay&amount=${item.price.toFixed(2)}&note=${note}`;
   const badge=document.getElementById('result-stock-badge');
   if(item.qty===0){badge.textContent='❌ Out of Stock';badge.className='badge badge-out';}
-  else if(item.qty<=3){badge.textContent=`⚠️ Only ${item.qty} left!`;badge.className='badge badge-low';}
+  else if(item.qty<=settings.alertQty){badge.textContent=`⚠️ Only ${item.qty} left!`;badge.className='badge badge-low';}
   else{badge.textContent=`✅ In Stock (${item.qty} left)`;badge.className='badge badge-stock';}
+  const creditNotice = document.getElementById('credit-notice');
+  const creditBtn = document.getElementById('use-credit-btn');
+  if(credit>=item.price){
+    creditNotice.textContent=`💳 You have $${credit.toFixed(2)} store credit — enough to cover this!`;
+    creditNotice.classList.add('show');
+    creditBtn.textContent=`✅ Use Store Credit ($${item.price.toFixed(2)})`;
+    creditBtn.style.display='block';
+  } else if(credit>0){
+    creditNotice.textContent=`💳 You have $${credit.toFixed(2)} store credit (item is $${item.price.toFixed(2)}).`;
+    creditNotice.classList.add('show');
+    creditBtn.style.display='none';
+  } else {
+    creditNotice.classList.remove('show');
+    creditBtn.style.display='none';
+  }
   document.getElementById('result-card').classList.add('show');
   document.getElementById('result-card').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+function payWithCredit(){
+  if(!pendingItem||!currentEmp)return;
+  const item=pendingItem;
+  if(currentEmp.credit<item.price){showToast('⚠️ Not enough credit');return;}
+  currentEmp.credit=parseFloat((currentEmp.credit-item.price).toFixed(2));
+  const empIdx=employees.findIndex(e=>e.num===currentEmp.num);
+  if(empIdx>=0){employees[empIdx].credit=currentEmp.credit;saveEmployees();}
+  decrementAndLog(item,'credit');
+}
+function logVenmoPurchase(){
+  if(!pendingItem)return;
+  decrementAndLog(pendingItem,'venmo');
+}
+function decrementAndLog(item, payMethod){
+  if(item.qty>0){item.qty--;saveInventory();}
+  checkLowStock(item);
+  logPurchase(item, payMethod);
+  updateCreditBadge();
+  showToast('✅ Enjoy your '+item.name+'!');
+  pendingItem=null;
 }
 function resetScan(){
   document.getElementById('result-card').classList.remove('show');
   document.getElementById('not-found-card').classList.remove('show');
+  pendingItem=null;
 }
 
-// ── INVENTORY ────────────────────────────────────────────────────
+// ══════════════════════════════════════════════════════════════════
+// BUY FROM MENU
+// ══════════════════════════════════════════════════════════════════
+function openBuyModal(itemId){
+  const item=inventory.find(i=>i.id===itemId);
+  if(!item)return;
+  if(item.qty===0){showToast('❌ Out of stock!');return;}
+  pendingItem=item;
+  const credit=currentEmp?(currentEmp.credit||0):0;
+  document.getElementById('buy-modal-title').textContent=(item.emoji||'🍬')+' '+item.name;
+  document.getElementById('buy-modal-price').textContent='$'+item.price.toFixed(2);
+  const venmoUser=settings.venmo||'your-venmo';
+  const note=encodeURIComponent(item.name+' – '+settings.shop);
+  document.getElementById('buy-modal-venmo').href=`https://venmo.com/${venmoUser}?txn=pay&amount=${item.price.toFixed(2)}&note=${note}`;
+  const creditBtn=document.getElementById('buy-modal-credit-btn');
+  const creditInfo=document.getElementById('buy-modal-credit-info');
+  if(credit>=item.price){
+    creditInfo.textContent=`You have $${credit.toFixed(2)} store credit.`;
+    creditBtn.textContent=`✅ Use Store Credit ($${item.price.toFixed(2)})`;
+    creditBtn.style.display='block';
+  } else if(credit>0){
+    creditInfo.textContent=`You have $${credit.toFixed(2)} store credit (need $${item.price.toFixed(2)}).`;
+    creditBtn.style.display='none';
+  } else {
+    creditInfo.textContent='';
+    creditBtn.style.display='none';
+  }
+  document.getElementById('buy-modal').classList.add('show');
+}
+function buyWithCredit(){
+  if(!pendingItem||!currentEmp)return;
+  const item=pendingItem;
+  if(currentEmp.credit<item.price){showToast('⚠️ Not enough credit');return;}
+  currentEmp.credit=parseFloat((currentEmp.credit-item.price).toFixed(2));
+  const empIdx=employees.findIndex(e=>e.num===currentEmp.num);
+  if(empIdx>=0){employees[empIdx].credit=currentEmp.credit;saveEmployees();}
+  decrementAndLog(item,'credit');
+  closeBuyModal();
+}
+function logMenuVenmoPurchase(){
+  if(!pendingItem)return;
+  decrementAndLog(pendingItem,'venmo');
+  closeBuyModal();
+}
+function closeBuyModal(){
+  document.getElementById('buy-modal').classList.remove('show');
+  pendingItem=null;
+}
+
+// ══════════════════════════════════════════════════════════════════
+// PURCHASE LOG
+// ══════════════════════════════════════════════════════════════════
+function logPurchase(item, method){
+  purchases.push({
+    ts: new Date().toISOString(),
+    empNum: currentEmp?currentEmp.num:'—',
+    empName: currentEmp?currentEmp.name:'—',
+    item: item.name,
+    price: item.price,
+    method: method
+  });
+  savePurchases();
+}
+function renderPurchaseLog(){
+  const wrap=document.getElementById('purchase-log');
+  if(!purchases.length){wrap.innerHTML='<p style="color:#bbb;font-size:.85rem;text-align:center;padding:16px;">No purchases yet.</p>';return;}
+  const rows=[...purchases].reverse().slice(0,100);
+  wrap.innerHTML=`<table class="log-table">
+    <thead><tr><th>Date</th><th>Employee</th><th>Item</th><th>Price</th><th>Method</th></tr></thead>
+    <tbody>${rows.map(r=>`<tr>
+      <td>${new Date(r.ts).toLocaleDateString('en-US',{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'})}</td>
+      <td>${r.empName} <span style="color:#bbb;font-size:.7rem;">#${r.empNum}</span></td>
+      <td>${r.item}</td>
+      <td>$${r.price.toFixed(2)}</td>
+      <td><span style="text-transform:capitalize;">${r.method}</span></td>
+    </tr>`).join('')}</tbody>
+  </table>`;
+}
+function exportCSV(){
+  if(!purchases.length){showToast('No purchases to export');return;}
+  const header='Date,Emp#,Employee,Item,Price,Method\n';
+  const rows=purchases.map(r=>`"${new Date(r.ts).toLocaleString()}","${r.empNum}","${r.empName}","${r.item}","${r.price.toFixed(2)}","${r.method}"`).join('\n');
+  const blob=new Blob([header+rows],{type:'text/csv'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='village_market_purchases.csv';a.click();
+}
+function clearHistory(){
+  if(!confirm('Clear all purchase history? This cannot be undone.'))return;
+  purchases=[];savePurchases();renderPurchaseLog();showToast('🗑️ History cleared');
+}
+
+// ══════════════════════════════════════════════════════════════════
+// LOW STOCK EMAIL ALERT
+// ══════════════════════════════════════════════════════════════════
+function checkLowStock(item){
+  if(item.qty!==settings.alertQty)return;
+  if(!settings.ejsPubKey||!settings.ejsService||!settings.ejsTemplate){
+    console.log('Low stock alert: EmailJS not configured. Item:',item.name,'Qty:',item.qty);
+    return;
+  }
+  emailjs.init(settings.ejsPubKey);
+  emailjs.send(settings.ejsService, settings.ejsTemplate, {
+    to_email: settings.alertEmail,
+    item_name: item.name,
+    qty: item.qty,
+    shop_name: settings.shop
+  }).then(()=>console.log('Low stock alert sent for '+item.name))
+    .catch(e=>console.warn('Email alert failed:',e));
+}
+
+// ══════════════════════════════════════════════════════════════════
+// EMPLOYEES
+// ══════════════════════════════════════════════════════════════════
+function addEmployee(){
+  const num=document.getElementById('new-emp-num').value.trim();
+  const name=document.getElementById('new-emp-name').value.trim();
+  if(!num||!name){showToast('⚠️ Employee # and name required');return;}
+  if(employees.find(e=>e.num===num)){showToast('⚠️ Employee # already exists');return;}
+  employees.push({num,name,credit:0});
+  saveEmployees();renderEmpList();renderCreditSelect();
+  document.getElementById('new-emp-num').value='';
+  document.getElementById('new-emp-name').value='';
+  showToast('✅ '+name+' added!');
+}
+function deleteEmployee(num){
+  if(!confirm('Remove this employee?'))return;
+  employees=employees.filter(e=>e.num!==num);saveEmployees();renderEmpList();renderCreditSelect();showToast('🗑️ Removed');
+}
+function renderEmpList(){
+  const list=document.getElementById('emp-list');
+  if(!employees.length){list.innerHTML='<p style="color:#bbb;font-size:.83rem;text-align:center;">No employees added yet.</p>';return;}
+  list.innerHTML=employees.map(e=>`
+    <div class="emp-row">
+      <div class="emp-row-info">
+        <div class="emp-row-name">${e.name}</div>
+        <div class="emp-row-num">#${e.num}</div>
+      </div>
+      <div class="emp-credit-badge">💳 $${(e.credit||0).toFixed(2)}</div>
+      <button class="del-emp-btn" onclick="deleteEmployee('${e.num}')">🗑️</button>
+    </div>`).join('');
+}
+
+// ══════════════════════════════════════════════════════════════════
+// STORE CREDITS
+// ══════════════════════════════════════════════════════════════════
+function renderCreditSelect(){
+  const sel=document.getElementById('credit-emp-select');
+  if(!employees.length){sel.innerHTML='<option>No employees yet</option>';return;}
+  sel.innerHTML=employees.map(e=>`<option value="${e.num}">${e.name} (#${e.num}) — $${(e.credit||0).toFixed(2)}</option>`).join('');
+}
+function issueCredit(){
+  const num=document.getElementById('credit-emp-select').value;
+  const amt=parseFloat(document.getElementById('credit-amount').value);
+  if(!num||isNaN(amt)||amt<=0){showToast('⚠️ Select an employee and amount');return;}
+  const emp=employees.find(e=>e.num===num);
+  if(!emp){showToast('⚠️ Employee not found');return;}
+  emp.credit=parseFloat(((emp.credit||0)+amt).toFixed(2));
+  saveEmployees();renderEmpList();renderCreditSelect();
+  if(currentEmp&&currentEmp.num===num){currentEmp.credit=emp.credit;updateCreditBadge();}
+  document.getElementById('credit-amount').value='';
+  showToast(`🎁 $${amt.toFixed(2)} credit issued to ${emp.name}!`);
+}
+
+// ══════════════════════════════════════════════════════════════════
+// INVENTORY MENU
+// ══════════════════════════════════════════════════════════════════
 function renderInventory(filter){
   const grid=document.getElementById('inv-grid');
   const q=(filter||'').toLowerCase();
   const items=inventory.filter(i=>!q||i.name.toLowerCase().includes(q));
   if(!items.length){grid.innerHTML='<div style="text-align:center;padding:30px;color:#bbb;">No items found</div>';return;}
   const cats=[...new Set(items.map(i=>i.cat||'Other'))];
+  const loggedIn=!!currentEmp;
   grid.innerHTML=cats.map(cat=>{
     const ci=items.filter(i=>(i.cat||'Other')===cat);
     return`<div class="cat-header">${cat}</div>`+ci.map(item=>`
@@ -499,17 +890,20 @@ function renderInventory(filter){
         <div class="inv-emoji">${item.emoji||'🍬'}</div>
         <div class="inv-info">
           <div class="inv-name">${item.name}</div>
-          ${item.barcode?'<div class="inv-barcode">'+item.barcode+'</div>':'<span class="no-bc">⚠️ Barcode needed</span>'}
+          ${item.barcode?'<div class="inv-barcode">'+item.barcode+'</div>':'<span class="no-bc">⚠️ No barcode</span>'}
         </div>
         <div class="inv-right">
           <div class="inv-price">$${item.price.toFixed(2)}</div>
           <div class="inv-qty ${item.qty<=3?'qty-low':''}">${item.qty} left</div>
         </div>
+        ${loggedIn?`<button class="buy-btn" onclick="openBuyModal(${item.id})" ${item.qty===0?'disabled':''}>Buy</button>`:''}
       </div>`).join('');
   }).join('');
 }
 
-// ── ADMIN ────────────────────────────────────────────────────────
+// ══════════════════════════════════════════════════════════════════
+// ADMIN
+// ══════════════════════════════════════════════════════════════════
 function pinKey(k){
   if(k==='del')pinBuffer=pinBuffer.slice(0,-1);
   else if(k==='ok'){checkPin();return;}
@@ -523,8 +917,13 @@ function checkPin(){
     document.getElementById('admin-gate').style.display='none';
     document.getElementById('admin-panel').classList.add('show');
     document.getElementById('venmo-user').value=settings.venmo||'';
-    document.getElementById('shop-name').value=settings.shop||'';
-    renderAdminItems('');renderAssignSelect();
+    document.getElementById('shop-name').value=settings.shop||'Village Market';
+    document.getElementById('ejs-pubkey').value=settings.ejsPubKey||'';
+    document.getElementById('ejs-service').value=settings.ejsService||'';
+    document.getElementById('ejs-template').value=settings.ejsTemplate||'';
+    document.getElementById('alert-email').value=settings.alertEmail||'lismalley@villagecapital.com';
+    document.getElementById('alert-qty').value=settings.alertQty||5;
+    renderAdminItems('');renderAssignSelect();renderEmpList();renderCreditSelect();renderPurchaseLog();
     document.getElementById('pin-error').classList.remove('show');
   }else{document.getElementById('pin-error').classList.add('show');pinBuffer='';updatePinDots();}
 }
@@ -536,7 +935,7 @@ function lockAdmin(){
 }
 function changePin(){
   const np=document.getElementById('new-pin').value;
-  if(np.length===4&&/^\d{4}$/.test(np)){settings.pin=np;localStorage.setItem('snack_settings',JSON.stringify(settings));document.getElementById('new-pin').value='';showToast('✅ PIN updated!');}
+  if(np.length===4&&/^\d{4}$/.test(np)){settings.pin=np;localStorage.setItem('vm_settings',JSON.stringify(settings));document.getElementById('new-pin').value='';showToast('✅ PIN updated!');}
   else showToast('⚠️ PIN must be 4 digits');
 }
 function addItem(){
@@ -573,7 +972,7 @@ function renderAdminItems(filter){
       <div style="font-size:1.3rem;flex-shrink:0;">${item.emoji||'🍬'}</div>
       <div class="admin-item-info">
         <div class="admin-item-name">${item.name}</div>
-        <div class="admin-item-sub">$${item.price.toFixed(2)} &bull; ${item.barcode?item.barcode:'<span style="color:var(--orange)">⚠️ No barcode</span>'}</div>
+        <div class="admin-item-sub">$${item.price.toFixed(2)} · ${item.barcode?item.barcode:'<span style="color:var(--gold);">⚠️ No barcode</span>'}</div>
         <div class="qty-controls">
           <button class="qty-btn" onclick="updateQty(${item.id},-1)">−</button>
           <span class="qty-val" id="qv-${item.id}">${item.qty}</span>
@@ -585,7 +984,9 @@ function renderAdminItems(filter){
     </div>`).join('');
 }
 
-// ── BARCODE ASSIGN ────────────────────────────────────────────────
+// ══════════════════════════════════════════════════════════════════
+// BARCODE ASSIGN
+// ══════════════════════════════════════════════════════════════════
 function renderAssignSelect(){
   const sel=document.getElementById('assign-select');
   sel.innerHTML=inventory.map(i=>`<option value="${i.id}">${i.name} ${i.barcode?'✅':'⚠️'}</option>`).join('');
@@ -620,15 +1021,18 @@ function closeAssignScanner(){
   document.getElementById('assign-modal').classList.remove('show');
 }
 
-// ── TOAST ──────────────────────────────────────────────────────────
+// ══════════════════════════════════════════════════════════════════
+// TOAST
+// ══════════════════════════════════════════════════════════════════
 function showToast(msg){
   const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');
   setTimeout(()=>t.classList.remove('show'),2800);
 }
 
-// ── INIT ───────────────────────────────────────────────────────────
-document.getElementById('venmo-user').value=settings.venmo||'';
-document.getElementById('shop-name').value=settings.shop||'';
+// ══════════════════════════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════════════════════════
+updateLoginGates();
 renderInventory('');
 </script>
 </body>
