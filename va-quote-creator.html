@@ -1865,28 +1865,60 @@ async function generatePDF(htmlContent, filename, onDone) {
     alert('PDF library is still loading — please try again in a moment.');
     return;
   }
-  const wrapper = document.createElement('div');
-  wrapper.style.cssText = 'width:780px;position:absolute;left:-9999px;top:0;background:white;font-family:serif;';
-  wrapper.innerHTML = htmlContent;
-  document.body.appendChild(wrapper);
+
+  // Build a full self-contained HTML page so all styles are included
+  const styleTag = Array.from(document.querySelectorAll('style'))
+    .map(s => s.outerHTML).join('\n');
+  const linkTags = Array.from(document.querySelectorAll('link[rel="stylesheet"]'))
+    .map(l => l.outerHTML).join('\n');
+
+  const fullHtml = `<!DOCTYPE html><html><head><meta charset="UTF-8">
+    ${linkTags}
+    ${styleTag}
+    <style>
+      body { background: white !important; margin: 0; padding: 0; }
+      .no-print, .btn-row, header, nav, main > *:not(.print-source) { display: none !important; }
+      .doc-page { page-break-inside: avoid; }
+    </style>
+  </head><body>${htmlContent}</body></html>`;
+
+  const iframe = document.createElement('iframe');
+  iframe.style.cssText = 'position:fixed;top:0;left:0;width:850px;height:1100px;border:none;visibility:hidden;z-index:-1;';
+  document.body.appendChild(iframe);
+
+  await new Promise(resolve => {
+    iframe.onload = resolve;
+    iframe.srcdoc = fullHtml;
+  });
+
+  // Small delay for fonts/images to load
+  await new Promise(r => setTimeout(r, 600));
 
   const opt = {
-    margin:      [0.45, 0.45, 0.45, 0.45],
+    margin:      [0.4, 0.4, 0.4, 0.4],
     filename:    filename,
-    image:       { type:'jpeg', quality:0.97 },
-    html2canvas: { scale:2, useCORS:true, logging:false, backgroundColor:'#ffffff' },
-    jsPDF:       { unit:'in', format:'letter', orientation:'portrait' }
+    image:       { type: 'jpeg', quality: 0.98 },
+    html2canvas: {
+      scale: 2,
+      useCORS: true,
+      logging: false,
+      backgroundColor: '#ffffff',
+      width: 850,
+      windowWidth: 850,
+    },
+    jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
   };
 
   try {
-    await html2pdf().set(opt).from(wrapper).save();
+    const target = iframe.contentDocument.body;
+    await html2pdf().set(opt).from(target).save();
     showToast(`✅ PDF saved: ${filename}`);
     if (onDone) onDone(filename);
   } catch(e) {
     showToast('⚠ PDF generation failed — try again', true);
-    console.error(e);
+    console.error('PDF error:', e);
   } finally {
-    document.body.removeChild(wrapper);
+    document.body.removeChild(iframe);
   }
 }
 
@@ -1926,51 +1958,61 @@ function showToast(msg, isError=false) {
   t._timer = setTimeout(() => t.style.opacity = '0', 4500);
 }
 
-function printSelected() {
+async function printSelected() {
   calcAll();
   const selected = [1,2,3].filter(n => document.getElementById(`optInclude${n}`)?.checked);
   if (selected.length === 0) {
-    alert('Please check at least one option using the "Include in combined print" checkboxes in the column headers.');
+    alert("Please check at least one option using the 'Include in combined print' checkboxes in the column headers.");
     return;
   }
 
+  showToast('⏳ Building PDF…');
   const borrower = [getStr('borrowerFirst'), getStr('borrowerLast')].filter(Boolean).join('_') || 'Borrower';
   const date = new Date().toISOString().split('T')[0];
   const optLabel = selected.length === 1 ? `Option${selected[0]}` : `${selected.length}Options`;
   const filename = `${borrower.replace(/[^a-z0-9]/gi,'_')}_${optLabel}_${date}.pdf`;
 
-  let allHtml = '';
-  if (selected.length > 1) {
-    allHtml += buildComparisonPage(selected);
-    allHtml += '<div style="page-break-after:always;"></div>';
+  try {
+    let allHtml = '';
+    if (selected.length > 1) {
+      allHtml += buildComparisonPage(selected);
+      allHtml += '<div style="page-break-after:always;"></div>';
+    }
+    selected.forEach((n, idx) => {
+      const d = getDocData(n);
+      allHtml += buildPreQuote(d);
+      allHtml += '<div style="page-break-after:always;"></div>';
+      allHtml += buildFeesWorksheet(d);
+      if (idx < selected.length - 1) allHtml += '<div style="page-break-after:always;"></div>';
+    });
+    await generatePDF(allHtml, filename);
+  } catch(e) {
+    showToast('⚠ Error building PDF — check console', true);
+    console.error('printSelected error:', e);
   }
-  selected.forEach((n, idx) => {
-    const d = getDocData(n);
-    allHtml += buildPreQuote(d);
-    allHtml += '<div style="page-break-after:always;"></div>';
-    allHtml += buildFeesWorksheet(d);
-    if (idx < selected.length - 1) allHtml += '<div style="page-break-after:always;"></div>';
-  });
-
-  generatePDF(allHtml, filename);
 }
 
-function printAll() {
+async function printAll() {
   calcAll();
+  showToast('⏳ Building PDF…');
   const borrower = [getStr('borrowerFirst'), getStr('borrowerLast')].filter(Boolean).join('_') || 'Borrower';
   const date = new Date().toISOString().split('T')[0];
   const filename = `${borrower.replace(/[^a-z0-9]/gi,'_')}_All3Options_${date}.pdf`;
 
-  let allHtml = buildComparisonPage([1,2,3]);
-  allHtml += '<div style="page-break-after:always;"></div>';
-  [1,2,3].forEach((n, idx) => {
-    const d = getDocData(n);
-    allHtml += buildPreQuote(d) + '<div style="page-break-after:always;"></div>';
-    allHtml += buildFeesWorksheet(d);
-    if (idx < 2) allHtml += '<div style="page-break-after:always;"></div>';
-  });
-
-  generatePDF(allHtml, filename);
+  try {
+    let allHtml = buildComparisonPage([1,2,3]);
+    allHtml += '<div style="page-break-after:always;"></div>';
+    [1,2,3].forEach((n, idx) => {
+      const d = getDocData(n);
+      allHtml += buildPreQuote(d) + '<div style="page-break-after:always;"></div>';
+      allHtml += buildFeesWorksheet(d);
+      if (idx < 2) allHtml += '<div style="page-break-after:always;"></div>';
+    });
+    await generatePDF(allHtml, filename);
+  } catch(e) {
+    showToast('⚠ Error building PDF — check console', true);
+    console.error('printAll error:', e);
+  }
 }
 
 function buildComparisonPage(selectedNums) {
@@ -2077,20 +2119,6 @@ function buildComparisonPage(selectedNums) {
 </div>`;
 }
 
-function printAll() {
-
-  calcAll();
-  let allHtml = '';
-  [1,2,3].forEach(n => {
-    const d = getDocData(n);
-    allHtml += buildPreQuote(d) + '<div style="page-break-after:always;"></div>';
-    allHtml += buildFeesWorksheet(d) + '<div style="page-break-after:always;"></div>';
-  });
-  const zone = document.getElementById('printZone');
-  zone.innerHTML = allHtml;
-  zone.classList.add('active');
-  setTimeout(()=>{ window.print(); zone.classList.remove('active'); }, 150);
-}
 
 // ============================================================
 // STATUS
