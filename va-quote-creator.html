@@ -1230,8 +1230,8 @@ const resultRowDefs = [
   { id:'totalPrepaids',   label:'Total Prepaids ($)',         hint:'3mo ins + 3mo tax + per diem' },
   { id:'totalFundsToClose', label:'Total Funds to Close ($)', hint:'Prepaids + any out-of-pocket' },
   { id:'loanSavings',     label:'── Savings ──',              hint:'', divider:true },
-  { id:'paySavings',      label:'Monthly Payment Savings ($)' },
-  { id:'recoup',          label:'Recoup Period (months)' },
+  { id:'paySavings',      label:'Monthly Payment Change' },
+  { id:'recoup',          label:'Recoup Period (IRRRL: Pass/Fail)' },
 ];
 
 // Build option input rows
@@ -1530,23 +1530,31 @@ function setResult(id, val, fmt='money') {
   const el = document.getElementById(id);
   if(!el) return;
   if(val === null || val === undefined || isNaN(val)) { el.textContent = '—'; el.className='calc-value'; return; }
-  if(fmt === 'money') { el.textContent = fmtMoney(val); }
-  else if(fmt === 'pct') { el.textContent = val.toFixed(3) + '%'; }
-  else if(fmt === 'months') {
+  if(fmt === 'pct') { el.textContent = val.toFixed(3) + '%'; el.className='calc-value'; return; }
+  if(fmt === 'months') {
     const months = Math.ceil(val);
     const isIRRRL = getStr('loanType') === 'IRRRL' && getStr('loanProgram') === 'VA';
     const over36  = isIRRRL && months > 36;
-    el.textContent = months + ' mo' + (over36 ? ' ⚠ EXCEEDS 36 MO' : isIRRRL ? ' ✓' : '');
+    const passLabel = isIRRRL ? (over36 ? ' — ❌ FAIL' : ' — ✅ PASS') : '';
+    el.textContent = months + ' mo' + passLabel;
     el.className   = over36 ? 'calc-value negative' : (isIRRRL && months <= 36) ? 'calc-value positive' : 'calc-value';
     return;
   }
-  else { el.textContent = val; }
-
   if(fmt === 'money' && id.includes('paySavings')) {
-    el.className = val >= 0 ? 'calc-value positive' : 'calc-value negative';
-  } else {
-    el.className = 'calc-value';
+    if(val > 0.005) {
+      el.textContent = '↓ Decrease ' + fmtMoney(val) + '/mo';
+      el.className = 'calc-value positive';
+    } else if(val < -0.005) {
+      el.textContent = '↑ Increase ' + fmtMoney(Math.abs(val)) + '/mo';
+      el.className = 'calc-value negative';
+    } else {
+      el.textContent = 'No Change';
+      el.className = 'calc-value';
+    }
+    return;
   }
+  el.textContent = fmtMoney(val);
+  el.className = 'calc-value';
 }
 
 function checkArmWarnings() {
@@ -1751,18 +1759,18 @@ function buildPreQuote(d) {
     <div class="doc-box-title" style="background:#2d6e4e;">Payment Comparison &amp; Savings</div>
     <table>
       <tr>
-        <td>P&I Payment Difference (Monthly)</td>
-        <td class="${piSavingsMonthly>=0?'text-green':'text-red'}">${fmtMoney(piSavingsMonthly)}</td>
-        <td style="width:40%">P&I Payment Difference (Yearly)</td>
-        <td class="${piSavingsYearly>=0?'text-green':'text-red'}">${fmtMoney(piSavingsYearly)}</td>
+        <td>P&amp;I Payment Change (Monthly)</td>
+        <td class="${piSavingsMonthly>=0?'text-green':'text-red'}">${piSavingsMonthly >= 0 ? '↓ Decrease ' : '↑ Increase '}${fmtMoney(Math.abs(piSavingsMonthly))}</td>
+        <td style="width:40%">P&amp;I Payment Change (Yearly)</td>
+        <td class="${piSavingsYearly>=0?'text-green':'text-red'}">${piSavingsYearly >= 0 ? '↓ Decrease ' : '↑ Increase '}${fmtMoney(Math.abs(piSavingsYearly))}</td>
       </tr>
       <tr>
-        <td>Total Payment Difference (Monthly)</td>
-        <td class="${totalSavingsMonthly>=0?'text-green':'text-red'}">${fmtMoney(totalSavingsMonthly)}</td>
+        <td>Total Payment Change (Monthly)</td>
+        <td class="${totalSavingsMonthly>=0?'text-green':'text-red'}">${totalSavingsMonthly >= 0 ? '↓ Decrease ' : '↑ Increase '}${fmtMoney(Math.abs(totalSavingsMonthly))}</td>
         <td>Recoup Period</td>
         <td class="${d.recoup !== null && d.loanType === 'IRRRL' && d.prog === 'VA' && Math.ceil(d.recoup) > 36 ? 'text-red' : 'text-gold'}">
-          ${d.recoup !== null ? Math.ceil(d.recoup)+' months' : '—'}
-          ${d.loanType === 'IRRRL' && d.prog === 'VA' ? (Math.ceil(d.recoup) <= 36 ? ' ✓ VA compliant' : ' ⚠ Exceeds 36-mo VA limit') : ''}
+          ${d.recoup !== null ? Math.ceil(d.recoup)+' mo' : '—'}
+          ${d.loanType === 'IRRRL' && d.prog === 'VA' ? (Math.ceil(d.recoup) <= 36 ? ' — ✅ PASS' : ' — ❌ FAIL (exceeds 36 mo)') : ''}
         </td>
       </tr>
       <tr>
@@ -2026,12 +2034,25 @@ function buildComparisonPage(selectedNums) {
     { label: 'Est. Cash to Close',     fmt: r => fmtMoney(r.totalFundsToClose), bold: true },
     { label: '─',                      divider: true },
     { label: 'LTV',                    fmt: r => r.ltv > 0 ? r.ltv.toFixed(2)+'%' : '—' },
-    { label: 'Monthly Savings vs Current', fmt: r => {
+    { label: 'Monthly Payment Change', fmt: r => {
         const s = r.paySavings;
-        return `<span style="color:${s>=0?'#2d6e4e':'#b33a3a'};font-weight:700;">${fmtMoney(s)}</span>`;
+        if(s > 0.005) return `<span style="color:#2d6e4e;font-weight:700;">↓ Decrease ${fmtMoney(s)}/mo</span>`;
+        if(s < -0.005) return `<span style="color:#b33a3a;font-weight:700;">↑ Increase ${fmtMoney(Math.abs(s))}/mo</span>`;
+        return `<span style="color:#666;">No Change</span>`;
       }
     },
-    { label: 'Recoup Period',          fmt: r => r.recoup !== null ? Math.ceil(r.recoup)+' months' : '—' },
+    { label: 'Recoup Period', fmt: r => {
+        if(r.recoup === null) return '—';
+        const mo = Math.ceil(r.recoup);
+        const isIRRRL = r.prog === 'VA' && r.loanType === 'IRRRL';
+        if(isIRRRL) {
+          return mo <= 36
+            ? `<span style="color:#2d6e4e;font-weight:700;">${mo} mo — ✅ PASS</span>`
+            : `<span style="color:#b33a3a;font-weight:700;">${mo} mo — ❌ FAIL</span>`;
+        }
+        return `${mo} mo`;
+      }
+    },
   ];
 
   const tableRows = rows.map(row => {
