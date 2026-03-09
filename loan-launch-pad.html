@@ -463,7 +463,10 @@
         <span class="summary-name" id="summaryName"></span>
         <span class="summary-type" id="summaryType"></span>
       </div>
-      <button class="edit-btn" onclick="goStep(1)">← Edit Data</button>
+      <div style="display:flex; gap:8px;">
+        <button class="edit-btn" onclick="goStep(1)">← Edit Data</button>
+        <button class="edit-btn" id="ccaBtn" onclick="openCCA()" style="border-color:#0ea5e9; color:#0ea5e9;">📋 Open CCA Form</button>
+      </div>
     </div>
 
     <p class="hint" id="siteCountHint"></p>
@@ -698,7 +701,16 @@
     return all.filter(s => !s.types || s.types.includes(d.loanType));
   }
 
-  // ── Build step 2 ───────────────────────────────────────
+  function openCCA() {
+    const d = getData();
+    const name    = [d.borFirst, d.borLast].filter(Boolean).join(' ');
+    const address = [d.propAddress, d.propCity, d.propState, d.propZip].filter(Boolean).join(', ');
+    const params  = new URLSearchParams();
+    if (name)    params.set('name', name);
+    if (address) params.set('address', address);
+    window.open('cca-form.html?' + params.toString(), '_blank');
+  }
+
   function buildStep2() {
     const d = getData();
     const sites = getSites(d);
