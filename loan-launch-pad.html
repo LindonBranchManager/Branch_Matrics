@@ -678,6 +678,21 @@
             : { label: 'Reminder', value: 'Account # found in Loan Status, 1003 URLA Part 3, or mortgage statement' },
         ],
       },
+      {
+        key: 'USPS',
+        label: 'USPS Address Verification',
+        bucket: 'Address Confirmation',
+        url: 'https://tools.usps.com/zip-code-lookup.htm?byaddress',
+        types: null,
+        desc: 'Verify and standardize the property address — confirm ZIP+4',
+        fields: [
+          d.propAddress ? { label: 'Street Address', value: d.propAddress }  : null,
+          d.propCity    ? { label: 'City',            value: d.propCity }     : null,
+          d.propState   ? { label: 'State',           value: d.propState }   : null,
+          d.propZip     ? { label: 'Zip Code',        value: d.propZip }     : null,
+          (!d.propAddress && !d.propCity) ? { label: 'Tip', value: 'Enter property address in Step 1' } : null,
+        ].filter(Boolean),
+      },
     ];
 
     return all.filter(s => !s.types || s.types.includes(d.loanType));
