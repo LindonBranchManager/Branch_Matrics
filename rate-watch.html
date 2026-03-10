@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Rate Watch — Lindon Branch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+:root {
+  --navy:#0D2340; --navy-mid:#1a3a5c; --navy-light:#234a78;
+  --gold:#C9A84C;  --gold-light:#e0c06a; --gold-pale:#f5edd8;
+  --off-white:#FAF9F6; --cream:#F3EFE8; --white:#fff;
+  --text-dark:#1a2535; --text-mid:#4a5568; --text-muted:#8a97a8;
+  --green:#1a7a4a; --green-bg:#e8f5ee;
+  --amber:#b45309; --amber-bg:#fef3cd;
+  --red:#c0392b;   --red-bg:#fdecea;
+  --border:rgba(13,35,64,.10);
+  --shadow:0 2px 16px rgba(13,35,64,.08);
+  --shadow-lg:0 8px 40px rgba(13,35,64,.13);
+  --r:10px; --r-sm:6px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--off-white);color:var(--text-dark);min-height:100vh}
+
+/* ── NAV ── */
+nav{background:var(--navy);padding:0 28px;display:flex;align-items:center;gap:0;height:52px;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,.25)}
+.nav-brand{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:var(--gold);letter-spacing:.5px;white-space:nowrap;margin-right:28px}
+.nav-links{display:flex;gap:0;overflow-x:auto;-ms-overflow-style:none;scrollbar-width:none}
+.nav-links::-webkit-scrollbar{display:none}
+.nav-links a{font-size:11.5px;font-weight:500;color:rgba(255,255,255,.62);text-decoration:none;padding:0 13px;height:52px;display:flex;align-items:center;white-space:nowrap;border-bottom:2px solid transparent;transition:all .2s}
+.nav-links a:hover{color:#fff;background:rgba(255,255,255,.05)}
+.nav-links a.active{color:var(--gold);border-bottom-color:var(--gold)}
+
+/* ── HERO ── */
+.hero{background:var(--navy);padding:36px 32px 32px;color:#fff}
+.hero-eyebrow{font-size:10px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+.hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,4vw,40px);font-weight:600;line-height:1.15;margin-bottom:10px}
+.hero-sub{font-size:13.5px;color:rgba(255,255,255,.65);max-width:580px;line-height:1.6}
+
+/* ── MODE TOGGLE ── */
+.mode-bar{background:var(--cream);border-bottom:1px solid var(--border);padding:0 32px;display:flex;align-items:center;gap:0}
+.mode-btn{font-size:13px;font-weight:500;padding:14px 22px;cursor:pointer;border:none;background:none;color:var(--text-mid);border-bottom:2px solid transparent;transition:all .18s}
+.mode-btn.active{color:var(--navy);border-bottom-color:var(--gold);font-weight:600}
+.mode-btn:hover:not(.active){color:var(--navy);background:rgba(13,35,64,.04)}
+
+/* ── LAYOUT ── */
+.wrap{max-width:1200px;margin:0 auto;padding:28px 24px 80px}
+
+/* ── CARDS ── */
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden}
+.card-hdr{background:linear-gradient(135deg,var(--navy),var(--navy-mid));padding:16px 20px;display:flex;align-items:center;gap:10px}
+.card-hdr h3{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:#fff}
+.card-hdr .badge{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;background:var(--gold);color:var(--navy);padding:3px 8px;border-radius:20px}
+.card-body{padding:20px}
+
+/* ── FORM ── */
+.fsec{margin-bottom:18px}
+.fsec-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--gold-pale)}
+.fgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
+.fgrid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.fgroup{display:flex;flex-direction:column;gap:4px}
+.fgroup.full{grid-column:1/-1}
+.flabel{font-size:11px;font-weight:600;color:var(--text-mid);letter-spacing:.3px}
+.flabel .tip{display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:50%;background:var(--gold-pale);color:var(--gold);font-size:9px;font-weight:700;cursor:help;position:relative;margin-left:3px}
+.flabel .tip:hover::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:var(--navy);color:#fff;font-size:11px;font-weight:400;padding:6px 10px;border-radius:6px;white-space:pre-wrap;width:220px;z-index:99;box-shadow:0 4px 16px rgba(0,0,0,.2);letter-spacing:0}
+input[type=number],input[type=text],select{height:36px;padding:0 10px;border:1.5px solid rgba(13,35,64,.15);border-radius:var(--r-sm);font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text-dark);background:#fff;transition:border-color .15s;width:100%}
+input:focus,select:focus{outline:none;border-color:var(--gold)}
+.fhint{font-size:10px;color:var(--text-muted);margin-top:2px}
+
+/* ── RUN BUTTON ── */
+.run-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;height:46px;background:linear-gradient(135deg,var(--navy),var(--navy-mid));color:#fff;border:none;border-radius:var(--r-sm);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;letter-spacing:.3px;cursor:pointer;transition:all .2s;margin-top:18px}
+.run-btn:hover{background:linear-gradient(135deg,var(--navy-light),var(--navy));transform:translateY(-1px);box-shadow:0 4px 18px rgba(13,35,64,.25)}
+.run-btn .btn-icon{font-size:16px}
+
+/* ── RESULTS ── */
+#single-results{display:none;margin-top:24px}
+
+/* Stat bar */
+.stat-bar{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:20px}
+.stat{background:linear-gradient(135deg,var(--navy),var(--navy-mid));border-radius:var(--r);padding:16px 18px;text-align:center;color:#fff}
+.stat-val{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;line-height:1}
+.stat-val.pos{color:var(--gold-light)}
+.stat-val.warn{color:#fbbf24}
+.stat-val.neg{color:#f87171}
+.stat-lbl{font-size:10px;color:rgba(255,255,255,.6);margin-top:5px;letter-spacing:.5px;text-transform:uppercase}
+
+/* Rate table */
+.rate-table-wrap{overflow-x:auto}
+table.rate-tbl{width:100%;border-collapse:collapse;font-size:12.5px}
+table.rate-tbl th{background:var(--navy);color:rgba(255,255,255,.8);font-weight:600;font-size:11px;letter-spacing:.8px;text-transform:uppercase;padding:9px 12px;text-align:right}
+table.rate-tbl th:first-child{text-align:left}
+table.rate-tbl td{padding:9px 12px;text-align:right;border-bottom:1px solid var(--border)}
+table.rate-tbl td:first-child{text-align:left;font-weight:600}
+table.rate-tbl tr.trigger td{background:var(--green-bg);color:var(--green);font-weight:700}
+table.rate-tbl tr.trigger td:first-child::after{content:' ← TRIGGER';font-size:10px;font-weight:700;color:var(--green);letter-spacing:.5px}
+table.rate-tbl tr.today td{background:var(--amber-bg);font-weight:600}
+table.rate-tbl tr.today td:first-child::after{content:' ← TODAY';font-size:10px;color:var(--amber);letter-spacing:.5px}
+table.rate-tbl tr:hover td{background:var(--cream)}
+table.rate-tbl tr.trigger:hover td{background:var(--green-bg)}
+.savings-bar{display:inline-block;height:6px;border-radius:3px;background:var(--green);margin-left:6px;vertical-align:middle;transition:width .3s}
+
+/* Talking points */
+.tp-wrap{background:linear-gradient(135deg,var(--navy),var(--navy-mid));border-radius:var(--r);padding:20px 22px;color:#fff}
+.tp-eyebrow{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+.tp-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;margin-bottom:14px}
+.tp-script{background:rgba(255,255,255,.07);border-left:3px solid var(--gold);border-radius:0 6px 6px 0;padding:12px 14px;font-size:13px;line-height:1.7;color:rgba(255,255,255,.88);font-style:italic;margin-bottom:12px}
+.tp-pts{display:flex;flex-direction:column;gap:8px}
+.tp-pt{display:flex;gap:10px;align-items:flex-start;font-size:12.5px;color:rgba(255,255,255,.8);line-height:1.55}
+.tp-pt-icon{flex-shrink:0;font-size:14px}
+
+/* 5yr / lifetime comparison */
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.cmp-card{border-radius:var(--r-sm);padding:16px;border:1px solid var(--border)}
+.cmp-card.current{background:var(--red-bg);border-color:rgba(192,57,43,.15)}
+.cmp-card.new{background:var(--green-bg);border-color:rgba(26,122,74,.15)}
+.cmp-label{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px}
+.cmp-card.current .cmp-label{color:var(--red)}
+.cmp-card.new .cmp-label{color:var(--green)}
+.cmp-row{display:flex;justify-content:space-between;font-size:12.5px;padding:5px 0;border-bottom:1px solid rgba(0,0,0,.06)}
+.cmp-row:last-child{border-bottom:none;font-weight:700;font-size:13px;padding-top:8px}
+.cmp-row span:last-child{font-weight:600}
+.cmp-delta{text-align:center;padding:14px;background:var(--gold-pale);border-radius:var(--r-sm);border:1px solid rgba(201,168,76,.2)}
+.cmp-delta-val{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;color:var(--green)}
+.cmp-delta-lbl{font-size:11px;color:var(--text-mid);margin-top:3px}
+
+/* PMI removal callout */
+.pmi-callout{background:var(--green-bg);border:1px solid rgba(26,122,74,.2);border-radius:var(--r-sm);padding:12px 14px;font-size:12.5px;color:var(--green);display:flex;gap:10px;align-items:flex-start;margin-top:12px}
+
+/* ── PIPELINE MODE ── */
+#pipeline-mode{display:none}
+.pipe-toolbar{display:flex;gap:10px;align-items:center;margin-bottom:18px;flex-wrap:wrap}
+.pipe-toolbar h2{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--navy);flex:1}
+.btn-sm{height:34px;padding:0 14px;border-radius:var(--r-sm);font-family:'DM Sans',sans-serif;font-size:12.5px;font-weight:600;cursor:pointer;border:1.5px solid;transition:all .15s}
+.btn-primary{background:var(--navy);color:#fff;border-color:var(--navy)}
+.btn-primary:hover{background:var(--navy-light)}
+.btn-outline{background:#fff;color:var(--navy);border-color:var(--border)}
+.btn-outline:hover{border-color:var(--navy);background:var(--cream)}
+.btn-danger{background:#fff;color:var(--red);border-color:rgba(192,57,43,.3)}
+.btn-danger:hover{background:var(--red-bg)}
+.btn-gold{background:var(--gold);color:var(--navy);border-color:var(--gold);font-weight:700}
+.btn-gold:hover{background:var(--gold-light)}
+
+/* Pipeline table */
+.pipe-table-wrap{overflow-x:auto;border-radius:var(--r);box-shadow:var(--shadow)}
+table.pipe-tbl{width:100%;border-collapse:collapse;font-size:12.5px;background:#fff}
+table.pipe-tbl th{background:var(--navy);color:rgba(255,255,255,.78);font-weight:600;font-size:11px;letter-spacing:.7px;text-transform:uppercase;padding:10px 12px;text-align:left;white-space:nowrap}
+table.pipe-tbl td{padding:10px 12px;border-bottom:1px solid var(--border);vertical-align:middle}
+table.pipe-tbl tr:last-child td{border-bottom:none}
+table.pipe-tbl tr:hover td{background:var(--cream)}
+.opp-badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase}
+.opp-hot{background:var(--green-bg);color:var(--green)}
+.opp-warm{background:var(--amber-bg);color:var(--amber)}
+.opp-cold{background:var(--cream);color:var(--text-muted)}
+.trigger-chip{font-size:11.5px;font-weight:700;color:var(--green);background:var(--green-bg);border-radius:4px;padding:2px 7px}
+.current-chip{font-size:11.5px;font-weight:600;color:var(--text-mid);background:var(--cream);border-radius:4px;padding:2px 7px}
+.action-btns{display:flex;gap:6px}
+
+/* Add borrower modal */
+.modal-overlay{position:fixed;inset:0;background:rgba(13,35,64,.5);z-index:200;display:flex;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.hidden{display:none}
+.modal{background:#fff;border-radius:var(--r);box-shadow:var(--shadow-lg);width:100%;max-width:560px;max-height:90vh;overflow-y:auto}
+.modal-hdr{background:linear-gradient(135deg,var(--navy),var(--navy-mid));padding:16px 20px;display:flex;align-items:center;justify-content:space-between}
+.modal-hdr h3{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:#fff}
+.modal-close{background:none;border:none;color:rgba(255,255,255,.6);font-size:18px;cursor:pointer;padding:4px 8px;line-height:1}
+.modal-close:hover{color:#fff}
+.modal-body{padding:20px}
+.modal-footer{padding:14px 20px;border-top:1px solid var(--border);display:flex;gap:10px;justify-content:flex-end}
+
+/* Callouts */
+.callout{display:flex;gap:10px;align-items:flex-start;padding:11px 14px;border-radius:var(--r-sm);font-size:12.5px;line-height:1.55;margin-bottom:10px}
+.callout.info{background:rgba(13,35,64,.05);border:1px solid rgba(13,35,64,.12)}
+.callout.warn{background:var(--amber-bg);border:1px solid rgba(201,168,76,.3);color:var(--amber)}
+.callout.good{background:var(--green-bg);border:1px solid rgba(26,122,74,.2);color:var(--green)}
+
+/* Section headers */
+.sec-hdr{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;padding-bottom:6px;border-bottom:1px solid var(--gold-pale)}
+
+/* Empty state */
+.empty-pipe{text-align:center;padding:60px 20px;color:var(--text-muted)}
+.empty-pipe .ep-icon{font-size:40px;margin-bottom:12px}
+.empty-pipe p{font-size:13px;line-height:1.6}
+
+/* Build stamp */
+#build-stamp{position:fixed;bottom:10px;right:14px;z-index:999;font-size:10px;color:rgba(13,35,64,.4);background:rgba(255,255,255,.82);backdrop-filter:blur(4px);border:1px solid rgba(13,35,64,.08);border-radius:6px;padding:4px 9px;pointer-events:none;line-height:1.4;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+
+/* responsive */
+@media(max-width:640px){
+  .fgrid-3{grid-template-columns:1fr 1fr}
+  .compare-grid{grid-template-columns:1fr}
+  .stat-bar{grid-template-columns:repeat(2,1fr)}
+}
+@media print{
+  nav,.mode-bar,.run-btn,.action-btns,#build-stamp{display:none!important}
+  #single-results{display:block!important}
+  body{background:#fff}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">Village Capital · Lindon</div>
+  <div class="nav-links">
+    <a href="index.html">Dashboard</a>
+    <a href="va-quote-creator.html">Quote Lab</a>
+    <a href="matrix.html">Matrix</a>
+    <a href="loan-compass.html">Loan Compass</a>
+    <a href="rate-watch.html" class="active">Rate Watch</a>
+    <a href="VillageMarket.html">Village Market</a>
+    <a href="shoutouts.html">Shout Outs</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">Lindon Branch · Sales Tool</div>
+  <div class="hero-title">Rate Watch &amp; Breakeven Calculator</div>
+  <div class="hero-sub">Analyze a single borrower in depth or manage your entire pipeline — see exactly when and how to call for a refi conversation.</div>
+</div>
+
+<!-- MODE TOGGLE -->
+<div class="mode-bar">
+  <button class="mode-btn active" onclick="setMode('single',this)">📊 Single Borrower</button>
+  <button class="mode-btn" onclick="setMode('pipeline',this)">📋 Pipeline View</button>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SINGLE BORROWER MODE
+══════════════════════════════════════════ -->
+<div id="single-mode">
+<div class="wrap">
+  <div style="display:grid;grid-template-columns:340px 1fr;gap:22px;align-items:start">
+
+    <!-- INPUT PANEL -->
+    <div class="card" style="position:sticky;top:68px">
+      <div class="card-hdr">
+        <h3>Borrower Profile</h3>
+      </div>
+      <div class="card-body">
+
+        <div class="fsec">
+          <div class="fsec-label">Borrower</div>
+          <div class="fgroup">
+            <label class="flabel">Name / Reference</label>
+            <input type="text" id="s-name" placeholder="e.g. Smith Refi" />
+          </div>
+        </div>
+
+        <div class="fsec">
+          <div class="fsec-label">Current Loan</div>
+          <div class="fgrid">
+            <div class="fgroup">
+              <label class="flabel">Loan Type</label>
+              <select id="s-loan-type">
+                <option value="va">VA</option>
+                <option value="fha">FHA</option>
+                <option value="conv" selected>Conventional</option>
+              </select>
+            </div>
+            <div class="fgroup">
+              <label class="flabel">Current Rate (%)</label>
+              <input type="number" id="s-curr-rate" placeholder="7.125" step="0.125" min="0" max="20" />
+            </div>
+            <div class="fgroup">
+              <label class="flabel">Current Balance ($)</label>
+              <input type="number" id="s-balance" placeholder="385,000" min="0" />
+            </div>
+            <div class="fgroup">
+              <label class="flabel">Remaining Term <span class="tip" data-tip="How many years are left on the current loan. If unsure, use the original term.">?</span></label>
+              <select id="s-rem-term">
+                <option value="30">30 years</option>
+                <option value="29">29 years</option>
+                <option value="28">28 years</option>
+                <option value="27">27 years</option>
+                <option value="25">25 years</option>
+                <option value="20">20 years</option>
+                <option value="15">15 years</option>
+                <option value="10">10 years</option>
+              </select>
+            </div>
+            <div class="fgroup">
+              <label class="flabel">Current Payment <span class="tip" data-tip="Current P&I only (no taxes/insurance). If left blank, we'll calculate from the rate and balance.">?</span></label>
+              <input type="number" id="s-curr-pmt" placeholder="auto-calc" min="0" />
+              <span class="fhint">Leave blank to auto-calc</span>
+            </div>
+            <div class="fgroup">
+              <label class="flabel">Today's Rate (%) <span class="tip" data-tip="The rate you can offer today. This is the baseline for the breakeven and rate table.">?</span></label>
+              <input type="number" id="s-today-rate" placeholder="6.500" step="0.125" min="0" max="20" />
+            </div>
+          </div>
+        </div>
+
+        <div class="fsec">
+          <div class="fsec-label">Property (optional — for PMI)</div>
+          <div class="fgrid">
+            <div class="fgroup">
+              <label class="flabel">Property Value ($)</label>
+              <input type="number" id="s-prop-val" placeholder="460,000" min="0" />
+            </div>
+            <div class="fgroup">
+              <label class="flabel">Credit Score</label>
+              <input type="number" id="s-score" placeholder="720" min="300" max="850" />
+            </div>
+          </div>
+        </div>
+
+        <div class="fsec">
+          <div class="fsec-label">Closing Costs</div>
+          <div class="fgroup">
+            <label class="flabel">Estimated Closing Costs ($) <span class="tip" data-tip="Leave blank to estimate at 2% of loan balance. Enter an actual quote if known.">?</span></label>
+            <input type="number" id="s-cc" placeholder="auto (2% est.)" min="0" />
+            <span class="fhint">Blank = 2% of balance</span>
+          </div>
+        </div>
+
+        <button class="run-btn" onclick="runSingle()">
+          <span class="btn-icon">📡</span> Run Rate Watch Analysis
+        </button>
+      </div>
+    </div>
+
+    <!-- RESULTS PANEL -->
+    <div id="single-results">
+
+      <!-- STAT BAR -->
+      <div class="stat-bar" id="stat-bar"></div>
+
+      <!-- RATE SENSITIVITY TABLE -->
+      <div class="card" style="margin-bottom:20px">
+        <div class="card-hdr">
+          <h3>Rate Sensitivity Table</h3>
+          <span class="badge">Scenarios</span>
+        </div>
+        <div class="card-body">
+          <div id="rate-table-wrap"></div>
+        </div>
+      </div>
+
+      <!-- 5YR / LIFETIME COMPARISON -->
+      <div class="card" style="margin-bottom:20px">
+        <div class="card-hdr">
+          <h3>Cost Comparison</h3>
+          <span class="badge">Today's Rate</span>
+        </div>
+        <div class="card-body" id="compare-wrap"></div>
+      </div>
+
+      <!-- PMI CALLOUT -->
+      <div id="pmi-section"></div>
+
+      <!-- TALKING POINTS -->
+      <div id="talking-pts"></div>
+
+    </div><!-- /single-results -->
+  </div>
+</div>
+</div><!-- /single-mode -->
+
+<!-- ══════════════════════════════════════════
+     PIPELINE MODE
+══════════════════════════════════════════ -->
+<div id="pipeline-mode">
+<div class="wrap">
+
+  <div class="pipe-toolbar">
+    <h2>Pipeline Rate Watch</h2>
+    <button class="btn-sm btn-gold" onclick="openAddModal()">＋ Add Borrower</button>
+    <button class="btn-sm btn-outline" onclick="sortPipeline('opp')">Sort by Opportunity</button>
+    <button class="btn-sm btn-outline" onclick="sortPipeline('savings')">Sort by Savings</button>
+    <button class="btn-sm btn-outline" onclick="printPipeline()">🖨 Print</button>
+    <button class="btn-sm btn-danger" onclick="clearPipeline()">Clear All</button>
+  </div>
+
+  <div class="callout info">
+    <span>💡</span>
+    <div>Pipeline is saved in your browser automatically. <strong>HOT</strong> = breaks even in ≤24 months at today's rate. <strong>WARM</strong> = 25–36 months. <strong>COLD</strong> = &gt;36 months or rate hasn't dropped enough.</div>
+  </div>
+
+  <div id="pipe-table-wrap" style="margin-top:16px"></div>
+
+</div>
+</div>
+
+<!-- ADD BORROWER MODAL -->
+<div class="modal-overlay hidden" id="add-modal">
+  <div class="modal">
+    <div class="modal-hdr">
+      <h3 id="modal-title">Add Borrower to Pipeline</h3>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="fsec">
+        <div class="fgrid">
+          <div class="fgroup full">
+            <label class="flabel">Borrower Name</label>
+            <input type="text" id="m-name" placeholder="Last name or reference" />
+          </div>
+          <div class="fgroup">
+            <label class="flabel">Loan Type</label>
+            <select id="m-loan-type">
+              <option value="va">VA</option>
+              <option value="fha">FHA</option>
+              <option value="conv" selected>Conventional</option>
+            </select>
+          </div>
+          <div class="fgroup">
+            <label class="flabel">Current Rate (%)</label>
+            <input type="number" id="m-curr-rate" placeholder="7.125" step="0.125" />
+          </div>
+          <div class="fgroup">
+            <label class="flabel">Balance ($)</label>
+            <input type="number" id="m-balance" placeholder="385,000" />
+          </div>
+          <div class="fgroup">
+            <label class="flabel">Remaining Term</label>
+            <select id="m-rem-term">
+              <option value="30">30 yrs</option>
+              <option value="28">28 yrs</option>
+              <option value="25">25 yrs</option>
+              <option value="20">20 yrs</option>
+              <option value="15">15 yrs</option>
+            </select>
+          </div>
+          <div class="fgroup">
+            <label class="flabel">Today's Rate Offer (%)</label>
+            <input type="number" id="m-today-rate" placeholder="6.500" step="0.125" />
+          </div>
+          <div class="fgroup">
+            <label class="flabel">Property Value ($)</label>
+            <input type="number" id="m-prop-val" placeholder="optional" />
+          </div>
+          <div class="fgroup">
+            <label class="flabel">Credit Score</label>
+            <input type="number" id="m-score" placeholder="720" />
+          </div>
+          <div class="fgroup">
+            <label class="flabel">Closing Costs ($)</label>
+            <input type="number" id="m-cc" placeholder="auto (2%)" />
+          </div>
+          <div class="fgroup">
+            <label class="flabel">LO Name</label>
+            <input type="text" id="m-lo" placeholder="optional" />
+          </div>
+          <div class="fgroup full">
+            <label class="flabel">Notes</label>
+            <input type="text" id="m-notes" placeholder="e.g. 'waiting for rates to drop — check monthly'" />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-sm btn-outline" onclick="closeModal()">Cancel</button>
+      <button class="btn-sm btn-primary" id="modal-save-btn" onclick="saveBorrower()">Add to Pipeline</button>
+    </div>
+  </div>
+</div>
+
+<!-- TIMESTAMP -->
+<div id="build-stamp">Last updated: <span id="build-ts"></span></div>
+
+<script data-cfasync="false">
+// ═══════════════════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════════════════
+const fmt  = v => v==null?'—':'$'+Math.abs(Math.round(v)).toLocaleString();
+const fmtR = v => v?v.toFixed(3)+'%':'—';
+const fmtN = v => v==null?'—':Math.round(v).toLocaleString();
+
+function calcPI(principal, annualRate, years) {
+  if (!principal||!annualRate||!years) return 0;
+  const r = annualRate/12, n = years*12;
+  if (r===0) return principal/n;
+  return principal * r * Math.pow(1+r,n) / (Math.pow(1+r,n)-1);
+}
+
+function totalPaid(principal, annualRate, years) {
+  return calcPI(principal, annualRate, years) * years * 12;
+}
+
+function calcBreakeven(cc, monthlySavings) {
+  if (monthlySavings<=0) return null;
+  return Math.ceil(cc/monthlySavings);
+}
+
+// Calc trigger rate: lowest rate where breakeven ≤ maxMonths
+function calcTriggerRate(balance, remTerm, currPmt, cc, maxMonths=36) {
+  for (let r = 7.0; r >= 2.0; r -= 0.125) {
+    const newPmt = calcPI(balance, r/100, remTerm);
+    const save   = currPmt - newPmt;
+    const be     = calcBreakeven(cc, save);
+    if (be && be <= maxMonths) return parseFloat(r.toFixed(3));
+  }
+  return null;
+}
+
+// Determine opportunity tier
+function oppTier(be) {
+  if (!be) return 'cold';
+  if (be <= 24) return 'hot';
+  if (be <= 36) return 'warm';
+  return 'cold';
+}
+
+// ═══════════════════════════════════════════════════
+// MODE
+// ═══════════════════════════════════════════════════
+let currentMode = 'single';
+function setMode(m, btn) {
+  currentMode = m;
+  document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('single-mode').style.display   = m==='single'   ? '' : 'none';
+  document.getElementById('pipeline-mode').style.display = m==='pipeline' ? '' : 'none';
+  if (m==='pipeline') renderPipeline();
+}
+
+// ═══════════════════════════════════════════════════
+// SINGLE BORROWER
+// ═══════════════════════════════════════════════════
+function runSingle() {
+  const name       = document.getElementById('s-name').value||'Borrower';
+  const loanType   = document.getElementById('s-loan-type').value;
+  const currRate   = parseFloat(document.getElementById('s-curr-rate').value)||0;
+  const balance    = parseFloat(document.getElementById('s-balance').value)||0;
+  const remTerm    = parseInt(document.getElementById('s-rem-term').value)||30;
+  const todayRate  = parseFloat(document.getElementById('s-today-rate').value)||0;
+  const propVal    = parseFloat(document.getElementById('s-prop-val').value)||0;
+  const score      = parseInt(document.getElementById('s-score').value)||720;
+  const ccInput    = parseFloat(document.getElementById('s-cc').value)||0;
+  let currPmt      = parseFloat(document.getElementById('s-curr-pmt').value)||0;
+
+  if (!currRate || !balance) { alert('Please enter the current rate and balance.'); return; }
+  if (!todayRate) { alert("Please enter today's rate offer."); return; }
+
+  // Auto-calc current payment if blank
+  if (!currPmt) currPmt = calcPI(balance, currRate/100, remTerm);
+
+  const cc = ccInput || balance * 0.02;
+
+  // ─── STAT BAR ───
+  const newPmt    = calcPI(balance, todayRate/100, remTerm);
+  const monthlySav = currPmt - newPmt;
+  const be        = calcBreakeven(cc, monthlySav);
+  const annSav    = monthlySav * 12;
+  const trigger   = calcTriggerRate(balance, remTerm, currPmt, cc, 36);
+
+  const statBar = document.getElementById('stat-bar');
+  statBar.innerHTML = `
+    <div class="stat">
+      <div class="stat-val ${monthlySav>0?'pos':'neg'}">${monthlySav>0?'+':''}${fmt(monthlySav)}</div>
+      <div class="stat-lbl">Monthly Savings<br>at Today's Rate</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val ${annSav>0?'pos':'neg'}">${fmt(Math.abs(annSav))}</div>
+      <div class="stat-lbl">${annSav>=0?'Annual Savings':'Annual Increase'}</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val ${be&&be<=36?'pos':be&&be<=60?'warn':'neg'}">${be?be+' mo.':'N/A'}</div>
+      <div class="stat-lbl">Breakeven<br>at Today's Rate</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val ${trigger?'pos':'neg'}">${trigger?trigger+'%':'None'}</div>
+      <div class="stat-lbl">Trigger Rate<br>(≤36 mo. breakeven)</div>
+    </div>`;
+
+  // ─── RATE SENSITIVITY TABLE ───
+  const maxBar = Math.max(1, monthlySav * 1.5);
+  let rows = '';
+  const steps = [];
+  for (let r = Math.min(currRate - 0.25, 7.5); r >= Math.max(currRate - 3.5, 2.0); r -= 0.25) {
+    steps.push(parseFloat(r.toFixed(3)));
+  }
+  // Always include today's rate
+  if (!steps.includes(todayRate)) steps.push(todayRate);
+  steps.sort((a,b)=>b-a);
+
+  steps.forEach(r => {
+    const np   = calcPI(balance, r/100, remTerm);
+    const sav  = currPmt - np;
+    const beM  = calcBreakeven(cc, sav);
+    const ann5 = sav * 60 - cc;
+    const isToday = Math.abs(r - todayRate) < 0.001;
+    const isTrigger = trigger && Math.abs(r - trigger) < 0.001;
+    const cls = isTrigger ? 'trigger' : isToday ? 'today' : '';
+    const barW = sav > 0 ? Math.min(80, (sav/maxBar)*80) : 0;
+    rows += `<tr class="${cls}">
+      <td>${fmtR(r)}</td>
+      <td>${fmt(np)}/mo</td>
+      <td style="color:${sav>0?'var(--green)':'var(--red)'}">
+        ${sav>0?'+':''}${fmt(sav)}/mo
+        ${sav>0?`<span class="savings-bar" style="width:${barW}px"></span>`:''}
+      </td>
+      <td>${beM?beM+' mo.':'—'}</td>
+      <td style="color:${ann5>0?'var(--green)':'var(--red)'}">
+        ${ann5>0?'+':''}${ann5?fmt(ann5):'—'}
+      </td>
+      <td>${beM?oppTierLabel(oppTier(beM)):beM===null&&sav<=0?'<span class="opp-badge opp-cold">No savings</span>':'—'}</td>
+    </tr>`;
+  });
+
+  document.getElementById('rate-table-wrap').innerHTML = `
+    <div class="rate-table-wrap">
+      <table class="rate-tbl">
+        <thead>
+          <tr>
+            <th>New Rate</th>
+            <th>New P&amp;I</th>
+            <th>Monthly Savings</th>
+            <th>Breakeven</th>
+            <th>5-Yr Net Savings</th>
+            <th>Opportunity</th>
+          </tr>
+        </thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>
+    <p style="font-size:10.5px;color:var(--text-muted);margin-top:8px">
+      Est. closing costs: ${fmt(cc)} · Current P&amp;I: ${fmt(currPmt)}/mo · Remaining term: ${remTerm} yrs
+    </p>`;
+
+  // ─── 5YR / LIFETIME COMPARISON ───
+  const totCurr5  = currPmt * 60;
+  const totNew5   = newPmt  * 60 + cc;
+  const delta5    = totCurr5 - totNew5;
+  const totCurrLife = totalPaid(balance, currRate/100, remTerm);
+  const totNewLife  = totalPaid(balance, todayRate/100, remTerm) + cc;
+  const deltaLife   = totCurrLife - totNewLife;
+
+  document.getElementById('compare-wrap').innerHTML = `
+    <div class="sec-hdr">At Today's Rate (${todayRate}%) vs. Current (${currRate}%)</div>
+    <div class="compare-grid">
+      <div class="cmp-card current">
+        <div class="cmp-label">Current Loan — Keep as-is</div>
+        <div class="cmp-row"><span>Monthly P&amp;I</span><span>${fmt(currPmt)}</span></div>
+        <div class="cmp-row"><span>5-Year Total Paid</span><span>${fmt(totCurr5)}</span></div>
+        <div class="cmp-row"><span>Lifetime Total Paid</span><span>${fmt(totCurrLife)}</span></div>
+      </div>
+      <div class="cmp-card new">
+        <div class="cmp-label">Refinance Now — ${todayRate}%</div>
+        <div class="cmp-row"><span>Monthly P&amp;I</span><span>${fmt(newPmt)}</span></div>
+        <div class="cmp-row"><span>5-Year Total (incl. ${fmt(cc)} CC)</span><span>${fmt(totNew5)}</span></div>
+        <div class="cmp-row"><span>Lifetime Total (incl. CC)</span><span>${fmt(totNewLife)}</span></div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px">
+      <div class="cmp-delta">
+        <div class="cmp-delta-val" style="color:${delta5>0?'var(--green)':'var(--red)'}">${delta5>0?'+':''}${fmt(delta5)}</div>
+        <div class="cmp-delta-lbl">5-Year Net Savings<br><span style="font-size:10px;color:var(--text-muted)">After closing costs</span></div>
+      </div>
+      <div class="cmp-delta">
+        <div class="cmp-delta-val" style="color:${deltaLife>0?'var(--green)':'var(--red)'}">${deltaLife>0?'+':''}${fmt(deltaLife)}</div>
+        <div class="cmp-delta-lbl">Lifetime Net Savings<br><span style="font-size:10px;color:var(--text-muted)">After closing costs</span></div>
+      </div>
+    </div>`;
+
+  // ─── PMI REMOVAL CALLOUT ───
+  const pmiSec = document.getElementById('pmi-section');
+  pmiSec.innerHTML = '';
+  if (loanType==='conv' && propVal>0 && balance>0) {
+    const ltv = balance/propVal;
+    if (ltv > 0.80) {
+      const amtToPMICancel = balance - (propVal*0.80);
+      const pi30 = calcPI(balance, currRate/100, 30);
+      const monthsToPMI = amtToPMICancel>0 ? Math.ceil(amtToPMICancel/(pi30*0.25)) : null;
+      // rough PMI
+      const pmiAnnRate = score>=760?0.0016: score>=720?0.0030: score>=680?0.0046: score>=640?0.0068: 0.0084;
+      const pmiMo = Math.round((balance*pmiAnnRate)/12);
+      const refiDropsPMI = (balance/propVal)<=0.80;
+      pmiSec.innerHTML = `
+        <div class="pmi-callout" style="margin-bottom:20px">
+          <span>💡</span>
+          <div>
+            <strong>PMI Opportunity:</strong> Current LTV is ${(ltv*100).toFixed(1)}% — borrower is paying est. <strong>${fmt(pmiMo)}/mo in PMI</strong>.
+            ${refiDropsPMI
+              ? 'A refi at this balance would keep PMI unless the new loan includes sufficient paydown.'
+              : `At current paydown pace, PMI cancels in roughly ${monthsToPMI} months. `
+            }
+            If refinancing, include this as a talking point — the true savings picture includes the PMI timeline.
+          </div>
+        </div>`;
+    }
+  }
+
+  // ─── TALKING POINTS ───
+  document.getElementById('talking-pts').innerHTML = buildTalkingPts(
+    name, loanType, currRate, todayRate, balance, remTerm, currPmt, newPmt, monthlySav, be, annSav, delta5, deltaLife, cc, trigger
+  );
+
+  // Show results
+  document.getElementById('single-results').style.display = '';
+  setTimeout(()=>document.getElementById('single-results').scrollIntoView({behavior:'smooth',block:'start'}),50);
+}
+
+function oppTierLabel(tier) {
+  if (tier==='hot')  return '<span class="opp-badge opp-hot">🔥 Hot</span>';
+  if (tier==='warm') return '<span class="opp-badge opp-warm">⚡ Warm</span>';
+  return '<span class="opp-badge opp-cold">❄️ Cold</span>';
+}
+
+function buildTalkingPts(name, type, currRate, todayRate, balance, remTerm, currPmt, newPmt, monthlySav, be, annSav, delta5, deltaLife, cc, trigger) {
+  if (monthlySav <= 0 && !trigger) {
+    return `<div class="card"><div class="card-body">
+      <div class="callout warn"><span>📞</span><div>
+        <strong>Not a refi candidate yet at today's rates.</strong>
+        The new payment (${fmtR(parseFloat(document.getElementById('s-today-rate').value))}) would not lower the monthly payment enough to break even in a reasonable timeframe.
+        ${trigger?`Set a rate alert at <strong>${trigger}%</strong> — that's your trigger point.`:'Monitor quarterly. When rates drop, run this again.'}
+      </div></div>
+    </div></div>`;
+  }
+
+  const openScript = monthlySav>0
+    ? `"Hey ${name.split(' ')[0]}, I've been watching rates and I wanted to call you because I ran the numbers on your loan. If we refinanced you today at ${todayRate}%, your payment drops by ${fmt(monthlySav)}/month. That's ${fmt(annSav)} back in your pocket every year."`
+    : `"Hey, I've been watching rates on your loan. We're not quite at the trigger point yet, but I wanted you to know I'm watching it — when we hit ${trigger}%, the math works in your favor and I'll call you."`;
+
+  return `<div class="tp-wrap">
+    <div class="tp-eyebrow">🎙️ Sales Playbook</div>
+    <div class="tp-title">How to Have This Conversation</div>
+    <div class="tp-script">${openScript}</div>
+    <div class="tp-pts">
+      ${monthlySav>0?`<div class="tp-pt"><span class="tp-pt-icon">💰</span><div><strong>Lead with the monthly number.</strong> "${fmt(monthlySav)}/month" is the most emotional number. Follow with "${fmt(annSav)}/year" to amplify it. Let them do the math out loud.</div></div>`:''}
+      ${be&&be<=36?`<div class="tp-pt"><span class="tp-pt-icon">⏱️</span><div><strong>Breakeven is ${be} months — under 3 years.</strong> "You'll have every dollar of closing costs paid back in ${be} months. After that, it's pure savings for the life of the loan."</div></div>`:''}
+      ${delta5>0?`<div class="tp-pt"><span class="tp-pt-icon">📊</span><div><strong>5-year net savings: ${fmt(delta5)}.</strong> "Even after we pay closing costs, over the next 5 years you come out ${fmt(delta5)} ahead. That's money that stays in your family."</div></div>`:''}
+      ${deltaLife>0?`<div class="tp-pt"><span class="tp-pt-icon">🏆</span><div><strong>Lifetime savings: ${fmt(deltaLife)}.</strong> Use this with borrowers who plan to stay long-term. It reframes closing costs as trivial against the full picture.</div></div>`:''}
+      ${type==='va'?`<div class="tp-pt"><span class="tp-pt-icon">🎖️</span><div><strong>IRRRL is the easiest refi product in the industry.</strong> "No appraisal, simplified income, and the VA funding fee is only 0.5% — this is the smoothest refi process you'll ever go through."</div></div>`:''}
+      ${type==='fha'?`<div class="tp-pt"><span class="tp-pt-icon">🔄</span><div><strong>FHA Streamline angle.</strong> If the current loan is FHA, a streamline refi skips the appraisal and reduces doc requirements. This is often the fastest path.</div></div>`:''}
+      ${trigger?`<div class="tp-pt"><span class="tp-pt-icon">🎯</span><div><strong>Set the trigger rate expectation.</strong> "I'm watching for ${trigger}% — that's when this loan crosses the 36-month breakeven threshold and the math is clearly in your favor. I'll call you the day we can lock that."</div></div>`:''}
+      <div class="tp-pt"><span class="tp-pt-icon">📅</span><div><strong>Close with a commitment.</strong> "Do you want me to put you on my rate watch list? I'll reach out the moment we hit your number — you won't have to track rates yourself."</div></div>
+    </div>
+  </div>`;
+}
+
+// ═══════════════════════════════════════════════════
+// PIPELINE
+// ═══════════════════════════════════════════════════
+let pipeline = JSON.parse(localStorage.getItem('rw-pipeline')||'[]');
+let editingId = null;
+
+function savePipeline() {
+  localStorage.setItem('rw-pipeline', JSON.stringify(pipeline));
+}
+
+function openAddModal(id) {
+  editingId = id||null;
+  const bwr = id ? pipeline.find(b=>b.id===id) : null;
+  document.getElementById('modal-title').textContent = bwr ? 'Edit Borrower' : 'Add Borrower to Pipeline';
+  document.getElementById('modal-save-btn').textContent = bwr ? 'Save Changes' : 'Add to Pipeline';
+  ['name','loan-type','curr-rate','balance','rem-term','today-rate','prop-val','score','cc','lo','notes'].forEach(k => {
+    const el = document.getElementById('m-'+k);
+    if (el) el.value = bwr ? (bwr[k.replace(/-/g,'_')]||'') : '';
+  });
+  if (bwr) {
+    document.getElementById('m-loan-type').value = bwr.loan_type||'conv';
+    document.getElementById('m-rem-term').value  = bwr.rem_term||'30';
+  }
+  document.getElementById('add-modal').classList.remove('hidden');
+}
+
+function closeModal() {
+  document.getElementById('add-modal').classList.add('hidden');
+  editingId = null;
+}
+
+function saveBorrower() {
+  const get = id => { const el=document.getElementById('m-'+id); return el?el.value:''; };
+  const bwr = {
+    id:         editingId || Date.now().toString(),
+    name:       get('name')||'Unnamed',
+    loan_type:  get('loan-type'),
+    curr_rate:  parseFloat(get('curr-rate'))||0,
+    balance:    parseFloat(get('balance'))||0,
+    rem_term:   parseInt(get('rem-term'))||30,
+    today_rate: parseFloat(get('today-rate'))||0,
+    prop_val:   parseFloat(get('prop-val'))||0,
+    score:      parseInt(get('score'))||720,
+    cc:         parseFloat(get('cc'))||0,
+    lo:         get('lo'),
+    notes:      get('notes'),
+    added:      editingId ? (pipeline.find(b=>b.id===editingId)||{}).added : new Date().toLocaleDateString()
+  };
+  if (!bwr.curr_rate||!bwr.balance) { alert('Rate and balance are required.'); return; }
+  if (editingId) {
+    pipeline = pipeline.map(b=>b.id===editingId?bwr:b);
+  } else {
+    pipeline.push(bwr);
+  }
+  savePipeline();
+  closeModal();
+  renderPipeline();
+}
+
+function removeBorrower(id) {
+  if (!confirm('Remove this borrower from pipeline?')) return;
+  pipeline = pipeline.filter(b=>b.id!==id);
+  savePipeline();
+  renderPipeline();
+}
+
+function clearPipeline() {
+  if (!confirm('Clear all borrowers from the pipeline?')) return;
+  pipeline = [];
+  savePipeline();
+  renderPipeline();
+}
+
+let sortKey = 'added';
+function sortPipeline(key) {
+  sortKey = key;
+  renderPipeline();
+}
+
+function calcBorrowerStats(b) {
+  const currPmt = calcPI(b.balance, b.curr_rate/100, b.rem_term);
+  const newPmt  = b.today_rate ? calcPI(b.balance, b.today_rate/100, b.rem_term) : null;
+  const cc      = b.cc || b.balance * 0.02;
+  const save    = newPmt ? currPmt - newPmt : null;
+  const be      = save != null ? calcBreakeven(cc, save) : null;
+  const trigger = calcTriggerRate(b.balance, b.rem_term, currPmt, cc, 36);
+  const tier    = oppTier(be);
+  const delta5  = save != null ? (save * 60 - cc) : null;
+  return {currPmt, newPmt, save, be, trigger, tier, delta5, cc};
+}
+
+function renderPipeline() {
+  const wrap = document.getElementById('pipe-table-wrap');
+  if (!pipeline.length) {
+    wrap.innerHTML = `<div class="empty-pipe">
+      <div class="ep-icon">📋</div>
+      <p>No borrowers in pipeline yet.<br>Click <strong>+ Add Borrower</strong> to start tracking refi opportunities.</p>
+    </div>`;
+    return;
+  }
+
+  // Sort
+  const sorted = [...pipeline].sort((a,b) => {
+    const sa = calcBorrowerStats(a), sb = calcBorrowerStats(b);
+    if (sortKey==='savings') return (sb.save||0)-(sa.save||0);
+    if (sortKey==='opp') {
+      const order = {hot:0,warm:1,cold:2};
+      return (order[sa.tier]||2)-(order[sb.tier]||2);
+    }
+    return 0; // default: added order
+  });
+
+  let rows = sorted.map(b => {
+    const s = calcBorrowerStats(b);
+    const typeLabel = {va:'VA',fha:'FHA',conv:'Conv'}[b.loan_type]||b.loan_type.toUpperCase();
+    return `<tr>
+      <td><strong>${b.name}</strong>${b.lo?`<br><span style="font-size:10.5px;color:var(--text-muted)">LO: ${b.lo}</span>`:''}</td>
+      <td><span class="opp-badge" style="background:var(--cream);color:var(--navy)">${typeLabel}</span></td>
+      <td><span class="current-chip">${b.curr_rate}%</span></td>
+      <td>${fmt(b.balance)}</td>
+      <td>${b.today_rate?`<span class="current-chip">${b.today_rate}%</span>`:'<span style="color:var(--text-muted)">—</span>'}</td>
+      <td style="color:${s.save&&s.save>0?'var(--green)':'var(--red)'};font-weight:600">${s.save!=null?(s.save>0?'+':'')+fmt(s.save)+'/mo':'—'}</td>
+      <td>${s.be?s.be+' mo.':'—'}</td>
+      <td>${s.trigger?`<span class="trigger-chip">${s.trigger}%</span>`:'<span style="color:var(--text-muted)">—</span>'}</td>
+      <td>${oppTierLabel(s.tier)}</td>
+      <td>${b.notes?`<span style="font-size:11px;color:var(--text-mid)">${b.notes}</span>`:'—'}</td>
+      <td>
+        <div class="action-btns">
+          <button class="btn-sm btn-outline" style="padding:0 10px;height:28px;font-size:11px" onclick="drillDown('${b.id}')">Detail</button>
+          <button class="btn-sm btn-outline" style="padding:0 10px;height:28px;font-size:11px" onclick="openAddModal('${b.id}')">Edit</button>
+          <button class="btn-sm btn-danger" style="padding:0 8px;height:28px;font-size:11px" onclick="removeBorrower('${b.id}')">✕</button>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+
+  // Totals row
+  const totalSav = sorted.reduce((acc,b)=>{ const s=calcBorrowerStats(b); return acc+(s.save&&s.save>0?s.save:0); },0);
+  const hotCount = sorted.filter(b=>calcBorrowerStats(b).tier==='hot').length;
+  const warmCount= sorted.filter(b=>calcBorrowerStats(b).tier==='warm').length;
+
+  wrap.innerHTML = `
+    <div style="display:flex;gap:14px;margin-bottom:14px;flex-wrap:wrap">
+      <div class="stat" style="flex:1;min-width:140px;padding:12px 16px">
+        <div class="stat-val pos" style="font-size:20px">${sorted.length}</div>
+        <div class="stat-lbl">Borrowers Tracked</div>
+      </div>
+      <div class="stat" style="flex:1;min-width:140px;padding:12px 16px">
+        <div class="stat-val pos" style="font-size:20px">${hotCount}</div>
+        <div class="stat-lbl">🔥 Hot (≤24 mo.)</div>
+      </div>
+      <div class="stat" style="flex:1;min-width:140px;padding:12px 16px">
+        <div class="stat-val warn" style="font-size:20px">${warmCount}</div>
+        <div class="stat-lbl">⚡ Warm (25–36 mo.)</div>
+      </div>
+      <div class="stat" style="flex:1;min-width:140px;padding:12px 16px">
+        <div class="stat-val pos" style="font-size:20px">${fmt(totalSav)}</div>
+        <div class="stat-lbl">Total Monthly Savings<br>in Pipeline</div>
+      </div>
+    </div>
+    <div class="pipe-table-wrap">
+      <table class="pipe-tbl">
+        <thead>
+          <tr>
+            <th>Borrower</th><th>Type</th><th>Curr Rate</th><th>Balance</th>
+            <th>Today's Rate</th><th>Mo. Savings</th><th>Breakeven</th>
+            <th>Trigger Rate</th><th>Opportunity</th><th>Notes</th><th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>`;
+}
+
+function drillDown(id) {
+  const b = pipeline.find(bwr=>bwr.id===id);
+  if (!b) return;
+  // Pre-fill single borrower form and switch
+  document.getElementById('s-name').value       = b.name;
+  document.getElementById('s-loan-type').value  = b.loan_type;
+  document.getElementById('s-curr-rate').value  = b.curr_rate;
+  document.getElementById('s-balance').value    = b.balance;
+  document.getElementById('s-rem-term').value   = b.rem_term;
+  document.getElementById('s-today-rate').value = b.today_rate;
+  document.getElementById('s-prop-val').value   = b.prop_val||'';
+  document.getElementById('s-score').value      = b.score||'';
+  document.getElementById('s-cc').value         = b.cc||'';
+  setMode('single', document.querySelector('.mode-btn'));
+  setTimeout(runSingle, 100);
+}
+
+function printPipeline() { window.print(); }
+
+// ═══════════════════════════════════════════════════
+// TIMESTAMP
+// ═══════════════════════════════════════════════════
+(function(){
+  const d = new Date(document.lastModified);
+  const mo = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const h = d.getHours(), m = d.getMinutes();
+  const ampm = h>=12?'PM':'AM';
+  const h12 = h%12||12;
+  document.getElementById('build-ts').textContent =
+    mo[d.getMonth()]+' '+d.getDate()+', '+d.getFullYear()+
+    ' · '+h12+':'+(m<10?'0'+m:m)+' '+ampm;
+})();
+</script>
+</body>
+</html>
