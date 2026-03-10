@@ -7,1604 +7,1063 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --navy: #0d2340;
-      --navy-mid: #153256;
-      --navy-light: #1e4678;
-      --gold: #c9a84c;
-      --gold-light: #e2c47a;
-      --off-white: #f5f3ef;
-      --warm-gray: #e8e4dd;
-      --text-dark: #1a1a2e;
-      --text-muted: #5a6a7e;
-      --white: #ffffff;
-      --va-color: #1a4a7a;
-      --va-accent: #3a7bd5;
-      --fha-color: #1a5c3a;
-      --fha-accent: #2ecc71;
-      --conv-color: #5c3a1a;
-      --conv-accent: #c9a84c;
-      --red-soft: #fee2e2;
-      --red-text: #991b1b;
-      --green-soft: #dcfce7;
-      --green-text: #166534;
-      --yellow-soft: #fef9c3;
-      --yellow-text: #854d0e;
+      --navy:#0d2340;--navy-mid:#153256;--navy-light:#1e4678;
+      --gold:#c9a84c;--gold-light:#e2c47a;
+      --off-white:#f5f3ef;--warm-gray:#e8e4dd;
+      --text-dark:#1a1a2e;--text-muted:#5a6a7e;--white:#ffffff;
+      --va-bg:#0d2b5e;--va-bg2:#1a4a7a;--va-accent:#3a7bd5;--va-light:#7eb3ff;
+      --fha-bg:#0d3d25;--fha-bg2:#1a5c3a;--fha-accent:#2ecc71;--fha-light:#6ee7a0;
+      --conv-bg:#2a1a08;--conv-bg2:#5c3a1a;--conv-accent:#c9a84c;--conv-light:#e2c47a;
+      --red-soft:#fee2e2;--red-text:#991b1b;
+      --green-soft:#dcfce7;--green-text:#166534;
+      --yellow-soft:#fef9c3;--yellow-text:#854d0e;
     }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'DM Sans',sans-serif;background:var(--off-white);color:var(--text-dark);min-height:100vh}
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    nav{background:#071828;padding:0 40px;display:flex;align-items:center;gap:6px;height:40px;border-bottom:1px solid rgba(201,168,76,0.15)}
+    nav a{font-size:12px;font-weight:500;letter-spacing:.8px;text-transform:uppercase;color:rgba(255,255,255,.45);text-decoration:none;padding:0 14px;height:100%;display:flex;align-items:center;border-bottom:2px solid transparent;transition:color .2s;white-space:nowrap}
+    nav a:hover{color:var(--gold-light)}
+    nav a.active{color:var(--gold);border-bottom-color:var(--gold)}
 
-    body {
-      font-family: 'DM Sans', sans-serif;
-      background: var(--off-white);
-      color: var(--text-dark);
-      min-height: 100vh;
-    }
+    header{background:var(--navy);padding:0 40px;display:flex;align-items:center;justify-content:space-between;height:72px;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(0,0,0,.25)}
+    .brand{display:flex;align-items:center;gap:14px;text-decoration:none}
+    .brand-logo{width:38px;height:38px;background:var(--gold);border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:var(--navy)}
+    .brand-text{display:flex;flex-direction:column;gap:1px}
+    .brand-name{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:700;color:var(--white);line-height:1.1}
+    .brand-sub{font-size:10px;color:var(--gold-light);letter-spacing:2px;text-transform:uppercase}
+    .header-badge{background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.35);color:var(--gold-light);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;padding:5px 12px;border-radius:20px}
 
-    /* ── NAV ── */
-    nav {
-      background: #071828;
-      padding: 0 40px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      height: 40px;
-      border-bottom: 1px solid rgba(201,168,76,0.15);
-    }
-    nav a {
-      font-size: 12px; font-weight: 500;
-      letter-spacing: 0.8px; text-transform: uppercase;
-      color: rgba(255,255,255,0.45); text-decoration: none;
-      padding: 0 14px; height: 100%;
-      display: flex; align-items: center;
-      border-bottom: 2px solid transparent;
-      transition: color 0.2s;
-    }
-    nav a:hover { color: var(--gold-light); }
-    nav a.active { color: var(--gold); border-bottom-color: var(--gold); }
+    .hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-mid) 50%,var(--navy-light) 100%);padding:38px 40px 32px;text-align:center;position:relative;overflow:hidden}
+    .hero::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle at 15% 60%,rgba(201,168,76,.08) 0%,transparent 50%),radial-gradient(circle at 85% 20%,rgba(201,168,76,.06) 0%,transparent 40%)}
+    .hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+    .hero-icon{font-size:34px;margin-bottom:8px;position:relative}
+    .hero-eyebrow{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;position:relative}
+    .hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(26px,4vw,40px);font-weight:700;color:var(--white);line-height:1.15;margin-bottom:8px;position:relative}
+    .hero h1 span{color:var(--gold)}
+    .hero p{font-size:13.5px;font-weight:300;color:rgba(255,255,255,.6);max-width:560px;margin:0 auto;line-height:1.65;position:relative}
 
-    /* ── HEADER ── */
-    header {
-      background: var(--navy);
-      padding: 0 40px;
-      display: flex; align-items: center; justify-content: space-between;
-      height: 72px;
-      position: sticky; top: 0; z-index: 100;
-      box-shadow: 0 2px 16px rgba(0,0,0,0.25);
-    }
-    .brand { display: flex; align-items: center; gap: 14px; text-decoration: none; }
-    .brand-logo {
-      width: 38px; height: 38px; background: var(--gold); border-radius: 6px;
-      display: flex; align-items: center; justify-content: center;
-      font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 700; color: var(--navy);
-    }
-    .brand-text { display: flex; flex-direction: column; gap: 1px; }
-    .brand-name { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 700; color: var(--white); line-height: 1.1; }
-    .brand-sub { font-size: 10px; color: var(--gold-light); letter-spacing: 2px; text-transform: uppercase; }
-    .header-badge {
-      background: rgba(201,168,76,0.15); border: 1px solid rgba(201,168,76,0.35);
-      color: var(--gold-light); font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase;
-      padding: 5px 12px; border-radius: 20px;
-    }
+    .page-wrap{max-width:1300px;margin:0 auto;padding:24px 32px 80px}
 
-    /* ── HERO ── */
-    .hero {
-      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 50%, var(--navy-light) 100%);
-      padding: 48px 40px 40px; text-align: center; position: relative; overflow: hidden;
-    }
-    .hero::before {
-      content: ''; position: absolute; inset: 0;
-      background-image:
-        radial-gradient(circle at 15% 60%, rgba(201,168,76,0.08) 0%, transparent 50%),
-        radial-gradient(circle at 85% 20%, rgba(201,168,76,0.06) 0%, transparent 40%);
-    }
-    .hero::after {
-      content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px;
-      background: linear-gradient(90deg, transparent, var(--gold), transparent);
-    }
-    .compass-icon {
-      width: 52px; height: 52px; background: rgba(201,168,76,0.15); border: 1px solid rgba(201,168,76,0.3);
-      border-radius: 50%; display: flex; align-items: center; justify-content: center;
-      font-size: 24px; margin: 0 auto 16px; position: relative;
-    }
-    .hero-eyebrow { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; position: relative; }
-    .hero h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(28px, 4vw, 42px); font-weight: 700; color: var(--white); line-height: 1.15; margin-bottom: 12px; position: relative; }
-    .hero h1 span { color: var(--gold); }
-    .hero p { font-size: 14px; font-weight: 300; color: rgba(255,255,255,0.6); max-width: 520px; margin: 0 auto; line-height: 1.65; position: relative; }
+    .mode-bar{display:flex;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap}
+    .mode-bar-label{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted)}
+    .mode-toggle{display:flex;background:var(--white);border:1px solid var(--warm-gray);border-radius:9px;padding:3px;gap:3px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+    .mode-btn{padding:8px 22px;font-size:12.5px;font-weight:600;border:none;background:none;cursor:pointer;border-radius:7px;color:var(--text-muted);transition:all .2s;font-family:'DM Sans',sans-serif}
+    .mode-btn.active{background:var(--navy);color:var(--white);box-shadow:0 2px 10px rgba(13,35,64,.3)}
+    .mode-hint{font-size:11px;color:var(--text-muted);background:var(--white);border:1px solid var(--warm-gray);border-radius:6px;padding:5px 10px}
 
-    /* ── MAIN LAYOUT ── */
-    .workspace {
-      max-width: 1280px; margin: 0 auto;
-      display: grid;
-      grid-template-columns: 400px 1fr;
-      gap: 28px;
-      padding: 32px 40px 80px;
-      align-items: start;
-    }
+    .two-col{display:grid;grid-template-columns:355px 1fr;gap:22px;align-items:start}
 
-    /* ── INPUT PANEL ── */
-    .input-panel {
-      background: var(--white);
-      border-radius: 16px;
-      border: 1px solid rgba(13,35,64,0.07);
-      box-shadow: 0 4px 20px rgba(13,35,64,0.08);
-      overflow: hidden;
-      position: sticky;
-      top: 88px;
-    }
+    .input-panel{background:var(--white);border-radius:16px;border:1px solid rgba(13,35,64,.07);box-shadow:0 4px 20px rgba(13,35,64,.08);overflow:hidden;position:sticky;top:118px}
+    .panel-hdr{background:linear-gradient(135deg,var(--navy),var(--navy-mid));padding:14px 20px}
+    .panel-hdr h2{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:700;color:var(--white)}
+    .panel-hdr p{font-size:11px;color:rgba(255,255,255,.4);margin-top:2px}
+    .panel-body{padding:16px 18px;display:flex;flex-direction:column;gap:16px;max-height:calc(100vh - 260px);overflow-y:auto}
 
-    .panel-header {
-      background: linear-gradient(135deg, var(--navy), var(--navy-mid));
-      padding: 18px 24px;
-      border-bottom: 1px solid rgba(201,168,76,0.2);
-    }
-    .panel-header h2 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 18px; font-weight: 700; color: var(--white);
-      display: flex; align-items: center; gap: 8px;
-    }
-    .panel-header p { font-size: 11px; color: rgba(255,255,255,0.45); margin-top: 3px; letter-spacing: 0.3px; }
+    .fsec-label{font-size:9.5px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);padding-bottom:6px;border-bottom:1px solid rgba(201,168,76,.2);margin-bottom:9px;display:flex;align-items:center;gap:6px}
+    .frow{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .fgroup{display:flex;flex-direction:column;gap:3px}
+    .fgroup.full{grid-column:1/-1}
+    .flabel{font-size:11px;font-weight:600;color:var(--text-muted);display:flex;align-items:center;gap:4px}
+    .fhint{font-size:10px;color:var(--text-muted);margin-top:1px}
+    input[type=number],input[type=text],select{width:100%;padding:7px 10px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;background:var(--off-white);border:1px solid var(--warm-gray);border-radius:7px;color:var(--text-dark);transition:border-color .15s,box-shadow .15s;outline:none}
+    input:focus,select:focus{border-color:var(--navy-light);box-shadow:0 0 0 3px rgba(30,70,120,.1)}
 
-    /* Mode Toggle */
-    .mode-toggle-wrap { padding: 16px 24px 0; }
-    .mode-toggle {
-      display: grid; grid-template-columns: 1fr 1fr;
-      background: var(--off-white); border-radius: 8px; padding: 3px;
-      border: 1px solid var(--warm-gray);
-    }
-    .mode-btn {
-      padding: 9px 12px; font-size: 12px; font-weight: 600;
-      letter-spacing: 0.5px; text-transform: uppercase;
-      border: none; background: none; cursor: pointer; border-radius: 6px;
-      color: var(--text-muted); transition: all 0.2s;
-    }
-    .mode-btn.active {
-      background: var(--navy); color: var(--white);
-      box-shadow: 0 2px 8px rgba(13,35,64,0.25);
-    }
+    .score-wrap{text-align:center}
+    .score-num{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:var(--navy);line-height:1}
+    .score-tier{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;margin-top:2px;margin-bottom:8px}
+    .tier-excellent{color:#059669}.tier-good{color:#0369a1}.tier-fair{color:var(--yellow-text)}.tier-poor{color:var(--red-text)}
+    input[type=range]{width:100%;height:4px;appearance:none;background:linear-gradient(90deg,var(--navy-light),var(--gold));border-radius:2px;cursor:pointer;border:none;padding:0;box-shadow:none}
+    input[type=range]::-webkit-slider-thumb{appearance:none;width:18px;height:18px;background:var(--navy);border:2px solid var(--gold);border-radius:50%;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.25)}
+    .score-ticks{display:flex;justify-content:space-between;font-size:9px;color:var(--text-muted);margin-top:3px}
 
-    /* Form Sections */
-    .form-body { padding: 20px 24px; display: flex; flex-direction: column; gap: 20px; max-height: calc(100vh - 300px); overflow-y: auto; }
+    .trow{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:4px 0}
+    .trow-label{font-size:12px;font-weight:500;color:var(--text-dark);display:flex;align-items:center;gap:4px}
+    .toggle-opts{display:flex;gap:4px;flex-shrink:0}
+    .topt{padding:5px 12px;font-size:11px;font-weight:600;border:1px solid var(--warm-gray);border-radius:5px;background:var(--off-white);color:var(--text-muted);cursor:pointer;transition:all .15s;font-family:'DM Sans',sans-serif}
+    .topt.yes{background:var(--green-soft);color:var(--green-text);border-color:#86efac}
+    .topt.noo{background:var(--red-soft);color:var(--red-text);border-color:#fca5a5}
 
-    .form-section { }
-    .form-section-label {
-      font-size: 9.5px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
-      color: var(--gold); margin-bottom: 10px;
-      padding-bottom: 6px; border-bottom: 1px solid rgba(201,168,76,0.2);
-      display: flex; align-items: center; gap: 6px;
-    }
+    /* Tooltip */
+    .tip{display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;border-radius:50%;background:rgba(30,70,120,.12);color:var(--navy-light);font-size:9px;font-weight:700;cursor:help;position:relative;flex-shrink:0;vertical-align:middle}
+    .tip:hover::after{content:attr(data-tip);position:absolute;left:20px;top:50%;transform:translateY(-50%);background:var(--navy);color:var(--white);font-size:11px;font-weight:400;line-height:1.55;padding:9px 13px;border-radius:8px;width:220px;z-index:999;box-shadow:0 4px 16px rgba(0,0,0,.3);white-space:normal;font-family:'DM Sans',sans-serif;letter-spacing:0;text-transform:none}
+    .tip:hover::before{content:'';position:absolute;left:17px;top:50%;transform:translateY(-50%);border:5px solid transparent;border-right-color:var(--navy);z-index:999}
 
-    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    .form-group { display: flex; flex-direction: column; gap: 5px; }
-    .form-group.full { grid-column: 1 / -1; }
+    .analyze-wrap{padding:0 18px 16px}
+    .analyze-btn{width:100%;padding:13px;background:linear-gradient(135deg,var(--navy),var(--navy-light));color:var(--white);border:none;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 4px 16px rgba(13,35,64,.3)}
+    .analyze-btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(13,35,64,.4)}
 
-    label {
-      font-size: 11px; font-weight: 600; color: var(--text-muted);
-      letter-spacing: 0.3px;
-    }
+    /* Scenarios */
+    .scen-area{margin-bottom:20px}
+    .scen-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px}
+    .scen-hdr-left h2{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:var(--navy)}
+    .scen-hdr-left p{font-size:12px;color:var(--text-muted);margin-top:1px}
+    .add-scen-btn{display:flex;align-items:center;gap:6px;padding:9px 16px;background:var(--white);border:1px solid var(--warm-gray);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;color:var(--navy);cursor:pointer;transition:all .15s;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+    .add-scen-btn:hover{border-color:var(--gold);color:var(--gold)}
+    .add-scen-btn:disabled{opacity:.4;cursor:not-allowed}
+    .scen-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:12px}
 
-    input[type="number"], input[type="text"], select {
-      width: 100%;
-      padding: 8px 10px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 13px; font-weight: 500;
-      background: var(--off-white);
-      border: 1px solid var(--warm-gray);
-      border-radius: 7px;
-      color: var(--text-dark);
-      transition: border-color 0.15s, box-shadow 0.15s;
-      outline: none;
-    }
-    input:focus, select:focus {
-      border-color: var(--navy-light);
-      box-shadow: 0 0 0 3px rgba(30,70,120,0.1);
-    }
+    .sc-card{background:var(--white);border-radius:14px;border:1px solid rgba(13,35,64,.08);box-shadow:0 3px 14px rgba(13,35,64,.07);overflow:hidden}
+    .sc-hdr{padding:12px 15px;display:flex;align-items:center;justify-content:space-between}
+    .sc-hdr.va{background:linear-gradient(90deg,var(--va-bg),var(--va-bg2))}
+    .sc-hdr.fha{background:linear-gradient(90deg,var(--fha-bg),var(--fha-bg2))}
+    .sc-hdr.conv{background:linear-gradient(90deg,var(--conv-bg),var(--conv-bg2))}
+    .sc-hdr.empty{background:linear-gradient(90deg,#1a1a2e,#2a2a4e)}
+    .sc-num{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.5)}
+    .sc-label-input{font-size:13px;font-weight:600;background:transparent;border:none;border-bottom:1px dashed rgba(255,255,255,.3);color:var(--white);width:100%;padding:2px 0;outline:none;font-family:'DM Sans',sans-serif}
+    .sc-label-input::placeholder{color:rgba(255,255,255,.35)}
+    .sc-label-input:focus{border-bottom-color:var(--gold)}
+    .sc-remove{background:rgba(255,255,255,.1);border:none;color:rgba(255,255,255,.5);width:22px;height:22px;border-radius:50%;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0}
+    .sc-remove:hover{background:rgba(239,68,68,.3);color:#fca5a5}
+    .sc-body{padding:13px 14px;display:flex;flex-direction:column;gap:9px}
+    .sc-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .sc-field{display:flex;flex-direction:column;gap:3px}
+    .sc-field label{font-size:10.5px;font-weight:600;color:var(--text-muted);display:flex;align-items:center;gap:3px}
+    .sc-field input,.sc-field select{font-size:12.5px;padding:7px 9px}
 
-    /* Credit Score Slider */
-    .score-display {
-      font-size: 22px; font-weight: 700; font-family: 'Cormorant Garamond', serif;
-      color: var(--navy); text-align: center; margin-bottom: 4px;
-    }
-    .score-label { font-size: 10px; text-align: center; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
-    .score-label.excellent { color: var(--green-text); }
-    .score-label.good { color: #0369a1; }
-    .score-label.fair { color: var(--yellow-text); }
-    .score-label.poor { color: var(--red-text); }
-
-    input[type="range"] {
-      width: 100%; height: 4px; appearance: none;
-      background: linear-gradient(90deg, var(--navy-light), var(--gold));
-      border-radius: 2px; cursor: pointer; border: none; padding: 0;
-      box-shadow: none;
-    }
-    input[type="range"]::-webkit-slider-thumb {
-      appearance: none; width: 18px; height: 18px;
-      background: var(--navy); border: 2px solid var(--gold);
-      border-radius: 50%; cursor: pointer;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.25);
-    }
-
-    /* Toggle Group */
-    .toggle-group { display: grid; gap: 4px; }
-    .toggle-row { display: flex; align-items: center; gap: 8px; }
-    .toggle-opts { display: flex; gap: 4px; margin-left: auto; }
-    .toggle-opt {
-      padding: 5px 12px; font-size: 11px; font-weight: 600;
-      border: 1px solid var(--warm-gray); border-radius: 5px;
-      background: var(--off-white); color: var(--text-muted);
-      cursor: pointer; transition: all 0.15s;
-    }
-    .toggle-opt.active-yes { background: var(--green-soft); color: var(--green-text); border-color: #86efac; }
-    .toggle-opt.active-no  { background: var(--red-soft); color: var(--red-text); border-color: #fca5a5; }
-    .toggle-label { font-size: 11.5px; font-weight: 500; color: var(--text-dark); }
-
-    /* Input hint */
-    .input-hint { font-size: 10px; color: var(--text-muted); margin-top: 2px; }
-
-    /* Refi section */
-    #refi-section { display: none; }
-    #refi-section.visible { display: block; }
-
-    /* Analyze Button */
-    .analyze-wrap { padding: 0 24px 20px; }
-    .analyze-btn {
-      width: 100%; padding: 14px;
-      background: linear-gradient(135deg, var(--navy), var(--navy-light));
-      color: var(--white); border: none; border-radius: 10px;
-      font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 700;
-      letter-spacing: 1px; text-transform: uppercase; cursor: pointer;
-      transition: all 0.2s;
-      display: flex; align-items: center; justify-content: center; gap: 8px;
-      box-shadow: 0 4px 16px rgba(13,35,64,0.3);
-    }
-    .analyze-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(13,35,64,0.35); }
-    .analyze-btn:active { transform: translateY(0); }
-
-    /* ── RESULTS PANEL ── */
-    .results-panel { }
-
-    /* Empty State */
-    .empty-state {
-      background: var(--white);
-      border-radius: 16px;
-      border: 1px solid rgba(13,35,64,0.07);
-      padding: 64px 40px; text-align: center;
-      box-shadow: 0 4px 20px rgba(13,35,64,0.06);
-    }
-    .empty-icon { font-size: 48px; margin-bottom: 16px; opacity: 0.4; }
-    .empty-state h3 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 22px; color: var(--navy); margin-bottom: 8px;
-    }
-    .empty-state p { font-size: 13px; color: var(--text-muted); line-height: 1.65; max-width: 340px; margin: 0 auto; }
+    .sc-placeholder{border:2px dashed var(--warm-gray);border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:30px 20px;cursor:pointer;transition:all .2s;background:transparent;min-height:100px}
+    .sc-placeholder:hover{border-color:var(--gold)}
+    .sc-placeholder .plus{font-size:22px;color:var(--warm-gray);transition:color .2s}
+    .sc-placeholder:hover .plus{color:var(--gold)}
+    .sc-placeholder p{font-size:11px;color:var(--text-muted)}
 
     /* Results */
-    #results-content { display: none; animation: fadeUp 0.35s ease both; }
-    #results-content.visible { display: block; }
+    .results-wrap{margin-top:24px}
+    #empty-state{background:var(--white);border-radius:16px;border:1px solid rgba(13,35,64,.07);padding:52px 40px;text-align:center;box-shadow:0 4px 20px rgba(13,35,64,.06)}
+    .empty-icon{font-size:44px;margin-bottom:12px;opacity:.35}
+    #empty-state h3{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--navy);margin-bottom:8px}
+    #empty-state p{font-size:13px;color:var(--text-muted);line-height:1.65;max-width:380px;margin:0 auto}
+    #results-out{display:none;animation:fadeUp .35s ease both}
+    #results-out.show{display:block}
 
-    /* Best Fit Banner */
-    .best-fit-banner {
-      border-radius: 14px; padding: 20px 24px; margin-bottom: 20px;
-      position: relative; overflow: hidden;
-    }
-    .best-fit-banner.va-best { background: linear-gradient(135deg, #0d2b5e, #1a4a7a); }
-    .best-fit-banner.fha-best { background: linear-gradient(135deg, #0d3d25, #1a5c3a); }
-    .best-fit-banner.conv-best { background: linear-gradient(135deg, #2a1a08, #5c3a1a); }
-    .best-fit-banner.no-qualify { background: linear-gradient(135deg, #3d1a1a, #7a1a1a); }
-    .best-fit-banner::after {
-      content: ''; position: absolute; top: -30px; right: -30px;
-      width: 120px; height: 120px; border-radius: 50%;
-      background: rgba(255,255,255,0.04);
-    }
-    .best-fit-eyebrow {
-      font-size: 9px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase;
-      color: rgba(255,255,255,0.5); margin-bottom: 6px;
-    }
-    .best-fit-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 26px; font-weight: 700; color: var(--white);
-      display: flex; align-items: center; gap: 10px; margin-bottom: 10px;
-    }
-    .best-fit-title .loan-badge {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
-      padding: 4px 10px; border-radius: 20px;
-    }
-    .loan-badge.va { background: rgba(58,123,213,0.3); color: #7eb3ff; }
-    .loan-badge.fha { background: rgba(46,204,113,0.25); color: #6ee7a0; }
-    .loan-badge.conv { background: rgba(201,168,76,0.25); color: var(--gold-light); }
-    .loan-badge.none { background: rgba(239,68,68,0.25); color: #fca5a5; }
-    .best-fit-reason { font-size: 12.5px; color: rgba(255,255,255,0.7); line-height: 1.65; }
+    .res-actions{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:10px}
+    .res-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:var(--navy)}
+    .res-sub{font-size:12px;color:var(--text-muted);margin-top:1px}
+    .print-btn{display:flex;align-items:center;gap:6px;padding:9px 16px;background:none;border:1px solid var(--warm-gray);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;color:var(--text-muted);cursor:pointer;transition:all .15s}
+    .print-btn:hover{border-color:var(--navy);color:var(--navy)}
 
-    /* Qual Cards Row */
-    .qual-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; }
+    .best-summary{background:linear-gradient(135deg,var(--navy),var(--navy-light));border-radius:14px;padding:18px 22px;margin-bottom:18px;position:relative;overflow:hidden}
+    .best-summary::after{content:'🧭';position:absolute;right:18px;top:50%;transform:translateY(-50%);font-size:48px;opacity:.07}
+    .bs-eyebrow{font-size:9.5px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin-bottom:5px}
+    .bs-title{font-family:'Cormorant Garamond',serif;font-size:21px;font-weight:700;color:var(--white);margin-bottom:7px}
+    .bs-body{font-size:12.5px;color:rgba(255,255,255,.7);line-height:1.7;max-width:820px}
 
-    .qual-card {
-      background: var(--white);
-      border-radius: 12px;
-      border: 1px solid rgba(13,35,64,0.07);
-      box-shadow: 0 2px 10px rgba(13,35,64,0.06);
-      overflow: hidden;
-    }
-    .qual-card-header {
-      padding: 12px 16px;
-      display: flex; align-items: center; justify-content: space-between;
-    }
-    .qual-card-header.va { background: linear-gradient(90deg, #0d2b5e, #1a4a7a); }
-    .qual-card-header.fha { background: linear-gradient(90deg, #0d3d25, #1a5c3a); }
-    .qual-card-header.conv { background: linear-gradient(90deg, #2a1a08, #5c3a1a); }
+    .res-cols{display:grid;gap:12px;margin-bottom:18px}
+    .res-cols.c1{grid-template-columns:1fr}
+    .res-cols.c2{grid-template-columns:1fr 1fr}
+    .res-cols.c3{grid-template-columns:1fr 1fr 1fr}
 
-    .qual-loan-name { font-size: 13px; font-weight: 700; color: var(--white); }
-    .qual-status-dot {
-      width: 28px; height: 28px; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 13px; flex-shrink: 0;
-    }
-    .qual-status-dot.qualified { background: rgba(34,197,94,0.2); }
-    .qual-status-dot.borderline { background: rgba(234,179,8,0.2); }
-    .qual-status-dot.disqualified { background: rgba(239,68,68,0.2); }
+    .res-col{background:var(--white);border-radius:14px;border:2px solid transparent;box-shadow:0 3px 14px rgba(13,35,64,.07);overflow:hidden}
+    .res-col.best{border-color:var(--gold);box-shadow:0 4px 24px rgba(201,168,76,.2)}
+    .res-col-hdr{padding:13px 17px 11px}
+    .res-col-hdr.va{background:linear-gradient(135deg,var(--va-bg),var(--va-bg2))}
+    .res-col-hdr.fha{background:linear-gradient(135deg,var(--fha-bg),var(--fha-bg2))}
+    .res-col-hdr.conv{background:linear-gradient(135deg,var(--conv-bg),var(--conv-bg2))}
+    .res-col-top{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:2px;display:flex;align-items:center;justify-content:space-between}
+    .best-badge{background:var(--gold);color:var(--navy);font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;padding:2px 7px;border-radius:10px}
+    .res-col-name{font-size:16px;font-weight:700;color:var(--white);font-family:'Cormorant Garamond',serif}
+    .res-col-type{display:inline-block;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:3px 9px;border-radius:20px;margin-top:5px}
+    .res-col-type.va{background:rgba(58,123,213,.3);color:var(--va-light)}
+    .res-col-type.fha{background:rgba(46,204,113,.25);color:var(--fha-light)}
+    .res-col-type.conv{background:rgba(201,168,76,.25);color:var(--conv-light)}
 
-    .qual-card-body { padding: 14px 16px; }
-    .qual-verdict {
-      font-size: 11px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase;
-      margin-bottom: 8px;
-    }
-    .qual-verdict.qualified { color: var(--green-text); }
-    .qual-verdict.borderline { color: var(--yellow-text); }
-    .qual-verdict.disqualified { color: var(--red-text); }
+    .res-col-body{padding:14px 16px}
 
-    .qual-notes { display: flex; flex-direction: column; gap: 5px; }
-    .qual-note {
-      font-size: 11px; line-height: 1.5; color: var(--text-muted);
-      display: flex; gap: 5px; align-items: flex-start;
-    }
-    .qual-note-dot { font-size: 8px; margin-top: 4px; flex-shrink: 0; }
-    .qual-note-dot.issue { color: var(--red-text); }
-    .qual-note-dot.warning { color: var(--yellow-text); }
-    .qual-note-dot.ok { color: var(--green-text); }
+    .verdict{display:flex;align-items:center;gap:8px;padding:8px 11px;border-radius:8px;margin-bottom:13px}
+    .verdict.qualified{background:var(--green-soft)}
+    .verdict.borderline{background:var(--yellow-soft)}
+    .verdict.disqualified{background:var(--red-soft)}
+    .verdict-icon{font-size:15px}
+    .verdict-label{font-size:11px;font-weight:800;letter-spacing:.8px;text-transform:uppercase}
+    .verdict.qualified .verdict-label{color:var(--green-text)}
+    .verdict.borderline .verdict-label{color:var(--yellow-text)}
+    .verdict.disqualified .verdict-label{color:var(--red-text)}
+    .verdict-sub{font-size:10.5px;color:var(--text-muted);margin-top:1px;line-height:1.4}
 
-    /* Payment Comparison Table */
-    .comparison-card {
-      background: var(--white);
-      border-radius: 14px;
-      border: 1px solid rgba(13,35,64,0.07);
-      box-shadow: 0 3px 16px rgba(13,35,64,0.08);
-      overflow: hidden;
-      margin-bottom: 20px;
-    }
-    .comparison-card-header {
-      background: linear-gradient(90deg, var(--navy), var(--navy-light));
-      padding: 14px 20px;
-      display: flex; align-items: center; justify-content: space-between;
-    }
-    .comparison-card-header h3 {
-      font-size: 13px; font-weight: 600; color: var(--white);
-      display: flex; align-items: center; gap: 6px;
-    }
-    .comparison-table-wrap { overflow-x: auto; }
-    .comparison-table {
-      width: 100%; border-collapse: collapse; font-size: 12px;
-    }
-    .comparison-table thead th {
-      padding: 10px 14px;
-      font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
-      color: var(--text-muted); background: var(--off-white);
-      border-bottom: 1px solid var(--warm-gray); text-align: left;
-      white-space: nowrap;
-    }
-    .comparison-table thead th.va-col { color: var(--va-accent); }
-    .comparison-table thead th.fha-col { color: var(--fha-accent); }
-    .comparison-table thead th.conv-col { color: var(--gold); }
-    .comparison-table thead th.curr-col { color: var(--text-muted); }
+    .pay-rows{display:flex;flex-direction:column;gap:0;margin-bottom:12px}
+    .pay-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid #f0ede8}
+    .pay-row:last-child{border-bottom:none}
+    .pay-row.total-row{border-top:2px solid var(--warm-gray);border-bottom:none;margin-top:4px;padding-top:9px}
+    .pay-label{font-size:11.5px;color:var(--text-muted);display:flex;align-items:center;gap:4px}
+    .pay-val{font-size:12px;font-weight:600;color:var(--text-dark)}
+    .pay-row.total-row .pay-label{font-size:12px;font-weight:700;color:var(--navy)}
+    .pay-row.total-row .pay-val{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:var(--navy)}
+    .pay-row.total-row.lowest .pay-val{color:var(--green-text)}
 
-    .comparison-table tbody tr { border-bottom: 1px solid #f0ede8; }
-    .comparison-table tbody tr:last-child { border-bottom: none; }
-    .comparison-table tbody tr:hover { background: #faf8f5; }
-    .comparison-table tbody td {
-      padding: 10px 14px; color: var(--text-dark); vertical-align: middle;
-    }
-    .comparison-table tbody td.row-label {
-      font-size: 11px; font-weight: 600; color: var(--text-muted);
-      text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap;
-    }
-    .comparison-table tbody td.total-row {
-      font-size: 14px; font-weight: 700; color: var(--navy);
-    }
-    .comparison-table tbody tr.total-highlight { background: rgba(13,35,64,0.03); }
-    .comparison-table tbody td.best-value { color: var(--green-text); font-weight: 700; }
-    .comparison-table tbody td.na-value { color: #bbb; font-style: italic; font-size: 11px; }
-    .comparison-table tbody td.disq-value { color: #ddd; font-size: 11px; }
+    .five-yr{display:flex;justify-content:space-between;font-size:11px;color:var(--text-muted);margin-bottom:12px;padding:4px 0}
 
-    /* Refi Savings Card */
-    .refi-savings-card {
-      background: var(--white);
-      border-radius: 14px;
-      border: 1px solid rgba(13,35,64,0.07);
-      box-shadow: 0 3px 16px rgba(13,35,64,0.08);
-      overflow: hidden;
-      margin-bottom: 20px;
+    .flags{display:flex;flex-direction:column;gap:4px}
+    .flag{display:flex;gap:6px;align-items:flex-start;font-size:11px;line-height:1.5}
+    .fdot{font-size:8px;margin-top:3px;flex-shrink:0}
+    .fdot.ok{color:var(--green-text)}.fdot.warn{color:var(--yellow-text)}.fdot.bad{color:var(--red-text)}
+    .flag.issue{color:var(--red-text)}.flag.warn{color:var(--yellow-text)}.flag.ok{color:var(--green-text)}
+
+    .refi-card{background:var(--white);border-radius:14px;border:1px solid rgba(13,35,64,.07);box-shadow:0 3px 14px rgba(13,35,64,.07);overflow:hidden;margin-bottom:18px}
+    .refi-hdr{background:linear-gradient(90deg,var(--fha-bg),var(--fha-bg2));padding:12px 18px}
+    .refi-hdr h3{font-size:13px;font-weight:600;color:var(--white)}
+    .refi-body{padding:18px 20px}
+    .sav-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:12px}
+    .sstat{text-align:center}
+    .sstat-val{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:var(--navy);line-height:1}
+    .sstat-val.pos{color:var(--green-text)}.sstat-val.neg{color:var(--red-text)}
+    .sstat-lbl{font-size:10px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--text-muted);margin-top:3px}
+    .refi-note{font-size:11.5px;color:var(--text-muted);line-height:1.6;background:var(--off-white);border-radius:8px;padding:9px 13px}
+
+    .callout{border-radius:10px;padding:10px 14px;margin-bottom:14px;display:flex;gap:10px;align-items:flex-start;font-size:12px;line-height:1.6}
+    .callout.warn{background:#fffbeb;border-left:3px solid #d97706;color:#78350f}
+    .callout.info{background:rgba(30,70,120,.07);border-left:3px solid var(--navy-light);color:var(--navy-mid)}
+    .callout strong{font-weight:600}
+
+    .glossary-card{background:var(--white);border-radius:14px;border:1px solid rgba(13,35,64,.07);box-shadow:0 3px 14px rgba(13,35,64,.07);overflow:hidden;margin-bottom:18px}
+    .glossary-hdr{background:var(--off-white);padding:11px 17px;border-bottom:1px solid var(--warm-gray);font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);cursor:pointer;display:flex;align-items:center;justify-content:space-between;user-select:none}
+    .glossary-body{padding:16px 18px;display:none}
+    .glossary-body.open{display:grid;grid-template-columns:1fr 1fr;gap:10px 22px}
+    .gterm-name{font-size:11.5px;font-weight:700;color:var(--navy);margin-bottom:2px}
+    .gterm-def{font-size:11px;color:var(--text-muted);line-height:1.5}
+
+    footer{background:var(--navy);padding:22px 40px;text-align:center}
+    footer p{font-size:12px;color:rgba(255,255,255,.35);letter-spacing:.3px}
+    footer strong{color:rgba(255,255,255,.55)}
+
+    @media(max-width:960px){.two-col{grid-template-columns:1fr}.input-panel{position:static}.res-cols.c3{grid-template-columns:1fr 1fr}}
+    @media(max-width:640px){nav,header,footer{padding-left:16px;padding-right:16px}.page-wrap{padding:16px 14px 60px}.hero{padding:24px 16px}.res-cols.c2,.res-cols.c3{grid-template-columns:1fr}.glossary-body.open{grid-template-columns:1fr}.sav-row{grid-template-columns:1fr}}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+    @media print{
+      nav,header,footer,.mode-bar,.two-col>.input-panel,.scen-area,.res-actions,.print-btn,.glossary-card{display:none!important}
+      .two-col{display:block}.results-wrap{margin-top:0}
+      #results-out{display:block!important}#empty-state{display:none}
+      .res-col-hdr,.best-summary,.refi-hdr{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+      .print-hdr{display:flex!important;align-items:center;gap:12px;margin-bottom:16px;padding-bottom:12px;border-bottom:2px solid var(--gold)}
     }
-    .refi-savings-header {
-      background: linear-gradient(90deg, #0d3d25, #1a5c3a);
-      padding: 14px 20px;
-    }
-    .refi-savings-header h3 { font-size: 13px; font-weight: 600; color: var(--white); }
-    .refi-savings-body { padding: 20px; }
-    .savings-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 16px; }
-    .savings-stat { text-align: center; }
-    .savings-stat-value {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 26px; font-weight: 700; color: var(--navy); line-height: 1;
-    }
-    .savings-stat-value.positive { color: var(--green-text); }
-    .savings-stat-value.negative { color: var(--red-text); }
-    .savings-stat-label { font-size: 10px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; color: var(--text-muted); margin-top: 4px; }
-
-    .refi-note {
-      font-size: 11.5px; color: var(--text-muted); line-height: 1.6;
-      background: var(--off-white); border-radius: 8px; padding: 10px 14px;
-    }
-
-    /* Print Button */
-    .print-btn {
-      display: flex; align-items: center; gap: 8px;
-      padding: 10px 18px;
-      background: none; border: 1px solid var(--warm-gray);
-      border-radius: 8px; font-family: 'DM Sans', sans-serif;
-      font-size: 12px; font-weight: 600; color: var(--text-muted);
-      cursor: pointer; transition: all 0.15s;
-      letter-spacing: 0.3px;
-    }
-    .print-btn:hover { border-color: var(--navy); color: var(--navy); background: var(--off-white); }
-
-    .results-actions { display: flex; justify-content: flex-end; margin-bottom: 16px; gap: 10px; }
-
-    /* Warnings / notes under comparison */
-    .assumption-note {
-      font-size: 11px; color: var(--text-muted); line-height: 1.6;
-      padding: 12px 20px;
-      border-top: 1px solid var(--warm-gray);
-    }
-
-    /* Callout */
-    .callout {
-      border-radius: 10px; padding: 12px 16px; margin-bottom: 16px;
-      display: flex; gap: 10px; align-items: flex-start;
-      font-size: 12px; line-height: 1.6;
-    }
-    .callout.info { background: rgba(30,70,120,0.07); border-left: 3px solid var(--navy-light); color: var(--navy-mid); }
-    .callout.warn { background: #fffbeb; border-left: 3px solid #d97706; color: #78350f; }
-    .callout strong { font-weight: 600; }
-    .callout-icon { flex-shrink: 0; margin-top: 1px; }
-
-    /* Footer */
-    footer { background: var(--navy); padding: 24px 40px; text-align: center; }
-    footer p { font-size: 12px; color: rgba(255,255,255,0.35); letter-spacing: 0.3px; }
-    footer strong { color: rgba(255,255,255,0.55); }
-
-    /* Responsive */
-    @media (max-width: 900px) {
-      .workspace { grid-template-columns: 1fr; }
-      .input-panel { position: static; }
-      .qual-cards { grid-template-columns: 1fr; }
-      nav, header, footer { padding-left: 20px; padding-right: 20px; }
-      .workspace { padding: 24px 20px 60px; }
-      .hero { padding: 36px 20px 32px; }
-    }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(14px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    /* ── PRINT ── */
-    @media print {
-      nav, .input-panel, .results-actions, .hero, header, footer, .print-btn { display: none !important; }
-      .workspace { display: block; padding: 0; }
-      .results-panel { width: 100%; }
-      body { background: white; }
-      #results-content { display: block !important; }
-      .empty-state { display: none; }
-      .best-fit-banner { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      .qual-card-header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      .comparison-card-header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      .refi-savings-header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-
-      .print-header {
-        display: flex !important;
-        align-items: center; gap: 14px; margin-bottom: 20px;
-        padding-bottom: 14px; border-bottom: 2px solid var(--gold);
-      }
-      .qual-cards { grid-template-columns: repeat(3, 1fr) !important; }
-    }
-
-    .print-header { display: none; }
-
-    /* Scenario summary in results */
-    .scenario-summary {
-      background: var(--off-white); border-radius: 10px;
-      padding: 12px 16px; margin-bottom: 16px;
-      display: flex; flex-wrap: wrap; gap: 10px;
-      font-size: 11px;
-    }
-    .scen-item { display: flex; gap: 4px; align-items: center; }
-    .scen-label { color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; font-size: 10px; }
-    .scen-value { color: var(--navy); font-weight: 700; }
+    .print-hdr{display:none}
   </style>
 </head>
 <body>
 
-  <!-- NAV -->
-  <nav>
-    <a href="index.html">Dashboard</a>
-    <a href="va-quote-creator.html">Quote Lab</a>
-    <a href="matrix.html">Loan Matrix</a>
-    <a href="loan-compass.html" class="active">Loan Compass</a>
-    <a href="VillageMarket.html">Village Market</a>
-    <a href="shoutouts.html">Shout Outs</a>
-  </nav>
+<nav>
+  <a href="index.html">Dashboard</a>
+  <a href="va-quote-creator.html">Quote Lab</a>
+  <a href="matrix.html">Loan Matrix</a>
+  <a href="loan-compass.html" class="active">Loan Compass</a>
+  <a href="VillageMarket.html">Village Market</a>
+  <a href="shoutouts.html">Shout Outs</a>
+</nav>
 
-  <!-- HEADER -->
-  <header>
-    <a href="index.html" class="brand">
-      <div class="brand-logo">V</div>
-      <div class="brand-text">
-        <span class="brand-name">Village Capital</span>
-        <span class="brand-sub">Lindon Branch</span>
-      </div>
-    </a>
-    <div class="header-badge">Loan Compass</div>
-  </header>
+<header>
+  <a href="index.html" class="brand">
+    <div class="brand-logo">V</div>
+    <div class="brand-text">
+      <span class="brand-name">Village Capital</span>
+      <span class="brand-sub">Lindon Branch</span>
+    </div>
+  </a>
+  <div class="header-badge">Loan Compass</div>
+</header>
 
-  <!-- HERO -->
-  <div class="hero">
-    <div class="compass-icon">🧭</div>
-    <div class="hero-eyebrow">Lindon Branch · Internal Tool</div>
-    <h1>Loan <span>Compass</span></h1>
-    <p>Enter a borrower scenario to instantly see which loan programs qualify, which offers the best outcome, and exactly why — for both purchase and refinance situations.</p>
+<div class="hero">
+  <div class="hero-icon">🧭</div>
+  <div class="hero-eyebrow">Lindon Branch · Internal Tool</div>
+  <h1>Loan <span>Compass</span></h1>
+  <p>Build up to 3 loan scenarios side by side. See who qualifies, what it costs, and which option is truly the best fit — with plain-English explanations at every step.</p>
+</div>
+
+<div class="page-wrap">
+
+  <!-- MODE -->
+  <div class="mode-bar">
+    <span class="mode-bar-label">Transaction Type</span>
+    <div class="mode-toggle">
+      <button class="mode-btn active" onclick="setMode('purchase',this)">📋 Purchase</button>
+      <button class="mode-btn" onclick="setMode('refi',this)">🔄 Refinance</button>
+    </div>
+    <span class="mode-hint" id="mode-hint">Enter purchase price &amp; down payment below</span>
   </div>
 
-  <!-- WORKSPACE -->
-  <div class="workspace">
+  <div class="two-col">
 
     <!-- INPUT PANEL -->
     <div class="input-panel">
-      <div class="panel-header">
-        <h2>🗂 Scenario Inputs</h2>
-        <p>Fill in borrower details then run the analysis</p>
+      <div class="panel-hdr">
+        <h2>👤 Borrower Profile</h2>
+        <p>Applies to all scenarios below</p>
       </div>
+      <div class="panel-body">
 
-      <!-- Mode Toggle -->
-      <div class="mode-toggle-wrap">
-        <div class="mode-toggle">
-          <button class="mode-btn active" onclick="setMode('purchase')">📋 Purchase</button>
-          <button class="mode-btn" onclick="setMode('refi')">🔄 Refinance</button>
-        </div>
-      </div>
-
-      <div class="form-body">
-
-        <!-- BORROWER PROFILE -->
-        <div class="form-section">
-          <div class="form-section-label">👤 Borrower Profile</div>
-
-          <div style="margin-bottom:10px;">
-            <label>Credit Score</label>
-            <div class="score-display" id="score-display">720</div>
-            <div class="score-label good" id="score-label">Good</div>
-            <input type="range" id="credit-score" min="300" max="850" value="720" oninput="updateScoreDisplay()" style="margin-top:8px;" />
-            <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--text-muted);margin-top:3px;">
-              <span>300</span><span>580</span><span>620</span><span>680</span><span>740</span><span>850</span>
-            </div>
+        <!-- Credit Score -->
+        <div>
+          <div class="fsec-label">Credit Score <span class="tip" data-tip="The middle score of 3 bureaus. Under 580 = FHA only (10% down). Under 620 = no conventional. 620+ = all programs open. 740+ = best conventional pricing with lowest PMI.">?</span></div>
+          <div class="score-wrap">
+            <div class="score-num" id="score-disp">720</div>
+            <div class="score-tier tier-good" id="score-tier">Good</div>
+            <input type="range" id="credit-score" min="300" max="850" value="720" oninput="onScoreChange()" />
+            <div class="score-ticks"><span>300</span><span>580</span><span>620</span><span>680</span><span>740</span><span>850</span></div>
           </div>
+        </div>
 
-          <div class="form-row">
-            <div class="form-group">
-              <label>Gross Monthly Income</label>
+        <!-- Income & Debts -->
+        <div>
+          <div class="fsec-label">Income &amp; Monthly Debts</div>
+          <div class="frow">
+            <div class="fgroup">
+              <label class="flabel">Gross Monthly Income <span class="tip" data-tip="Total income BEFORE taxes. Include salary, commissions, rental income, disability, Social Security. This is used to calculate DTI — the most important qualifying ratio.">?</span></label>
               <input type="number" id="gross-income" placeholder="8,500" min="0" />
-              <span class="input-hint">Before taxes</span>
+              <span class="fhint">Before taxes, all sources</span>
             </div>
-            <div class="form-group">
-              <label>Monthly Debts</label>
+            <div class="fgroup">
+              <label class="flabel">Monthly Debts <span class="tip" data-tip="Minimum payments on everything EXCEPT housing: car loans, student loans, credit card minimums, child support, personal loans. Do NOT include utilities, groceries, or subscriptions.">?</span></label>
               <input type="number" id="monthly-debts" placeholder="450" min="0" />
-              <span class="input-hint">Excl. housing</span>
-            </div>
-          </div>
-
-          <div class="toggle-group" style="margin-top:6px;">
-            <div class="toggle-row">
-              <span class="toggle-label">Veteran / Active Duty?</span>
-              <div class="toggle-opts">
-                <button class="toggle-opt" id="veteran-yes" onclick="setToggle('veteran','yes')">Yes</button>
-                <button class="toggle-opt active-no" id="veteran-no" onclick="setToggle('veteran','no')">No</button>
-              </div>
-            </div>
-            <div class="toggle-row" id="funding-fee-row" style="display:none;">
-              <span class="toggle-label" style="font-size:10.5px;color:var(--text-muted);">VA Funding Fee Type</span>
-              <select id="ff-type" style="width:auto;font-size:11px;padding:4px 8px;">
-                <option value="first">First Use</option>
-                <option value="subsequent">Subsequent Use</option>
-                <option value="exempt">Exempt (Disability)</option>
-              </select>
-            </div>
-            <div class="toggle-row">
-              <span class="toggle-label">First-Time Homebuyer?</span>
-              <div class="toggle-opts">
-                <button class="toggle-opt" id="fthb-yes" onclick="setToggle('fthb','yes')">Yes</button>
-                <button class="toggle-opt active-no" id="fthb-no" onclick="setToggle('fthb','no')">No</button>
-              </div>
+              <span class="fhint">Cars, cards, loans — not housing</span>
             </div>
           </div>
         </div>
 
-        <!-- PROPERTY & LOAN -->
-        <div class="form-section">
-          <div class="form-section-label">🏠 Property &amp; Loan Details</div>
-          <div class="form-row">
-            <div class="form-group">
-              <label id="price-label">Purchase Price</label>
-              <input type="number" id="purchase-price" placeholder="425,000" min="0" />
-            </div>
-            <div class="form-group">
-              <label>Down Payment ($)</label>
-              <input type="number" id="down-payment" placeholder="21,250" min="0" />
-              <span class="input-hint" id="down-pct-hint">— %</span>
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group">
-              <label>Property Type</label>
-              <select id="property-type">
-                <option value="primary">Primary Residence</option>
-                <option value="secondary">Secondary / Vacation</option>
-                <option value="investment">Investment Property</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label>Loan Term</label>
-              <select id="loan-term">
-                <option value="30">30-Year Fixed</option>
-                <option value="20">20-Year Fixed</option>
-                <option value="15">15-Year Fixed</option>
-              </select>
-            </div>
-          </div>
-          <div class="toggle-row" style="margin-top:4px;">
-            <span class="toggle-label">Rural / USDA-Eligible Area?</span>
+        <!-- Veteran + Property Type -->
+        <div>
+          <div class="fsec-label">Eligibility &amp; Property</div>
+          <div class="trow">
+            <span class="trow-label">Veteran / Active Duty? <span class="tip" data-tip="VA loans are ONLY for eligible veterans, active duty members, and some surviving spouses. The benefits are huge: zero down, no monthly mortgage insurance, and often the lowest rate available.">?</span></span>
             <div class="toggle-opts">
-              <button class="toggle-opt" id="rural-yes" onclick="setToggle('rural','yes')">Yes</button>
-              <button class="toggle-opt active-no" id="rural-no" onclick="setToggle('rural','no')">No</button>
+              <button class="topt" id="vet-yes" onclick="setTog('vet','yes')">Yes</button>
+              <button class="topt noo" id="vet-no" onclick="setTog('vet','no')">No</button>
+            </div>
+          </div>
+          <div id="ff-row" style="display:none;margin-top:8px;">
+            <label class="flabel" style="margin-bottom:4px;">VA Funding Fee Type <span class="tip" data-tip="First Use (~2.3% of loan). Subsequent Use (~3.6%). Exempt = 10%+ disability rating = $0 funding fee. ALWAYS confirm disability status — this can save thousands at closing.">?</span></label>
+            <select id="ff-type" style="font-size:12px;padding:6px 9px;">
+              <option value="first">First Use of VA Benefit</option>
+              <option value="subsequent">Subsequent Use</option>
+              <option value="exempt">Exempt — Service-Connected Disability</option>
+            </select>
+          </div>
+          <div class="trow" style="margin-top:8px;">
+            <span class="trow-label">Property Type <span class="tip" data-tip="VA and FHA = primary residence ONLY. Conventional can be used for primary, second home (10%+ down), or investment (15-25%+ down). Selecting the wrong type will disqualify VA/FHA automatically.">?</span></span>
+            <select id="prop-type" style="width:auto;font-size:12px;padding:5px 8px;">
+              <option value="primary">Primary Residence</option>
+              <option value="secondary">Second Home</option>
+              <option value="investment">Investment Property</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- PURCHASE FIELDS -->
+        <div id="purchase-fields">
+          <div class="fsec-label">Purchase Details</div>
+          <div class="frow">
+            <div class="fgroup">
+              <label class="flabel">Purchase Price</label>
+              <input type="number" id="purchase-price" placeholder="425,000" min="0" oninput="updateDownHint()" />
+            </div>
+            <div class="fgroup">
+              <label class="flabel">Down Payment ($) <span class="tip" data-tip="Cash the borrower brings. VA minimum = $0. FHA minimum = 3.5% (10% if credit is 500–579). Conventional minimum = 3% primary, 10% second home, 15-25% investment. More down = lower payment and better rates.">?</span></label>
+              <input type="number" id="down-payment" placeholder="21,250" min="0" oninput="updateDownHint()" />
+              <span class="fhint" id="down-hint">— % down</span>
             </div>
           </div>
         </div>
 
-        <!-- REFI DETAILS (conditional) -->
-        <div class="form-section" id="refi-section">
-          <div class="form-section-label">🔄 Current Loan Details</div>
-          <div class="form-row">
-            <div class="form-group">
-              <label>Current Loan Type</label>
-              <select id="current-loan-type">
+        <!-- REFI FIELDS -->
+        <div id="refi-fields" style="display:none;">
+          <div class="fsec-label">Current Loan &amp; Property</div>
+          <div class="frow">
+            <div class="fgroup">
+              <label class="flabel">Home Value / Appraised <span class="tip" data-tip="Current estimated market value. Sets the LTV. Higher appraised value = lower LTV = better pricing and possibly eliminates PMI.">?</span></label>
+              <input type="number" id="home-value" placeholder="460,000" min="0" />
+            </div>
+            <div class="fgroup">
+              <label class="flabel">Current Loan Balance <span class="tip" data-tip="How much the borrower still owes. This becomes the new loan amount for a rate/term refinance.">?</span></label>
+              <input type="number" id="curr-balance" placeholder="385,000" min="0" />
+            </div>
+          </div>
+          <div class="frow" style="margin-top:8px;">
+            <div class="fgroup">
+              <label class="flabel">Current Loan Type</label>
+              <select id="curr-loan-type">
                 <option value="va">VA Loan</option>
                 <option value="fha">FHA Loan</option>
                 <option value="conv">Conventional</option>
                 <option value="other">Other</option>
               </select>
             </div>
-            <div class="form-group">
-              <label>Current Rate (%)</label>
-              <input type="number" id="current-rate" placeholder="6.875" step="0.125" min="0" max="20" />
+            <div class="fgroup">
+              <label class="flabel">Current Interest Rate</label>
+              <input type="number" id="curr-rate" placeholder="7.125" step="0.125" min="0" max="20" />
             </div>
           </div>
-          <div class="form-row">
-            <div class="form-group">
-              <label>Current Balance ($)</label>
-              <input type="number" id="current-balance" placeholder="380,000" min="0" />
+          <div class="frow" style="margin-top:8px;">
+            <div class="fgroup">
+              <label class="flabel">Current Monthly Payment <span class="tip" data-tip="The borrower's current P&I + MI. Used to calculate monthly savings and the breakeven point on closing costs.">?</span></label>
+              <input type="number" id="curr-payment" placeholder="2,450" min="0" />
             </div>
-            <div class="form-group">
-              <label>Current Monthly Pmt</label>
-              <input type="number" id="current-payment" placeholder="2,450" min="0" />
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group">
-              <label>Refi Purpose</label>
-              <select id="refi-purpose" onchange="toggleCashOut()">
+            <div class="fgroup">
+              <label class="flabel">Refi Purpose <span class="tip" data-tip="Rate & Term = lower the rate and/or change the term — no cash out. Cash-Out = pull equity out. Streamline = fast-track refi for existing VA (IRRRL) or FHA — fewer docs, usually no appraisal.">?</span></label>
+              <select id="refi-purpose">
                 <option value="rateterm">Rate &amp; Term</option>
                 <option value="cashout">Cash-Out</option>
-                <option value="streamline">Streamline (if eligible)</option>
+                <option value="streamline">Streamline (IRRRL / FHA)</option>
               </select>
             </div>
-            <div class="form-group" id="cashout-group" style="display:none;">
-              <label>Cash-Out Amount ($)</label>
-              <input type="number" id="cashout-amount" placeholder="40,000" min="0" />
-            </div>
           </div>
         </div>
 
-        <!-- RATE INPUTS -->
-        <div class="form-section">
-          <div class="form-section-label">📈 Today's Rates (Manual Entry)</div>
-          <div class="form-row">
-            <div class="form-group">
-              <label style="color:var(--va-accent);">VA Rate (%)</label>
-              <input type="number" id="va-rate" placeholder="6.500" step="0.125" min="0" max="20" />
-            </div>
-            <div class="form-group">
-              <label style="color:var(--fha-accent);">FHA Rate (%)</label>
-              <input type="number" id="fha-rate" placeholder="6.625" step="0.125" min="0" max="20" />
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group">
-              <label style="color:var(--gold);">Conv Rate (%)</label>
-              <input type="number" id="conv-rate" placeholder="6.750" step="0.125" min="0" max="20" />
-            </div>
-            <div class="form-group">
-              <label>Est. Monthly Tax</label>
+        <!-- Tax & Ins -->
+        <div>
+          <div class="fsec-label">Tax &amp; Insurance</div>
+          <div class="frow">
+            <div class="fgroup">
+              <label class="flabel">Monthly Property Tax <span class="tip" data-tip="Estimate monthly tax. Leave blank and we'll use 1.2% annually as a placeholder. Utah average is 0.5–0.8% — check county assessor for accuracy on real deals.">?</span></label>
               <input type="number" id="monthly-tax" placeholder="auto" min="0" />
-              <span class="input-hint">Leave blank = 1.2% annual</span>
+              <span class="fhint">Blank = 1.2%/yr estimate</span>
+            </div>
+            <div class="fgroup">
+              <label class="flabel">Monthly Insurance <span class="tip" data-tip="Homeowner's insurance (HOI). Required on all loans. Typical Utah home: $80–$150/mo. Use actual quote when available.">?</span></label>
+              <input type="number" id="monthly-ins" placeholder="100" min="0" />
+              <span class="fhint">Blank = $100 default</span>
             </div>
           </div>
         </div>
 
-      </div><!-- end form-body -->
-
+      </div>
       <div class="analyze-wrap">
-        <button class="analyze-btn" onclick="runAnalysis()">
-          🧭 Run Loan Analysis
-        </button>
+        <button class="analyze-btn" onclick="runAnalysis()">🧭 Run Loan Analysis</button>
       </div>
-    </div><!-- end input-panel -->
+    </div>
 
-    <!-- RESULTS PANEL -->
-    <div class="results-panel">
+    <!-- RIGHT SIDE -->
+    <div>
 
-      <!-- Empty State -->
-      <div class="empty-state" id="empty-state">
-        <div class="empty-icon">🧭</div>
-        <h3>Ready to Navigate</h3>
-        <p>Fill in the borrower scenario on the left and click <strong>Run Loan Analysis</strong> to see qualification status, best fit recommendation, and a full payment comparison.</p>
+      <!-- SCENARIO BUILDER -->
+      <div class="scen-area">
+        <div class="scen-hdr">
+          <div class="scen-hdr-left">
+            <h2>Loan Scenarios</h2>
+            <p>Build up to 3 — mix loan types, rates, and terms freely</p>
+          </div>
+          <button class="add-scen-btn" id="add-scen-btn" onclick="addScenario()">+ Add Scenario</button>
+        </div>
+        <div class="scen-grid" id="scen-grid"></div>
       </div>
 
-      <!-- Results Content -->
-      <div id="results-content">
+      <!-- RESULTS -->
+      <div class="results-wrap">
+        <div id="empty-state">
+          <div class="empty-icon">🧭</div>
+          <h3>Ready to Navigate</h3>
+          <p>Add at least one scenario above, fill in the borrower profile on the left, then click <strong>Run Loan Analysis</strong>.</p>
+        </div>
 
-        <!-- Print Header (only shows when printing) -->
-        <div class="print-header">
-          <div style="width:36px;height:36px;background:var(--gold);border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:700;color:var(--navy);">V</div>
+        <div id="results-out">
+          <div class="print-hdr">
+            <div style="width:32px;height:32px;background:var(--gold);border-radius:5px;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:700;color:var(--navy)">V</div>
+            <div>
+              <div style="font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:700;color:var(--navy)">Loan Compass — Village Capital &amp; Investment</div>
+              <div style="font-size:10px;color:var(--text-muted);letter-spacing:1px;text-transform:uppercase">Lindon Branch · Internal Use Only · NMLS #3317</div>
+            </div>
+          </div>
+
+          <div class="res-actions">
+            <div>
+              <div class="res-title">Analysis Results</div>
+              <div class="res-sub" id="res-sub"></div>
+            </div>
+            <button class="print-btn" onclick="window.print()">🖨 Print Summary</button>
+          </div>
+
+          <div id="best-sum" class="best-summary" style="display:none">
+            <div class="bs-eyebrow">🧭 Loan Compass Recommendation</div>
+            <div class="bs-title" id="bs-title"></div>
+            <div class="bs-body" id="bs-body"></div>
+          </div>
+
+          <div class="res-cols c1" id="res-cols"></div>
+
+          <div id="refi-savings"></div>
+
+          <div class="callout warn">
+            <span>⚠️</span>
+            <div><strong>Internal Use Only —</strong> Estimates only. All loans must run through AUS. DTI, PMI, MIP, and rate figures are approximations. Do not share directly with borrowers without full disclosure and actual loan disclosures.</div>
+          </div>
+
+          <div class="glossary-card">
+            <div class="glossary-hdr" onclick="toggleGlossary()">
+              📖 Key Terms Glossary — click to expand
+              <span id="gls-arrow">▼</span>
+            </div>
+            <div class="glossary-body" id="gls-body">
+              <div class="gterm"><div class="gterm-name">DTI (Debt-to-Income)</div><div class="gterm-def">All monthly debts + new housing payment ÷ gross income. VA guideline: ≤41% (higher OK with residual income). FHA: up to ~57% with AUS. Conventional: up to ~50% with AUS.</div></div>
+              <div class="gterm"><div class="gterm-name">LTV (Loan-to-Value)</div><div class="gterm-def">Loan amount ÷ appraised value. 95% LTV = 5% down. Lower LTV = better pricing, lower PMI, stronger loan.</div></div>
+              <div class="gterm"><div class="gterm-name">FHA MIP</div><div class="gterm-def">FHA mortgage insurance. Two parts: UFMIP (1.75% upfront, financed in) + annual MIP (~0.55%/yr, paid monthly). If LTV was over 90% at closing, MIP lasts the ENTIRE life of the loan.</div></div>
+              <div class="gterm"><div class="gterm-name">PMI (Conventional)</div><div class="gterm-def">Private Mortgage Insurance on conventional loans when LTV is above 80%. Unlike FHA MIP, PMI automatically cancels when LTV reaches 80% — a huge long-term advantage.</div></div>
+              <div class="gterm"><div class="gterm-name">VA Funding Fee</div><div class="gterm-def">One-time fee financed into a VA loan. Ranges 1.4%–3.6% based on down payment and first vs. subsequent use. Veterans with 10%+ disability rating pay $0.</div></div>
+              <div class="gterm"><div class="gterm-name">LLPA</div><div class="gterm-def">Loan Level Price Adjustments — extra fees on conventional loans charged by Fannie/Freddie based on credit score and LTV. Lower credit + higher LTV = higher LLPA = effectively a higher rate. This is why FHA sometimes wins at lower credit scores.</div></div>
+              <div class="gterm"><div class="gterm-name">IRRRL</div><div class="gterm-def">VA Streamline Refinance. Must have an existing VA loan. Usually no appraisal, minimal income docs. Must show net tangible benefit (lower rate or shorter term).</div></div>
+              <div class="gterm"><div class="gterm-name">AUS</div><div class="gterm-def">Automated Underwriting System. VA uses LGY, FHA uses TOTAL Scorecard, Conventional uses DU (Fannie) or LP (Freddie). AUS can approve loans that exceed standard DTI guidelines with compensating factors.</div></div>
+              <div class="gterm"><div class="gterm-name">Conforming Limit (2025)</div><div class="gterm-def">$806,500 max for conventional in most counties. Above this = jumbo = stricter underwriting. VA has no loan limit with full entitlement. FHA limits vary by county.</div></div>
+              <div class="gterm"><div class="gterm-name">Residual Income (VA)</div><div class="gterm-def">After ALL payments, the veteran must have a set amount left over based on family size and region. This can save a VA loan that exceeds 41% DTI — always check it.</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p><strong>Village Capital &amp; Investment LLC</strong> · Loan Compass · Internal Use Only · NMLS #3317</p>
+</footer>
+
+<script data-cfasync="false">
+// ═══════════════════════════════════════
+// CONSTANTS
+// ═══════════════════════════════════════
+const CONF_LIMIT = 806500;
+const FHA_UFMIP  = 0.0175;
+const VA_FF_TABLE = {
+  first:      {d0:0.0230, d5:0.0165, d10:0.0140},
+  subsequent: {d0:0.0360, d5:0.0165, d10:0.0140},
+  exempt:     {d0:0,      d5:0,      d10:0}
+};
+const LOAN_CLS  = {va:'va', fha:'fha', conv:'conv'};
+const LOAN_NAME = {va:'VA Loan', fha:'FHA Loan', conv:'Conventional'};
+
+let appMode = 'purchase';
+let vetYes  = false;
+let scenarios = [];
+let scCounter = 0;
+
+// ═══════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════
+const fmt    = n  => (n==null||isNaN(n)) ? '—' : '$'+Math.round(n).toLocaleString();
+const fmtPct = p  => (p*100).toFixed(1)+'%';
+const fmtR   = r  => r ? r.toFixed(3)+'%' : '—';
+
+function calcPI(principal, annualRate, termYears) {
+  if (!principal||principal<=0) return 0;
+  if (!annualRate||annualRate<=0) return principal/(termYears*12);
+  const r=annualRate/12, n=termYears*12;
+  return principal*r*Math.pow(1+r,n)/(Math.pow(1+r,n)-1);
+}
+function fhaMipAnnual(ltv, amt) {
+  if (amt<=150000) return 0.0015;
+  return ltv<=0.90 ? 0.0050 : 0.0055;
+}
+function convPMI(score, ltv) {
+  if (ltv<=0.80) return 0;
+  let b = score>=760?0.0030: score>=720?0.0050: score>=680?0.0080: score>=640?0.0110: 0.0140;
+  if (ltv>0.95) b+=0.0025; else if (ltv>0.90) b+=0.0010;
+  return b;
+}
+function vaFF(downPct, ffType) {
+  const t = VA_FF_TABLE[ffType]||VA_FF_TABLE.first;
+  return downPct>=0.10 ? t.d10 : downPct>=0.05 ? t.d5 : t.d0;
+}
+
+// ═══════════════════════════════════════
+// MODE
+// ═══════════════════════════════════════
+function setMode(m, btn) {
+  appMode = m;
+  document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const isPurch = m==='purchase';
+  document.getElementById('purchase-fields').style.display = isPurch ? '' : 'none';
+  document.getElementById('refi-fields').style.display     = isPurch ? 'none' : '';
+  document.getElementById('mode-hint').textContent = isPurch
+    ? 'Enter purchase price & down payment below'
+    : 'Enter home value, current balance, and current rate below';
+}
+
+// ═══════════════════════════════════════
+// VETERAN TOGGLE
+// ═══════════════════════════════════════
+function setTog(field, val) {
+  vetYes = val==='yes';
+  document.getElementById('vet-yes').className = 'topt'+(vetYes?' yes':'');
+  document.getElementById('vet-no').className  = 'topt'+(!vetYes?' noo':'');
+  document.getElementById('ff-row').style.display = vetYes ? '' : 'none';
+  renderScenarios();
+}
+
+// ═══════════════════════════════════════
+// SCORE
+// ═══════════════════════════════════════
+function onScoreChange() {
+  const s = parseInt(document.getElementById('credit-score').value);
+  document.getElementById('score-disp').textContent = s;
+  const el = document.getElementById('score-tier');
+  if      (s>=740){el.textContent='Excellent';el.className='score-tier tier-excellent';}
+  else if (s>=680){el.textContent='Good';     el.className='score-tier tier-good';}
+  else if (s>=620){el.textContent='Fair';     el.className='score-tier tier-fair';}
+  else if (s>=580){el.textContent='Low';      el.className='score-tier tier-fair';}
+  else            {el.textContent='Poor';     el.className='score-tier tier-poor';}
+}
+
+function updateDownHint() {
+  const price = parseFloat(document.getElementById('purchase-price').value)||0;
+  const down  = parseFloat(document.getElementById('down-payment').value)||0;
+  const hint  = document.getElementById('down-hint');
+  if (price>0) hint.textContent = fmtPct(down/price)+' down ('+fmt(price-down)+' loan)';
+}
+
+// ═══════════════════════════════════════
+// SCENARIO MANAGEMENT
+// ═══════════════════════════════════════
+function addScenario() {
+  if (scenarios.length>=3) return;
+  scCounter++;
+  const id = 'sc'+scCounter;
+  const used = scenarios.map(s=>s.type);
+  let def = 'conv';
+  if (vetYes && !used.includes('va'))   def='va';
+  else if (!used.includes('fha'))       def='fha';
+  else if (!used.includes('conv'))      def='conv';
+  scenarios.push({id, label:'Scenario '+scCounter, type:def, rate:'', term:'30'});
+  renderScenarios();
+  document.getElementById('add-scen-btn').disabled = scenarios.length>=3;
+}
+
+function removeScenario(id) {
+  scenarios = scenarios.filter(s=>s.id!==id);
+  renderScenarios();
+  document.getElementById('add-scen-btn').disabled = scenarios.length>=3;
+}
+
+function updateScen(id, field, val) {
+  const sc = scenarios.find(s=>s.id===id);
+  if (!sc) return;
+  sc[field] = val;
+  if (field==='type') renderScenarios();
+}
+
+function renderScenarios() {
+  const grid = document.getElementById('scen-grid');
+  if (!scenarios.length) {
+    grid.innerHTML = `<div class="sc-placeholder" onclick="addScenario()"><div class="plus">＋</div><p>Click to add your first scenario</p></div>`;
+    return;
+  }
+  grid.innerHTML = scenarios.map(sc => {
+    const cls = LOAN_CLS[sc.type]||'empty';
+    return `
+    <div class="sc-card">
+      <div class="sc-hdr ${cls}">
+        <div style="flex:1;min-width:0">
+          <div class="sc-num">Scenario</div>
+          <input class="sc-label-input" value="${sc.label}" placeholder="Name this scenario"
+            oninput="updateScen('${sc.id}','label',this.value)" />
+        </div>
+        <button class="sc-remove" onclick="removeScenario('${sc.id}')" title="Remove">✕</button>
+      </div>
+      <div class="sc-body">
+        <div class="sc-field" style="grid-column:1/-1">
+          <label>Loan Type</label>
+          <select onchange="updateScen('${sc.id}','type',this.value)">
+            <option value="va"   ${sc.type==='va'  ?'selected':''}>VA Loan</option>
+            <option value="fha"  ${sc.type==='fha' ?'selected':''}>FHA Loan</option>
+            <option value="conv" ${sc.type==='conv'?'selected':''}>Conventional</option>
+          </select>
+        </div>
+        <div class="sc-row">
+          <div class="sc-field">
+            <label>Interest Rate (%) <span class="tip" data-tip="Today's note rate for this loan type. Don't use APR — use the actual note rate.">?</span></label>
+            <input type="number" step="0.125" min="0" max="20" placeholder="6.500"
+              value="${sc.rate}" oninput="updateScen('${sc.id}','rate',this.value)" />
+          </div>
+          <div class="sc-field">
+            <label>Loan Term <span class="tip" data-tip="30-yr = lower payment, more interest over time. 15-yr = higher payment, way less interest, builds equity faster. Run both to show the borrower the difference.">?</span></label>
+            <select onchange="updateScen('${sc.id}','term',this.value)">
+              <option value="30" ${sc.term==='30'?'selected':''}>30-Year Fixed</option>
+              <option value="20" ${sc.term==='20'?'selected':''}>20-Year Fixed</option>
+              <option value="15" ${sc.term==='15'?'selected':''}>15-Year Fixed</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+  if (scenarios.length<3) {
+    grid.innerHTML += `<div class="sc-placeholder" onclick="addScenario()"><div class="plus">＋</div><p>Add another scenario</p></div>`;
+  }
+}
+
+// ═══════════════════════════════════════
+// QUALIFICATION ENGINE
+// ═══════════════════════════════════════
+function qualify(sc, inp) {
+  const iss=[], warn=[], pos=[];
+
+  if (sc.type==='va') {
+    if (!vetYes) {
+      iss.push('VA loans require the borrower to be a veteran or active duty service member.');
+      return {status:'disqualified', iss, warn, pos};
+    }
+    if (inp.propType!=='primary') {
+      iss.push('VA loans are for primary residences only — not eligible for second homes or investment properties.');
+      return {status:'disqualified', iss, warn, pos};
+    }
+    if (inp.score<580)      iss.push(`Credit score ${inp.score} is below the VA minimum of 580. Most lenders require 580–620.`);
+    else if (inp.score<620) warn.push(`Score ${inp.score} is below 620 — some VA lenders require 620. Confirm with underwriting.`);
+    else                    pos.push(`Credit score ${inp.score} meets VA guidelines.`);
+
+    // DTI estimate
+    const ff = vaFF(inp.downPct, document.getElementById('ff-type').value);
+    const tl = inp.loanAmt*(1+ff);
+    const pi = calcPI(tl, parseFloat(sc.rate)/100, parseInt(sc.term));
+    const housing = pi + inp.tax + inp.ins;
+    const dti = inp.income>0 ? (housing+inp.debts)/inp.income : 0;
+    if (inp.income>0) {
+      if      (dti>0.60) iss.push(`DTI ~${fmtPct(dti)} is very high. Residual income test is the only possible save — unlikely.`);
+      else if (dti>0.41) warn.push(`DTI ~${fmtPct(dti)} exceeds the 41% VA guideline. Residual income test required — AUS may still approve.`);
+      else               pos.push(`DTI ~${fmtPct(dti)} is within the VA guideline (≤41%).`);
+    }
+    pos.push('No down payment required with full VA entitlement.');
+    pos.push('No monthly mortgage insurance — saves hundreds per month vs. FHA/Conv.');
+    if (document.getElementById('ff-type').value==='exempt') pos.push('Funding fee waived — $0 upfront fee due to disability rating.');
+  }
+
+  else if (sc.type==='fha') {
+    if (inp.propType!=='primary') {
+      iss.push('FHA loans are for primary residences only.');
+      return {status:'disqualified', iss, warn, pos};
+    }
+    if (inp.score<500) {
+      iss.push(`Score ${inp.score} is below FHA's minimum of 500.`);
+      return {status:'disqualified', iss, warn, pos};
+    }
+    const minDP = inp.score>=580 ? 0.035 : 0.10;
+    if (appMode==='purchase' && inp.price>0) {
+      if (inp.downPct < minDP-0.001) {
+        iss.push(inp.score>=580
+          ? `FHA requires 3.5% down (${fmt(inp.price*0.035)}). Current down payment falls short.`
+          : `Score 500–579 requires 10% down (${fmt(inp.price*0.10)}) for FHA.`);
+      } else {
+        pos.push(`Down payment of ${fmtPct(inp.downPct)} meets FHA minimum.`);
+      }
+    }
+    if (inp.score>=580) pos.push('Score qualifies for 3.5% minimum down payment.');
+    const ltv = inp.price>0 ? inp.loanAmt/inp.price : 1;
+    if (ltv>0.90) warn.push('LTV is above 90% — FHA MIP will last the LIFE of the loan. Critical to explain to borrower.');
+    else          pos.push('LTV ≤90% — FHA MIP will cancel after 11 years.');
+    const ua = inp.loanAmt*FHA_UFMIP;
+    const tl = inp.loanAmt+ua;
+    const pi = calcPI(tl, parseFloat(sc.rate)/100, parseInt(sc.term));
+    const mip = (tl*fhaMipAnnual(ltv,inp.loanAmt))/12;
+    const housing = pi+mip+inp.tax+inp.ins;
+    const dti = inp.income>0 ? (housing+inp.debts)/inp.income : 0;
+    if (inp.income>0) {
+      if      (dti>0.57) iss.push(`DTI ~${fmtPct(dti)} exceeds FHA AUS maximum of ~57%.`);
+      else if (dti>0.50) warn.push(`DTI ~${fmtPct(dti)} is high — AUS approval needed with compensating factors.`);
+      else if (dti>0.43) warn.push(`DTI ~${fmtPct(dti)} is above standard 43% — needs AUS approval.`);
+      else               pos.push(`DTI ~${fmtPct(dti)} is within FHA standard guideline.`);
+    }
+    pos.push('More flexible DTI allowances than conventional.');
+  }
+
+  else if (sc.type==='conv') {
+    if (inp.score<620) {
+      iss.push(`Score ${inp.score} is below the 620 conventional minimum. Consider FHA or VA instead.`);
+      return {status:'disqualified', iss, warn, pos};
+    }
+    if (inp.loanAmt>CONF_LIMIT) iss.push(`Loan ${fmt(inp.loanAmt)} exceeds the 2025 conforming limit ($806,500). Jumbo guidelines apply.`);
+    if (inp.propType==='investment' && inp.downPct<0.15)  iss.push('Investment property requires 15–25% down for conventional.');
+    else if (inp.propType==='secondary' && inp.downPct<0.10) iss.push('Second home requires at least 10% down for conventional.');
+    else if (appMode==='purchase' && inp.price>0 && inp.downPct<0.03-0.001) iss.push(`Conventional needs at least 3% down (${fmt(inp.price*0.03)}).`);
+    if      (inp.score>=740) pos.push('Excellent credit — best LLPA tier, minimal rate adjustments.');
+    else if (inp.score>=680) pos.push('Good credit — favorable LLPA pricing.');
+    else if (inp.score>=640) warn.push('Score 640–679: LLPAs will raise the effective rate. Compare against FHA carefully.');
+    else                     warn.push('Score 620–639: Significant LLPAs. FHA may offer better pricing at this range.');
+    const ltv = inp.price>0 ? inp.loanAmt/inp.price : 0;
+    const pmiR = convPMI(inp.score, ltv);
+    if (ltv<=0.80)  pos.push('No PMI — LTV is at or below 80%.');
+    else            warn.push(`PMI ~${fmtPct(pmiR)}/yr. Cancels automatically when LTV reaches 80% (unlike FHA MIP).`);
+    const pmiM = (inp.loanAmt*pmiR)/12;
+    const pi = calcPI(inp.loanAmt, parseFloat(sc.rate)/100, parseInt(sc.term));
+    const housing = pi+pmiM+inp.tax+inp.ins;
+    const dti = inp.income>0 ? (housing+inp.debts)/inp.income : 0;
+    if (inp.income>0) {
+      if      (dti>0.50) iss.push(`DTI ~${fmtPct(dti)} exceeds conventional AUS ceiling (~50%).`);
+      else if (dti>0.45) warn.push(`DTI ~${fmtPct(dti)} above 45% — strong compensating factors required for AUS.`);
+      else if (dti>0.36) warn.push(`DTI ~${fmtPct(dti)} above standard 36% — AUS approval required.`);
+      else               pos.push(`DTI ~${fmtPct(dti)} is within conventional guideline.`);
+    }
+    if (inp.propType!=='primary') pos.push('Conventional eligible for second home and investment properties.');
+  }
+
+  const status = iss.length>0 ? 'disqualified' : warn.length>0 ? 'borderline' : 'qualified';
+  return {status, iss, warn, pos};
+}
+
+// ═══════════════════════════════════════
+// PAYMENT CALC
+// ═══════════════════════════════════════
+function calcPmt(sc, inp) {
+  if (!sc.rate) return null;
+  const rate = parseFloat(sc.rate)/100;
+  const term = parseInt(sc.term)||30;
+
+  if (sc.type==='va') {
+    if (!vetYes) return null;
+    const ff = vaFF(inp.downPct, document.getElementById('ff-type').value);
+    const ffAmt = inp.loanAmt*ff;
+    const tl = inp.loanAmt+ffAmt;
+    const pi = calcPI(tl, rate, term);
+    return {pi, pmi:0, mip:0, mipDur:'', ffAmt, ffPct:ff, ufmip:0, tax:inp.tax, ins:inp.ins, total:pi+inp.tax+inp.ins, loanAmt:tl};
+  }
+  if (sc.type==='fha') {
+    const ltv = inp.price>0 ? inp.loanAmt/inp.price : 1;
+    const ua = inp.loanAmt*FHA_UFMIP;
+    const tl = inp.loanAmt+ua;
+    const pi = calcPI(tl, rate, term);
+    const mipR = fhaMipAnnual(ltv, inp.loanAmt);
+    const mip  = (tl*mipR)/12;
+    const mipDur = ltv>0.90 ? 'Life of Loan' : '11 Years';
+    return {pi, pmi:0, mip, mipDur, mipR, ffAmt:0, ffPct:0, ufmip:ua, tax:inp.tax, ins:inp.ins, total:pi+mip+inp.tax+inp.ins, loanAmt:tl};
+  }
+  if (sc.type==='conv') {
+    const ltv = inp.price>0 ? inp.loanAmt/inp.price : 0;
+    const pmiR = convPMI(inp.score, ltv);
+    const pmi  = (inp.loanAmt*pmiR)/12;
+    const pi   = calcPI(inp.loanAmt, rate, term);
+    return {pi, pmi, pmiR, mip:0, mipDur:'', ffAmt:0, ffPct:0, ufmip:0, tax:inp.tax, ins:inp.ins, total:pi+pmi+inp.tax+inp.ins, loanAmt:inp.loanAmt};
+  }
+  return null;
+}
+
+// ═══════════════════════════════════════
+// BEST FIT
+// ═══════════════════════════════════════
+function pickBest(results) {
+  const ok = results.filter(r=>r.qual.status!=='disqualified' && r.pmt);
+  if (!ok.length) return null;
+  return ok.reduce((a,b)=>a.pmt.total<b.pmt.total?a:b).sc.id;
+}
+
+function buildSummary(results, bestId) {
+  if (!bestId) return {title:'No Qualifying Scenarios', body:'None of the scenarios qualify for this borrower as entered. Review the disqualification reasons in each card above. Common solutions: improve credit score, increase down payment, reduce monthly debts, or lower the purchase price.'};
+  const best = results.find(r=>r.sc.id===bestId);
+  if (!best||!best.pmt) return null;
+  const others = results.filter(r=>r.sc.id!==bestId && r.pmt && r.qual.status!=='disqualified');
+  let body = `<strong>${best.sc.label}</strong> (${LOAN_NAME[best.sc.type]}, ${best.sc.term}-yr) is the best option at <strong>${fmt(best.pmt.total)}/month total payment</strong>. `;
+  if (others.length) {
+    const saves = others.map(o=>`${o.sc.label} by <strong>${fmt(Math.round(o.pmt.total-best.pmt.total))}/mo</strong>`).join(' and ');
+    body += `It is less expensive than ${saves}. `;
+  }
+  if (best.sc.type==='va')   body += 'The VA loan eliminates monthly mortgage insurance entirely and often carries the lowest available rate — two powerful advantages for a qualifying veteran. ';
+  else if (best.sc.type==='fha') body += "FHA's more flexible credit and DTI requirements make it the right fit here. Watch the MIP duration — if the LTV at closing exceeds 90%, MIP stays for the life of the loan. ";
+  else body += "Conventional wins here because PMI will eventually cancel (unlike FHA's permanent MIP), and LLPAs are manageable at this credit tier and LTV. ";
+  if (results.some(r=>r.qual.status==='borderline')) body += ' ⚠️ One or more scenarios are borderline — run through AUS before proceeding.';
+  return {title: best.sc.label+' — Best Option', body};
+}
+
+// ═══════════════════════════════════════
+// RENDER
+// ═══════════════════════════════════════
+function renderResults(results, inp) {
+  const bestId = pickBest(results);
+  const n = results.length;
+  const container = document.getElementById('res-cols');
+  container.className = 'res-cols c'+n;
+
+  const totals = results.filter(r=>r.pmt && r.qual.status!=='disqualified').map(r=>r.pmt.total);
+  const lowest = totals.length ? Math.min(...totals) : null;
+
+  const vIcon = {qualified:'✅', borderline:'⚠️', disqualified:'❌'};
+  const vLbl  = {qualified:'Qualified', borderline:'Borderline', disqualified:'Does Not Qualify'};
+  const vSub  = {qualified:'Meets basic guidelines', borderline:'May qualify with AUS — review warnings', disqualified:'Fails one or more requirements'};
+
+  container.innerHTML = results.map(r => {
+    const {sc, qual, pmt} = r;
+    const isBest  = sc.id===bestId;
+    const isLow   = pmt && lowest && Math.round(pmt.total)===Math.round(lowest);
+    const cls = LOAN_CLS[sc.type];
+    const allFlags = [
+      ...qual.iss.map(f=>({c:'issue',d:'bad',t:f})),
+      ...qual.warn.map(f=>({c:'warn',d:'warn',t:f})),
+      ...qual.pos.slice(0,3).map(f=>({c:'ok',d:'ok',t:f}))
+    ].slice(0,6);
+
+    let payHtml = '';
+    if (qual.status==='disqualified') {
+      payHtml = `<div style="text-align:center;padding:18px 0;color:var(--text-muted);font-size:12px;">Payment not calculated<br><span style="font-size:10px;">Borrower does not qualify for this program</span></div>`;
+    } else if (!pmt) {
+      payHtml = `<div style="text-align:center;padding:10px 0;color:var(--text-muted);font-size:12px;">Enter an interest rate to see payment</div>`;
+    } else {
+      payHtml = `
+      <div class="pay-rows">
+        <div class="pay-row"><span class="pay-label">Interest Rate</span><span class="pay-val">${fmtR(parseFloat(sc.rate))}</span></div>
+        <div class="pay-row"><span class="pay-label">P&amp;I <span class="tip" data-tip="Principal & Interest — the loan payment itself, before taxes, insurance, or MI.">?</span></span><span class="pay-val">${fmt(pmt.pi)}/mo</span></div>
+        ${pmt.mip>0 ? `<div class="pay-row"><span class="pay-label">FHA MIP <span class="tip" data-tip="FHA mortgage insurance (monthly). Duration: ${pmt.mipDur}. If LTV was above 90% at closing, this never cancels.">?</span></span><span class="pay-val">${fmt(pmt.mip)}/mo (${pmt.mipDur})</span></div>` : ''}
+        ${pmt.pmi>0 ? `<div class="pay-row"><span class="pay-label">PMI <span class="tip" data-tip="Private Mortgage Insurance (~${fmtPct(pmt.pmiR)}/yr). Cancels automatically when LTV hits 80% — much better than FHA MIP.">?</span></span><span class="pay-val">${fmt(pmt.pmi)}/mo</span></div>` : ''}
+        ${pmt.mip===0&&pmt.pmi===0 ? `<div class="pay-row"><span class="pay-label">Mortgage Insurance</span><span class="pay-val" style="color:var(--green-text);font-weight:700">None ✓</span></div>` : ''}
+        ${pmt.ffAmt>0 ? `<div class="pay-row"><span class="pay-label">VA Funding Fee <span class="tip" data-tip="One-time fee financed into the loan: ${fmtPct(pmt.ffPct)} = ${fmt(pmt.ffAmt)}. Not a monthly cost.">?</span></span><span class="pay-val">${fmt(pmt.ffAmt)} upfront</span></div>` : ''}
+        ${pmt.ufmip>0 ? `<div class="pay-row"><span class="pay-label">FHA UFMIP <span class="tip" data-tip="Upfront Mortgage Insurance Premium: 1.75% of the loan, financed in. Not monthly, but increases the loan balance.">?</span></span><span class="pay-val">${fmt(pmt.ufmip)} upfront</span></div>` : ''}
+        <div class="pay-row"><span class="pay-label">Tax + Insurance (est.)</span><span class="pay-val">${fmt(pmt.tax+pmt.ins)}/mo</span></div>
+        <div class="pay-row total-row${isLow&&n>1?' lowest':''}">
+          <span class="pay-label">Total Monthly${isLow&&n>1?' <span style="font-size:9px;color:var(--green-text);font-weight:800;margin-left:3px">★ LOWEST</span>':''}</span>
+          <span class="pay-val">${fmt(pmt.total)}</span>
+        </div>
+      </div>
+      <div class="five-yr">
+        <span>5-Year Total: ${fmt(pmt.total*60)}</span>
+        <span>${sc.term}-Year Fixed</span>
+      </div>`;
+    }
+
+    return `
+    <div class="res-col${isBest?' best':''}">
+      <div class="res-col-hdr ${cls}">
+        <div class="res-col-top"><span>Scenario</span>${isBest&&n>1?'<span class="best-badge">⭐ Best Pick</span>':''}</div>
+        <div class="res-col-name">${sc.label}</div>
+        <span class="res-col-type ${cls}">${LOAN_NAME[sc.type]} · ${sc.term}-yr</span>
+      </div>
+      <div class="res-col-body">
+        <div class="verdict ${qual.status}">
+          <span class="verdict-icon">${vIcon[qual.status]}</span>
           <div>
-            <div style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:700;color:var(--navy);">Loan Compass — Village Capital &amp; Investment</div>
-            <div style="font-size:10px;color:var(--text-muted);letter-spacing:1px;text-transform:uppercase;">Lindon Branch · Internal Use Only · NMLS #3317</div>
+            <div class="verdict-label">${vLbl[qual.status]}</div>
+            <div class="verdict-sub">${vSub[qual.status]}</div>
           </div>
         </div>
-
-        <!-- Actions Bar -->
-        <div class="results-actions">
-          <button class="print-btn" onclick="window.print()">🖨 Print Summary</button>
+        ${payHtml}
+        <div class="flags">
+          ${allFlags.map(f=>`<div class="flag ${f.c}"><span class="fdot ${f.d}">●</span><span>${f.t}</span></div>`).join('')}
         </div>
+      </div>
+    </div>`;
+  }).join('');
 
-        <!-- Scenario Summary -->
-        <div class="scenario-summary" id="scenario-summary"></div>
+  // Best summary
+  const sum = buildSummary(results, bestId);
+  if (sum) {
+    document.getElementById('best-sum').style.display='';
+    document.getElementById('bs-title').textContent = sum.title;
+    document.getElementById('bs-body').innerHTML = sum.body;
+  }
 
-        <!-- Best Fit Banner -->
-        <div id="best-fit-banner" class="best-fit-banner va-best">
-          <div class="best-fit-eyebrow">Loan Compass Recommendation</div>
-          <div class="best-fit-title">
-            <span id="best-fit-title-text">Best Fit</span>
-            <span class="loan-badge va" id="best-fit-badge">VA</span>
-          </div>
-          <div class="best-fit-reason" id="best-fit-reason">Loading...</div>
-        </div>
+  renderRefi(results, inp);
+}
 
-        <!-- Qualification Cards -->
-        <div class="qual-cards" id="qual-cards">
-          <!-- Rendered by JS -->
-        </div>
+function renderRefi(results, inp) {
+  const el = document.getElementById('refi-savings');
+  if (appMode!=='refi' || !inp.currPmt) { el.style.display='none'; return; }
+  el.style.display='';
+  const ok = results.filter(r=>r.pmt && r.qual.status!=='disqualified');
+  if (!ok.length) { el.innerHTML=''; return; }
+  const best = ok.reduce((a,b)=>a.pmt.total<b.pmt.total?a:b);
+  const save   = Math.round(inp.currPmt - best.pmt.total);
+  const annSav = save*12;
+  const cc     = Math.round(inp.loanAmt*0.02);
+  const be     = save>0 ? Math.ceil(cc/save) : null;
 
-        <!-- Payment Comparison -->
-        <div class="comparison-card">
-          <div class="comparison-card-header">
-            <h3>📊 Payment Comparison</h3>
-          </div>
-          <div class="comparison-table-wrap">
-            <table class="comparison-table" id="comparison-table">
-              <!-- Rendered by JS -->
-            </table>
-          </div>
-          <div class="assumption-note" id="assumption-note"></div>
-        </div>
-
-        <!-- Refi Savings (conditional) -->
-        <div class="refi-savings-card" id="refi-savings-card" style="display:none;">
-          <div class="refi-savings-header">
-            <h3>💰 Refinance Analysis</h3>
-          </div>
-          <div class="refi-savings-body" id="refi-savings-body"></div>
-        </div>
-
-        <!-- Callout Note -->
-        <div class="callout warn">
-          <span class="callout-icon">⚠️</span>
-          <div><strong>Internal Use Only</strong> This tool provides guideline-based estimates for internal planning. All scenarios must be run through AUS and reviewed by underwriting. Rates, MIP, and PMI figures are estimates. Do not share output directly with borrowers without full disclosure.</div>
-        </div>
-
-      </div><!-- end results-content -->
-    </div><!-- end results-panel -->
-
-  </div><!-- end workspace -->
-
-  <footer>
-    <p><strong>Village Capital &amp; Investment LLC</strong> · Loan Compass · Internal Use Only · NMLS #3317</p>
-  </footer>
-
-  <script data-cfasync="false">
-    // ════════════════════════════════════════════════
-    // STATE
-    // ════════════════════════════════════════════════
-    const state = {
-      mode: 'purchase',
-      veteran: false,
-      fthb: false,
-      rural: false
-    };
-
-    // ════════════════════════════════════════════════
-    // CONSTANTS
-    // ════════════════════════════════════════════════
-    const CONFORMING_LIMIT_2025 = 806500;
-    const FHA_UFMIP = 0.0175;
-
-    // VA Funding Fee (first use, subsequent, exempt) by down payment tier
-    const VA_FF = {
-      first:      { d0: 0.0230, d5: 0.0165, d10: 0.0140 },
-      subsequent: { d0: 0.0360, d5: 0.0165, d10: 0.0140 },
-      exempt:     { d0: 0.00,   d5: 0.00,   d10: 0.00   }
-    };
-
-    // FHA Annual MIP (30-yr, most common scenarios)
-    function fhaAnnualMip(ltv, loanAmount) {
-      // Current 2024 rates
-      if (loanAmount <= 150000) return 0.0015;
-      if (ltv <= 0.90) return 0.0050;  // LTV ≤ 90% → 0.50%
-      return 0.0055;                    // LTV > 90% → 0.55%
+  let streamNote='';
+  if (inp.currLoanType==='va' && vetYes) {
+    const vaR = results.find(r=>r.sc.type==='va' && r.qual.status!=='disqualified');
+    if (vaR && inp.currRate > parseFloat(vaR.sc.rate||0)) {
+      streamNote += `<div class="callout info"><span>⚡</span><div><strong>IRRRL Eligible</strong> — Current VA loan + lower new rate = qualifies for a VA Streamline. Typically no appraisal, minimal income docs required. Fastest way to a lower payment.</div></div>`;
     }
-
-    // FHA MIP duration: life of loan if LTV > 90% at origination
-    function fhaMipDuration(ltv) {
-      return ltv > 0.90 ? 'Life of Loan' : '11 Years';
+  }
+  if (inp.currLoanType==='fha') {
+    const fhaR = results.find(r=>r.sc.type==='fha' && r.qual.status!=='disqualified');
+    if (fhaR && inp.currRate > parseFloat(fhaR.sc.rate||0)) {
+      streamNote += `<div class="callout info"><span>⚡</span><div><strong>FHA Streamline Eligible</strong> — Current FHA + lower rate = qualifies for FHA Streamline. No appraisal required, simplified credit and income review.</div></div>`;
     }
-
-    // PMI estimate by credit score and LTV (annual %)
-    function estimatePMI(creditScore, ltv) {
-      if (ltv <= 0.80) return 0;
-      let base;
-      if      (creditScore >= 760) base = 0.0030;
-      else if (creditScore >= 720) base = 0.0050;
-      else if (creditScore >= 680) base = 0.0080;
-      else if (creditScore >= 640) base = 0.0110;
-      else                         base = 0.0140;
-      if (ltv > 0.95) base += 0.0025;
-      else if (ltv > 0.90) base += 0.0010;
-      return base;
-    }
-
-    // Monthly P&I
-    function calcPI(principal, annualRate, termYears) {
-      if (!principal || principal <= 0) return 0;
-      if (!annualRate || annualRate <= 0) return principal / (termYears * 12);
-      const r = annualRate / 12;
-      const n = termYears * 12;
-      return principal * r * Math.pow(1+r, n) / (Math.pow(1+r, n) - 1);
-    }
-
-    function fmt(n) {
-      if (n === null || n === undefined || isNaN(n)) return '—';
-      return '$' + Math.round(n).toLocaleString();
-    }
-    function fmtRate(r) { return r ? r.toFixed(3) + '%' : '—'; }
-    function fmtPct(p) { return (p * 100).toFixed(1) + '%'; }
-
-    // ════════════════════════════════════════════════
-    // UI HELPERS
-    // ════════════════════════════════════════════════
-    function setMode(mode) {
-      state.mode = mode;
-      document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
-      event.target.classList.add('active');
-      const refiSec = document.getElementById('refi-section');
-      refiSec.classList.toggle('visible', mode === 'refi');
-      const priceLabel = document.getElementById('price-label');
-      priceLabel.textContent = mode === 'refi' ? 'Home Value / Appraised' : 'Purchase Price';
-    }
-
-    function setToggle(field, val) {
-      state[field] = val === 'yes';
-      const yes = document.getElementById(field + '-yes');
-      const no  = document.getElementById(field + '-no');
-      yes.className = 'toggle-opt' + (val === 'yes' ? ' active-yes' : '');
-      no.className  = 'toggle-opt' + (val === 'no'  ? ' active-no'  : '');
-      if (field === 'veteran') {
-        document.getElementById('funding-fee-row').style.display = val === 'yes' ? 'flex' : 'none';
-      }
-    }
-
-    function updateScoreDisplay() {
-      const score = parseInt(document.getElementById('credit-score').value);
-      document.getElementById('score-display').textContent = score;
-      const lbl = document.getElementById('score-label');
-      if      (score >= 740) { lbl.textContent = 'Excellent'; lbl.className = 'score-label excellent'; }
-      else if (score >= 680) { lbl.textContent = 'Good';      lbl.className = 'score-label good'; }
-      else if (score >= 620) { lbl.textContent = 'Fair';      lbl.className = 'score-label fair'; }
-      else if (score >= 580) { lbl.textContent = 'Low';       lbl.className = 'score-label fair'; }
-      else                   { lbl.textContent = 'Poor';      lbl.className = 'score-label poor'; }
-
-      // Live down-pct update
-      updateDownPct();
-    }
-
-    function updateDownPct() {
-      const price = parseFloat(document.getElementById('purchase-price').value) || 0;
-      const down  = parseFloat(document.getElementById('down-payment').value) || 0;
-      const hint  = document.getElementById('down-pct-hint');
-      if (price > 0 && down >= 0) {
-        hint.textContent = fmtPct(down / price) + ' down';
-      }
-    }
-
-    document.getElementById('purchase-price').addEventListener('input', updateDownPct);
-    document.getElementById('down-payment').addEventListener('input', updateDownPct);
-
-    function toggleCashOut() {
-      const purpose = document.getElementById('refi-purpose').value;
-      document.getElementById('cashout-group').style.display = purpose === 'cashout' ? 'flex' : 'none';
-    }
-
-    // ════════════════════════════════════════════════
-    // QUALIFICATION ENGINE
-    // ════════════════════════════════════════════════
-
-    function qualifyVA(inp) {
-      const issues = [], warnings = [], positives = [];
-
-      if (!state.veteran) {
-        issues.push('Borrower must have VA entitlement (veteran or active duty)');
-        return { status: 'disqualified', issues, warnings, positives };
-      }
-      if (inp.propertyType !== 'primary') {
-        issues.push('VA loans require primary residence — not eligible for secondary or investment');
-        return { status: 'disqualified', issues, warnings, positives };
-      }
-      if (inp.creditScore < 580) {
-        issues.push(`Credit score ${inp.creditScore} is too low — minimum 580 (620 preferred by most lenders)`);
-      }
-      if (inp.loanAmount > CONFORMING_LIMIT_2025 * 1.5) {
-        warnings.push('Jumbo VA loan — may require full entitlement and lender approval');
-      }
-
-      // DTI check (estimated — actual payment needed first)
-      const vaFF = getVAFundingFee(inp);
-      const vaLoan = inp.loanAmount + (inp.loanAmount * vaFF);
-      const vaPI   = calcPI(vaLoan, inp.vaRate / 100, inp.term);
-      const vaTotalHousing = vaPI + inp.monthlyTax + inp.monthlyIns;
-      const vaDTI  = (vaTotalHousing + inp.monthlyDebts) / inp.grossIncome;
-
-      if (inp.grossIncome > 0) {
-        if (vaDTI > 0.60) {
-          issues.push(`Backend DTI ~${fmtPct(vaDTI)} is very high — residual income test required; may not approve`);
-        } else if (vaDTI > 0.41) {
-          warnings.push(`Backend DTI ~${fmtPct(vaDTI)} exceeds 41% guideline — residual income test required for AUS approval`);
-        } else {
-          positives.push(`DTI ~${fmtPct(vaDTI)} — within VA guideline`);
-        }
-      }
-
-      if (inp.creditScore >= 620) {
-        positives.push('Credit score meets VA guideline');
-      } else if (inp.creditScore >= 580) {
-        warnings.push('Credit score 580–619 — some lenders require 620 minimum; may need compensating factors');
-      }
-      positives.push('No down payment required with full entitlement');
-      positives.push('No monthly mortgage insurance');
-
-      const status = issues.length > 0 ? 'disqualified'
-                   : warnings.length > 0 ? 'borderline'
-                   : 'qualified';
-      return { status, issues, warnings, positives };
-    }
-
-    function qualifyFHA(inp) {
-      const issues = [], warnings = [], positives = [];
-
-      if (inp.propertyType !== 'primary') {
-        issues.push('FHA loans limited to primary residence only');
-        return { status: 'disqualified', issues, warnings, positives };
-      }
-      if (inp.creditScore < 500) {
-        issues.push(`Credit score ${inp.creditScore} is below the FHA minimum of 500`);
-        return { status: 'disqualified', issues, warnings, positives };
-      }
-
-      // Down payment requirements by score
-      const minDown = inp.creditScore >= 580 ? 0.035 : 0.10;
-      const actualDownPct = inp.purchasePrice > 0 ? inp.downPayment / inp.purchasePrice : 0;
-
-      if (actualDownPct < minDown - 0.001) {
-        if (inp.creditScore >= 580) {
-          issues.push(`FHA requires minimum 3.5% down ($${Math.round(inp.purchasePrice * 0.035).toLocaleString()}) — current down payment is insufficient`);
-        } else {
-          issues.push(`Credit score 500–579 requires 10% down ($${Math.round(inp.purchasePrice * 0.10).toLocaleString()}) for FHA`);
-        }
-      }
-
-      // Loan limit check (general — county-specific limits vary)
-      const fhaLimit = 498257; // 2024 floor; high-cost areas up to 1,149,825
-      const fhaLoan = inp.loanAmount + (inp.loanAmount * FHA_UFMIP);
-      if (inp.loanAmount > fhaLimit * 1.5) {
-        warnings.push('Loan amount may exceed FHA county limits — verify with county lookup');
-      }
-
-      // DTI check
-      const fhaPI = calcPI(fhaLoan, inp.fhaRate / 100, inp.term);
-      const ltv   = inp.loanAmount / inp.purchasePrice;
-      const mipAnnual = fhaAnnualMip(ltv, inp.loanAmount);
-      const mipMonthly = (fhaLoan * mipAnnual) / 12;
-      const fhaTotalHousing = fhaPI + mipMonthly + inp.monthlyTax + inp.monthlyIns;
-      const fhaDTI  = inp.grossIncome > 0 ? (fhaTotalHousing + inp.monthlyDebts) / inp.grossIncome : 0;
-
-      if (inp.grossIncome > 0) {
-        if (fhaDTI > 0.57) {
-          issues.push(`Backend DTI ~${fmtPct(fhaDTI)} exceeds FHA AUS maximum of ~57%`);
-        } else if (fhaDTI > 0.50) {
-          warnings.push(`Backend DTI ~${fmtPct(fhaDTI)} is high — AUS approval likely required with strong compensating factors`);
-        } else if (fhaDTI > 0.43) {
-          warnings.push(`Backend DTI ~${fmtPct(fhaDTI)} is above 43% — AUS approval required`);
-        } else {
-          positives.push(`DTI ~${fmtPct(fhaDTI)} — within FHA standard guideline`);
-        }
-      }
-
-      if (inp.creditScore >= 580) positives.push('Credit score qualifies for 3.5% minimum down');
-      positives.push('More flexible DTI allowances vs. conventional');
-      if (ltv > 0.90) warnings.push('MIP will remain for the life of the loan (LTV > 90% at origination)');
-      else positives.push('MIP cancels after 11 years (LTV ≤ 90%)');
-
-      const status = issues.length > 0 ? 'disqualified'
-                   : warnings.length > 0 ? 'borderline'
-                   : 'qualified';
-      return { status, issues, warnings, positives };
-    }
-
-    function qualifyConv(inp) {
-      const issues = [], warnings = [], positives = [];
-
-      if (inp.creditScore < 620) {
-        issues.push(`Credit score ${inp.creditScore} is below conventional minimum of 620`);
-        return { status: 'disqualified', issues, warnings, positives };
-      }
-
-      // Property type OK for conventional
-      // Down payment check
-      const minDownPct = 0.03; // Fannie HomeReady / Freddie Home Possible
-      const actualDownPct = inp.purchasePrice > 0 ? inp.downPayment / inp.purchasePrice : 0;
-      if (actualDownPct < minDownPct - 0.001) {
-        issues.push(`Conventional requires minimum 3% down ($${Math.round(inp.purchasePrice * 0.03).toLocaleString()})`);
-      }
-
-      // Conforming limit check
-      if (inp.loanAmount > CONFORMING_LIMIT_2025) {
-        issues.push(`Loan amount ${fmt(inp.loanAmount)} exceeds 2025 conforming limit of $806,500 — jumbo underwriting required`);
-      }
-
-      // Investment / secondary: higher down payment requirements
-      if (inp.propertyType === 'investment' && actualDownPct < 0.15) {
-        issues.push('Investment property requires minimum 15–25% down payment for conventional');
-      } else if (inp.propertyType === 'secondary' && actualDownPct < 0.10) {
-        issues.push('Second home requires minimum 10% down payment for conventional');
-      }
-
-      // PMI check
-      const ltv = inp.loanAmount / inp.purchasePrice;
-      const pmiAnnual = estimatePMI(inp.creditScore, ltv);
-      const pmiMonthly = (inp.loanAmount * pmiAnnual) / 12;
-
-      // DTI check
-      const convPI = calcPI(inp.loanAmount, inp.convRate / 100, inp.term);
-      const convTotalHousing = convPI + pmiMonthly + inp.monthlyTax + inp.monthlyIns;
-      const convDTI = inp.grossIncome > 0 ? (convTotalHousing + inp.monthlyDebts) / inp.grossIncome : 0;
-
-      if (inp.grossIncome > 0) {
-        if (convDTI > 0.50) {
-          issues.push(`Backend DTI ~${fmtPct(convDTI)} exceeds conventional AUS ceiling of ~50%`);
-        } else if (convDTI > 0.45) {
-          warnings.push(`Backend DTI ~${fmtPct(convDTI)} is above 45% — strong compensating factors required`);
-        } else if (convDTI > 0.36) {
-          warnings.push(`Backend DTI ~${fmtPct(convDTI)} exceeds standard 36% — AUS approval required`);
-        } else {
-          positives.push(`DTI ~${fmtPct(convDTI)} — within conventional guideline`);
-        }
-      }
-
-      if (ltv <= 0.80) positives.push('No PMI required (LTV ≤ 80%)');
-      else if (pmiAnnual > 0) warnings.push(`PMI estimated at ~${fmtPct(pmiAnnual)} annually — drops when LTV reaches 80%`);
-
-      if (inp.creditScore >= 740) positives.push('Excellent credit — best LLPA tier; minimal pricing adjustments');
-      else if (inp.creditScore >= 680) positives.push('Good credit — favorable LLPA pricing');
-      else if (inp.creditScore >= 640) warnings.push('Credit score 640–679 — LLPAs will increase effective rate; consider FHA comparison');
-
-      if (inp.propertyType !== 'primary') positives.push('Eligible for secondary/investment use (unlike VA/FHA)');
-
-      const status = issues.length > 0 ? 'disqualified'
-                   : warnings.length > 0 ? 'borderline'
-                   : 'qualified';
-      return { status, issues, warnings, positives };
-    }
-
-    // ════════════════════════════════════════════════
-    // REFI-SPECIFIC QUALIFICATION
-    // ════════════════════════════════════════════════
-
-    function qualifyIRRRL(inp) {
-      // VA Streamline — must have existing VA loan
-      if (!state.veteran) return { eligible: false, reason: 'Not a veteran' };
-      if (inp.currentLoanType !== 'va') return { eligible: false, reason: 'Current loan is not a VA loan — IRRRL not available' };
-      if (inp.refiPurpose === 'cashout') return { eligible: false, reason: 'IRRRL does not allow cash-out' };
-      const rateBenefit = inp.currentRate > inp.vaRate;
-      if (!rateBenefit) return { eligible: false, reason: `New VA rate (${inp.vaRate}%) is not lower than current rate (${inp.currentRate}%) — must show net tangible benefit` };
-      return { eligible: true, reason: 'Eligible for IRRRL — streamlined, no appraisal or income verification typically required' };
-    }
-
-    function qualifyFHAStreamline(inp) {
-      if (inp.currentLoanType !== 'fha') return { eligible: false, reason: 'Current loan is not FHA — FHA Streamline not available' };
-      if (inp.refiPurpose === 'cashout') return { eligible: false, reason: 'FHA Streamline does not allow cash-out' };
-      const rateBenefit = inp.currentRate > inp.fhaRate;
-      if (!rateBenefit) return { eligible: false, reason: `New FHA rate must be meaningfully lower to show net tangible benefit` };
-      return { eligible: true, reason: 'Eligible for FHA Streamline — no appraisal required, simplified documentation' };
-    }
-
-    // ════════════════════════════════════════════════
-    // PAYMENT CALCULATIONS
-    // ════════════════════════════════════════════════
-
-    function getVAFundingFee(inp) {
-      const ffType = document.getElementById('ff-type').value;
-      const table = VA_FF[ffType];
-      const downPct = inp.purchasePrice > 0 ? inp.downPayment / inp.purchasePrice : 0;
-      if (downPct >= 0.10) return table.d10;
-      if (downPct >= 0.05) return table.d5;
-      return table.d0;
-    }
-
-    function calcVAPayment(inp) {
-      if (!state.veteran) return null;
-      const ff = getVAFundingFee(inp);
-      const ffAmount = inp.loanAmount * ff;
-      const totalLoan = inp.loanAmount + ffAmount;
-      const pi = calcPI(totalLoan, inp.vaRate / 100, inp.term);
-      const total = pi + inp.monthlyTax + inp.monthlyIns;
-      return { loanAmount: totalLoan, ffAmount, ffPct: ff, pi, pmi: 0, mip: 0, tax: inp.monthlyTax, ins: inp.monthlyIns, total, rate: inp.vaRate };
-    }
-
-    function calcFHAPayment(inp) {
-      if (!inp.fhaRate) return null;
-      const ltv = inp.purchasePrice > 0 ? inp.loanAmount / inp.purchasePrice : 1;
-      const ufmipAmount = inp.loanAmount * FHA_UFMIP;
-      const totalLoan = inp.loanAmount + ufmipAmount;
-      const pi = calcPI(totalLoan, inp.fhaRate / 100, inp.term);
-      const mipAnnual = fhaAnnualMip(ltv, inp.loanAmount);
-      const mip = (totalLoan * mipAnnual) / 12;
-      const total = pi + mip + inp.monthlyTax + inp.monthlyIns;
-      const mipDuration = fhaMipDuration(ltv);
-      return { loanAmount: totalLoan, ufmipAmount, ufmipPct: FHA_UFMIP, pi, mip, mipAnnual, mipDuration, pmi: 0, tax: inp.monthlyTax, ins: inp.monthlyIns, total, rate: inp.fhaRate };
-    }
-
-    function calcConvPayment(inp) {
-      if (!inp.convRate) return null;
-      const ltv = inp.purchasePrice > 0 ? inp.loanAmount / inp.purchasePrice : 0;
-      const pmiAnnual = estimatePMI(inp.creditScore, ltv);
-      const pmi = (inp.loanAmount * pmiAnnual) / 12;
-      const pi = calcPI(inp.loanAmount, inp.convRate / 100, inp.term);
-      const total = pi + pmi + inp.monthlyTax + inp.monthlyIns;
-      return { loanAmount: inp.loanAmount, pi, pmi, pmiAnnual, mip: 0, tax: inp.monthlyTax, ins: inp.monthlyIns, total, rate: inp.convRate };
-    }
-
-    // ════════════════════════════════════════════════
-    // BEST FIT LOGIC
-    // ════════════════════════════════════════════════
-
-    function determineBestFit(quals, payments, inp) {
-      const vaQ   = quals.va.status;
-      const fhaQ  = quals.fha.status;
-      const convQ = quals.conv.status;
-
-      const vaOk   = vaQ   !== 'disqualified' && payments.va;
-      const fhaOk  = fhaQ  !== 'disqualified' && payments.fha;
-      const convOk = convQ !== 'disqualified' && payments.conv;
-
-      if (!vaOk && !fhaOk && !convOk) {
-        return { loan: 'none', label: 'No Qualifying Programs Found', badge: 'none', reason: 'Based on the scenario inputs, this borrower does not appear to qualify for VA, FHA, or Conventional financing at this time. Review the qualification flags above. Common paths forward include: improving credit, increasing down payment, reducing monthly debts, or selecting a lower purchase price.' };
-      }
-
-      // VA is almost always best for eligible veterans
-      if (vaOk) {
-        const vaTotal = payments.va.total;
-        const nextBest = convOk ? payments.conv.total : (fhaOk ? payments.fha.total : null);
-        const saving = nextBest ? Math.round(nextBest - vaTotal) : null;
-        let reason = 'VA is the clear best fit for this veteran borrower. No down payment is required, there is no monthly mortgage insurance, and the VA rate typically produces the lowest total payment. ';
-        if (saving > 0) reason += `VA saves approximately ${fmt(saving)}/mo compared to the next best option. `;
-        if (vaQ === 'borderline') reason += 'Note: borderline qualifications exist — review warnings. ';
-        reason += 'The VA funding fee can be financed into the loan, and disabled veterans may be exempt entirely.';
-        return { loan: 'va', label: 'VA Loan', badge: 'va', reason };
-      }
-
-      // Non-veteran or non-primary property
-      if (convOk && fhaOk) {
-        const convTotal = payments.conv.total;
-        const fhaTotal  = payments.fha.total;
-        const convPMI   = payments.conv.pmi;
-        const ltv = inp.loanAmount / inp.purchasePrice;
-
-        if (inp.creditScore >= 700 && ltv < 0.90) {
-          // Conv wins: PMI will drop off, no life-of-loan MIP
-          const saving = Math.round(fhaTotal - convTotal);
-          return { loan: 'conv', label: 'Conventional', badge: 'conv', reason: `Conventional is the best fit. With a ${inp.creditScore} credit score and ${fmtPct(ltv)} LTV, LLPAs are manageable and PMI will automatically cancel when LTV reaches 80% — unlike FHA MIP which may remain for the life of the loan. ${saving > 0 ? 'Conventional also produces a lower monthly payment by ' + fmt(saving) + '/mo.' : ''}` };
-        }
-        if (inp.creditScore < 660) {
-          // FHA often wins at lower credit scores
-          const saving = Math.round(convTotal - fhaTotal);
-          return { loan: 'fha', label: 'FHA Loan', badge: 'fha', reason: `FHA is the better fit at this credit score (${inp.creditScore}). Lower credit triggers higher LLPAs on conventional loans, making FHA's fixed MIP structure more competitive. ${saving > 0 ? 'FHA produces a lower monthly payment by ' + fmt(saving) + '/mo. ' : ''}Review whether the borrower qualifies for the 3.5% down minimum.` };
-        }
-        // Compare totals when close
-        if (convTotal <= fhaTotal) {
-          return { loan: 'conv', label: 'Conventional', badge: 'conv', reason: `Conventional edges out FHA for this scenario. The PMI will drop off once LTV reaches 80%, while FHA MIP ${payments.fha.mipDuration === 'Life of Loan' ? 'remains for the life of the loan' : 'cancels after 11 years'}. Long-term cost advantage goes to Conventional.` };
-        } else {
-          const saving = Math.round(convTotal - fhaTotal);
-          return { loan: 'fha', label: 'FHA Loan', badge: 'fha', reason: `FHA produces the lower monthly payment by ${fmt(saving)}/mo for this scenario. However, consider the long-term MIP cost (${payments.fha.mipDuration}) vs PMI that cancels on Conventional — discuss the timeline with the borrower.` };
-        }
-      }
-
-      if (convOk) {
-        return { loan: 'conv', label: 'Conventional', badge: 'conv', reason: 'Conventional is the only qualifying program for this scenario. Review credit, down payment, and property type requirements for other programs.' };
-      }
-      if (fhaOk) {
-        return { loan: 'fha', label: 'FHA Loan', badge: 'fha', reason: 'FHA is the only qualifying program available for this borrower. Conventional requires a 620+ credit score and/or higher down payment. Ensure the borrower meets the 3.5% minimum down payment requirement.' };
-      }
-      return { loan: 'none', label: 'No Clear Best Fit', badge: 'none', reason: 'All programs are either disqualified or borderline. Review the warnings and qualification notes carefully before proceeding.' };
-    }
-
-    // ════════════════════════════════════════════════
-    // RENDER FUNCTIONS
-    // ════════════════════════════════════════════════
-
-    function renderQualCards(quals) {
-      const loans = [
-        { key: 'va',   name: 'VA Loan',      cls: 'va'   },
-        { key: 'fha',  name: 'FHA Loan',     cls: 'fha'  },
-        { key: 'conv', name: 'Conventional', cls: 'conv' }
-      ];
-      const icons = { qualified: '✅', borderline: '⚠️', disqualified: '❌' };
-      const container = document.getElementById('qual-cards');
-      container.innerHTML = loans.map(l => {
-        const q = quals[l.key];
-        const allNotes = [
-          ...q.issues.map(n => ({ dot: 'issue', text: n })),
-          ...q.warnings.map(n => ({ dot: 'warning', text: n })),
-          ...q.positives.map(n => ({ dot: 'ok', text: n }))
-        ];
-        const notesHtml = allNotes.slice(0, 5).map(n =>
-          `<div class="qual-note"><span class="qual-note-dot ${n.dot}">●</span><span>${n.text}</span></div>`
-        ).join('');
-        return `
-          <div class="qual-card">
-            <div class="qual-card-header ${l.cls}">
-              <span class="qual-loan-name">${l.name}</span>
-              <div class="qual-status-dot ${q.status}">${icons[q.status]}</div>
-            </div>
-            <div class="qual-card-body">
-              <div class="qual-verdict ${q.status}">${q.status.toUpperCase()}</div>
-              <div class="qual-notes">${notesHtml || '<div class="qual-note"><span class="qual-note-dot ok">●</span><span>Meets basic guidelines</span></div>'}</div>
-            </div>
-          </div>`;
-      }).join('');
-    }
-
-    function renderComparisonTable(quals, payments, inp) {
-      const va   = payments.va;
-      const fha  = payments.fha;
-      const conv = payments.conv;
-
-      const vaDisq  = quals.va.status  === 'disqualified';
-      const fhaDisq = quals.fha.status === 'disqualified';
-      const convDisq= quals.conv.status=== 'disqualified';
-
-      // Find lowest total among qualifying
-      const totals = [];
-      if (!vaDisq   && va)   totals.push(va.total);
-      if (!fhaDisq  && fha)  totals.push(fha.total);
-      if (!convDisq && conv) totals.push(conv.total);
-      const lowestTotal = Math.min(...totals);
-
-      function cell(val, disq, isTotal) {
-        if (disq) return `<td class="disq-value">N/A</td>`;
-        if (val === null || val === undefined) return `<td class="na-value">—</td>`;
-        const formatted = isTotal ? fmt(val) : fmt(val);
-        const isBest = isTotal && Math.round(val) === Math.round(lowestTotal);
-        return `<td class="${isTotal ? 'total-row' : ''}${isBest ? ' best-value' : ''}">${formatted}</td>`;
-      }
-      function rateCell(val, disq) {
-        if (disq) return `<td class="disq-value">N/A</td>`;
-        return `<td>${val ? val.toFixed(3) + '%' : '—'}</td>`;
-      }
-      function textCell(val, disq) {
-        if (disq) return `<td class="disq-value">N/A</td>`;
-        return `<td>${val || '—'}</td>`;
-      }
-
-      // Curr column (refi mode)
-      const showCurr = state.mode === 'refi';
-      const currPmt  = parseFloat(document.getElementById('current-payment').value) || null;
-
-      const currHeader = showCurr ? `<th class="curr-col">Current Loan</th>` : '';
-      const currCells = (val) => showCurr ? `<td style="color:var(--text-muted);font-style:italic;">${val !== null ? fmt(val) : '—'}</td>` : '';
-      const currRateCell = showCurr ? `<td style="color:var(--text-muted);font-style:italic;">${inp.currentRate ? inp.currentRate + '%' : '—'}</td>` : '';
-      const currBlank = showCurr ? `<td></td>` : '';
-
-      const fivYearCost = (p) => p ? Math.round(p.total * 60) : null;
-
-      const table = document.getElementById('comparison-table');
-      table.innerHTML = `
-        <thead>
-          <tr>
-            <th></th>
-            <th class="va-col">VA Loan</th>
-            <th class="fha-col">FHA Loan</th>
-            <th class="conv-col">Conventional</th>
-            ${currHeader}
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="row-label">Interest Rate</td>
-            ${rateCell(va?.rate, vaDisq)}
-            ${rateCell(fha?.rate, fhaDisq)}
-            ${rateCell(conv?.rate, convDisq)}
-            ${currRateCell}
-          </tr>
-          <tr>
-            <td class="row-label">Base Loan Amt</td>
-            ${cell(va?.loanAmount, vaDisq, false)}
-            ${cell(fha?.loanAmount, fhaDisq, false)}
-            ${cell(conv?.loanAmount, convDisq, false)}
-            ${currCells(inp.currentBalance)}
-          </tr>
-          <tr>
-            <td class="row-label">P&amp;I Payment</td>
-            ${cell(va?.pi, vaDisq, false)}
-            ${cell(fha?.pi, fhaDisq, false)}
-            ${cell(conv?.pi, convDisq, false)}
-            ${currBlank}
-          </tr>
-          <tr>
-            <td class="row-label">MI / PMI / MIP</td>
-            ${textCell('None', vaDisq)}
-            ${textCell(fha && !fhaDisq ? fmt(fha.mip) + '/mo' : null, fhaDisq)}
-            ${textCell(conv && !convDisq ? (conv.pmi > 0 ? fmt(conv.pmi) + '/mo' : 'None') : null, convDisq)}
-            ${currBlank}
-          </tr>
-          <tr>
-            <td class="row-label">Upfront Fee</td>
-            ${textCell(va && !vaDisq ? (va.ffPct > 0 ? fmtPct(va.ffPct) + ' VA FF' : 'Exempt') : null, vaDisq)}
-            ${textCell(fha && !fhaDisq ? '1.75% UFMIP' : null, fhaDisq)}
-            ${textCell('None', convDisq)}
-            ${currBlank}
-          </tr>
-          <tr>
-            <td class="row-label">Est. Tax + Ins</td>
-            ${cell(va && !vaDisq ? va.tax + va.ins : null, vaDisq, false)}
-            ${cell(fha && !fhaDisq ? fha.tax + fha.ins : null, fhaDisq, false)}
-            ${cell(conv && !convDisq ? conv.tax + conv.ins : null, convDisq, false)}
-            ${currBlank}
-          </tr>
-          <tr class="total-highlight">
-            <td class="row-label"><strong>Total Monthly</strong></td>
-            ${cell(va?.total, vaDisq, true)}
-            ${cell(fha?.total, fhaDisq, true)}
-            ${cell(conv?.total, convDisq, true)}
-            ${currCells(currPmt)}
-          </tr>
-          <tr>
-            <td class="row-label">5-Year Cost</td>
-            ${cell(fivYearCost(va && !vaDisq ? va : null), vaDisq, false)}
-            ${cell(fivYearCost(fha && !fhaDisq ? fha : null), fhaDisq, false)}
-            ${cell(fivYearCost(conv && !convDisq ? conv : null), convDisq, false)}
-            ${currCells(currPmt ? currPmt * 60 : null)}
-          </tr>
-        </tbody>
-      `;
-
-      // MI Duration note
-      const fhaMipDur = fha && !fhaDisq ? fha.mipDuration : null;
-      const convPMIPct = conv && !convDisq && conv.pmiAnnual > 0 ? fmtPct(conv.pmiAnnual) : null;
-
-      let noteText = '⚡ Highlighted totals indicate the lowest monthly payment among qualifying programs. ';
-      if (fhaMipDur) noteText += `FHA MIP: ${fhaMipDur}. `;
-      if (convPMIPct) noteText += `Conventional PMI ~${convPMIPct}/yr (cancels at 80% LTV). `;
-      noteText += 'Tax and insurance estimates are approximate. Rates are as entered manually.';
-      document.getElementById('assumption-note').textContent = noteText;
-    }
-
-    function renderRefiSavings(payments, inp) {
-      const card = document.getElementById('refi-savings-card');
-      const body = document.getElementById('refi-savings-body');
-      const currPmt = parseFloat(document.getElementById('current-payment').value);
-
-      if (!currPmt || state.mode !== 'refi') {
-        card.style.display = 'none';
-        return;
-      }
-
-      card.style.display = 'block';
-
-      // Find best new payment
-      const options = [
-        { name: 'VA',  pmt: payments.va?.total,   qual: true },
-        { name: 'FHA', pmt: payments.fha?.total,  qual: true },
-        { name: 'Conv',pmt: payments.conv?.total, qual: true }
-      ].filter(o => o.pmt);
-
-      if (!options.length) {
-        body.innerHTML = '<p style="color:var(--text-muted);font-size:12px;">No qualifying refinance options to compare.</p>';
-        return;
-      }
-
-      const best = options.reduce((a, b) => a.pmt < b.pmt ? a : b);
-      const saving = Math.round(currPmt - best.pmt);
-      const annualSaving = saving * 12;
-      // Estimate closing costs at 2% of loan
-      const loanAmt = inp.loanAmount;
-      const closingCosts = Math.round(loanAmt * 0.02);
-      const breakeven = saving > 0 ? Math.ceil(closingCosts / saving) : null;
-
-      const irrrlCheck = qualifyIRRRL(inp);
-      const fhaStreamCheck = qualifyFHAStreamline(inp);
-
-      let streamlineHtml = '';
-      if (irrrlCheck.eligible) {
-        streamlineHtml += `<div class="callout info" style="margin-top:14px;"><span class="callout-icon">⚡</span><div><strong>IRRRL Eligible</strong> ${irrrlCheck.reason}</div></div>`;
-      }
-      if (fhaStreamCheck.eligible) {
-        streamlineHtml += `<div class="callout info" style="margin-top:14px;"><span class="callout-icon">⚡</span><div><strong>FHA Streamline Eligible</strong> ${fhaStreamCheck.reason}</div></div>`;
-      }
-
-      body.innerHTML = `
-        <div class="savings-grid">
-          <div class="savings-stat">
-            <div class="savings-stat-value ${saving > 0 ? 'positive' : 'negative'}">${saving > 0 ? '+' : ''}${fmt(saving)}</div>
-            <div class="savings-stat-label">Monthly Savings<br>(vs. best option)</div>
-          </div>
-          <div class="savings-stat">
-            <div class="savings-stat-value ${annualSaving > 0 ? 'positive' : 'negative'}">${fmt(Math.abs(annualSaving))}</div>
-            <div class="savings-stat-label">${annualSaving >= 0 ? 'Annual Savings' : 'Annual Increase'}</div>
-          </div>
-          <div class="savings-stat">
-            <div class="savings-stat-value">${breakeven ? breakeven + ' mo.' : '—'}</div>
-            <div class="savings-stat-label">Breakeven Point<br>(~2% closing costs)</div>
-          </div>
-        </div>
-        <div class="refi-note">
-          Best new option: <strong>${best.name}</strong> at ${fmt(best.pmt)}/mo vs. current ${fmt(currPmt)}/mo.
-          Estimated closing costs ~${fmt(closingCosts)} (2% assumption — actual varies).
-          ${breakeven && saving > 0 ? `Borrower breaks even in approximately <strong>${breakeven} months</strong>.` : saving <= 0 ? '⚠️ This refinance does not reduce the monthly payment — evaluate other benefits (term reduction, equity, loan type change).' : ''}
-        </div>
-        ${streamlineHtml}
-      `;
-    }
-
-    function renderScenarioSummary(inp) {
-      const ltv = inp.purchasePrice > 0 ? fmtPct(inp.loanAmount / inp.purchasePrice) : '—';
-      const downPct = inp.purchasePrice > 0 ? fmtPct(inp.downPayment / inp.purchasePrice) : '—';
-      const items = [
-        { label: 'Mode', value: state.mode === 'refi' ? 'Refinance' : 'Purchase' },
-        { label: 'Price', value: fmt(inp.purchasePrice) },
-        { label: 'Loan', value: fmt(inp.loanAmount) },
-        { label: 'Down', value: downPct },
-        { label: 'LTV', value: ltv },
-        { label: 'Credit', value: inp.creditScore },
-        { label: 'Veteran', value: state.veteran ? 'Yes' : 'No' },
-        { label: 'Property', value: inp.propertyType === 'primary' ? 'Primary' : inp.propertyType === 'secondary' ? 'Secondary' : 'Investment' },
-        { label: 'DTI Debts', value: fmt(inp.monthlyDebts) },
-      ];
-      document.getElementById('scenario-summary').innerHTML = items.map(i =>
-        `<div class="scen-item"><span class="scen-label">${i.label}</span> <span class="scen-value">${i.value}</span></div>`
-      ).join('');
-    }
-
-    // ════════════════════════════════════════════════
-    // MAIN ANALYSIS
-    // ════════════════════════════════════════════════
-
-    function runAnalysis() {
-      const creditScore   = parseInt(document.getElementById('credit-score').value)    || 620;
-      const grossIncome   = parseFloat(document.getElementById('gross-income').value)  || 0;
-      const monthlyDebts  = parseFloat(document.getElementById('monthly-debts').value) || 0;
-      const purchasePrice = parseFloat(document.getElementById('purchase-price').value)|| 0;
-      const downPayment   = parseFloat(document.getElementById('down-payment').value)  || 0;
-      const propertyType  = document.getElementById('property-type').value;
-      const term          = parseInt(document.getElementById('loan-term').value)       || 30;
-      const vaRate        = parseFloat(document.getElementById('va-rate').value)       || 0;
-      const fhaRate       = parseFloat(document.getElementById('fha-rate').value)      || 0;
-      const convRate      = parseFloat(document.getElementById('conv-rate').value)     || 0;
-      const monthlyTaxIn  = parseFloat(document.getElementById('monthly-tax').value)   || 0;
-      const currentRate   = parseFloat(document.getElementById('current-rate').value)  || 0;
-      const currentBalance= parseFloat(document.getElementById('current-balance').value)||0;
-      const currentLoanType = document.getElementById('current-loan-type').value;
-      const refiPurpose   = document.getElementById('refi-purpose').value;
-
-      const loanAmount    = purchasePrice - downPayment;
-      const monthlyTax    = monthlyTaxIn > 0 ? monthlyTaxIn : (purchasePrice * 0.012) / 12;
-      const monthlyIns    = 100;
-
-      const inp = {
-        creditScore, grossIncome, monthlyDebts, purchasePrice, downPayment, loanAmount,
-        propertyType, term, vaRate, fhaRate, convRate, monthlyTax, monthlyIns,
-        currentRate, currentBalance, currentLoanType, refiPurpose
-      };
-
-      // Validate
-      if (!purchasePrice || purchasePrice <= 0) { alert('Please enter a purchase price / home value.'); return; }
-      if (!vaRate && !fhaRate && !convRate) { alert('Please enter at least one interest rate.'); return; }
-
-      // Run qualification
-      const quals = {
-        va:   qualifyVA(inp),
-        fha:  qualifyFHA(inp),
-        conv: qualifyConv(inp)
-      };
-
-      // Only calc payments if rate provided and not disqualified
-      const payments = {
-        va:   (state.veteran && vaRate   > 0) ? calcVAPayment(inp)   : null,
-        fha:  (fhaRate  > 0) ? calcFHAPayment(inp)  : null,
-        conv: (convRate > 0) ? calcConvPayment(inp) : null
-      };
-
-      // Null out payments for disqualified loans (for table display)
-      if (quals.va.status   === 'disqualified') payments.va   = null;
-      if (quals.fha.status  === 'disqualified') payments.fha  = null;
-      if (quals.conv.status === 'disqualified') payments.conv = null;
-
-      const bestFit = determineBestFit(quals, payments, inp);
-
-      // Render everything
-      renderScenarioSummary(inp);
-      renderQualCards(quals);
-      renderComparisonTable(quals, payments, inp);
-      renderRefiSavings(payments, inp);
-
-      // Best Fit Banner
-      const banner  = document.getElementById('best-fit-banner');
-      const titleEl = document.getElementById('best-fit-title-text');
-      const badgeEl = document.getElementById('best-fit-badge');
-      const reasonEl= document.getElementById('best-fit-reason');
-
-      banner.className = `best-fit-banner ${bestFit.badge}-best`;
-      titleEl.textContent = bestFit.label;
-      badgeEl.textContent = bestFit.loan.toUpperCase();
-      badgeEl.className   = `loan-badge ${bestFit.badge}`;
-      reasonEl.textContent= bestFit.reason;
-
-      // Show results
-      document.getElementById('empty-state').style.display    = 'none';
-      document.getElementById('results-content').classList.add('visible');
-    }
-
-    // ════════════════════════════════════════════════
-    // INIT
-    // ════════════════════════════════════════════════
-    updateScoreDisplay();
-    setToggle('veteran', 'no');
-    setToggle('fthb', 'no');
-    setToggle('rural', 'no');
-  </script>
-
+  }
+
+  el.innerHTML = `
+  <div class="refi-card">
+    <div class="refi-hdr"><h3>💰 Refinance Savings Analysis</h3></div>
+    <div class="refi-body">
+      <div class="sav-row">
+        <div class="sstat"><div class="sstat-val ${save>0?'pos':'neg'}">${save>0?'+':''}${fmt(save)}</div><div class="sstat-lbl">Monthly Savings<br>vs. Current Loan</div></div>
+        <div class="sstat"><div class="sstat-val ${annSav>0?'pos':'neg'}">${fmt(Math.abs(annSav))}</div><div class="sstat-lbl">${annSav>=0?'Annual Savings':'Annual Increase'}</div></div>
+        <div class="sstat"><div class="sstat-val">${be?be+' mo.':'—'}</div><div class="sstat-lbl">Breakeven<br>(~2% closing costs)</div></div>
+      </div>
+      <div class="refi-note">
+        Best new option: <strong>${best.sc.label}</strong> at ${fmt(best.pmt.total)}/mo vs. current ${fmt(inp.currPmt)}/mo.
+        Estimated closing costs ~${fmt(cc)} (2% estimate — actual will vary).
+        ${be&&save>0?`Borrower breaks even in approximately <strong>${be} months</strong>.`:save<=0?'⚠️ This refinance does not lower the monthly payment. Consider other benefits: shorter term, removing MIP, or loan type change.':''}
+      </div>
+      ${streamNote}
+    </div>
+  </div>`;
+}
+
+// ═══════════════════════════════════════
+// MAIN RUN
+// ═══════════════════════════════════════
+function runAnalysis() {
+  if (!scenarios.length) { alert('Please add at least one scenario first.'); return; }
+
+  const score  = parseInt(document.getElementById('credit-score').value)||620;
+  const income = parseFloat(document.getElementById('gross-income').value)||0;
+  const debts  = parseFloat(document.getElementById('monthly-debts').value)||0;
+  const propType = document.getElementById('prop-type').value;
+  const taxIn  = parseFloat(document.getElementById('monthly-tax').value)||0;
+  const insIn  = parseFloat(document.getElementById('monthly-ins').value)||100;
+
+  let price, loanAmt, downAmt, downPct, currPmt=0, currRate=0, currLoanType='';
+
+  if (appMode==='purchase') {
+    price   = parseFloat(document.getElementById('purchase-price').value)||0;
+    downAmt = parseFloat(document.getElementById('down-payment').value)||0;
+    if (!price) { alert('Please enter a purchase price.'); return; }
+    loanAmt = price-downAmt;
+    downPct = price>0 ? downAmt/price : 0;
+  } else {
+    const homeVal = parseFloat(document.getElementById('home-value').value)||0;
+    const currBal = parseFloat(document.getElementById('curr-balance').value)||0;
+    if (!homeVal && !currBal) { alert('Please enter the home value or current balance.'); return; }
+    price      = homeVal;
+    loanAmt    = currBal || homeVal;
+    downAmt    = homeVal-loanAmt;
+    downPct    = homeVal>0 ? (homeVal-loanAmt)/homeVal : 0;
+    currPmt    = parseFloat(document.getElementById('curr-payment').value)||0;
+    currRate   = parseFloat(document.getElementById('curr-rate').value)||0;
+    currLoanType = document.getElementById('curr-loan-type').value;
+  }
+
+  const tax = taxIn>0 ? taxIn : (price*0.012)/12;
+  const ins = insIn;
+
+  const inp = {score, income, debts, price, loanAmt, downAmt, downPct, propType, tax, ins, currPmt, currRate, currLoanType};
+
+  const missingRate = scenarios.find(s=>!s.rate);
+  if (missingRate && !confirm(`"${missingRate.label}" has no rate. Continue without a payment estimate for it?`)) return;
+
+  const results = scenarios.map(sc => {
+    const qual = qualify(sc, inp);
+    const pmt  = qual.status!=='disqualified' ? calcPmt(sc, inp) : null;
+    return {sc, qual, pmt};
+  });
+
+  renderResults(results, inp);
+
+  const modeLabel = appMode==='purchase' ? 'Purchase' : 'Refinance';
+  document.getElementById('res-sub').textContent = `${modeLabel} · ${scenarios.length} scenario${scenarios.length>1?'s':''} · Credit ${score} · ${fmt(price)} home`;
+
+  document.getElementById('empty-state').style.display='none';
+  const rOut = document.getElementById('results-out');
+  rOut.classList.add('show');
+  setTimeout(()=>rOut.scrollIntoView({behavior:'smooth',block:'start'}),50);
+}
+
+// ═══════════════════════════════════════
+// GLOSSARY
+// ═══════════════════════════════════════
+function toggleGlossary() {
+  const b=document.getElementById('gls-body');
+  const a=document.getElementById('gls-arrow');
+  const open=b.classList.toggle('open');
+  a.textContent=open?'▲':'▼';
+}
+
+// ═══════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════
+onScoreChange();
+setTog('vet','no');
+addScenario();
+</script>
 </body>
 </html>
