@@ -225,6 +225,78 @@
     footer p{font-size:12px;color:rgba(255,255,255,.35);letter-spacing:.3px}
     footer strong{color:rgba(255,255,255,.55)}
 
+
+    /* ── SALES PLAYBOOK ── */
+    .playbook-wrap{margin-top:28px}
+    .playbook-section{background:var(--white);border-radius:16px;border:1px solid rgba(13,35,64,.07);box-shadow:0 4px 20px rgba(13,35,64,.07);overflow:hidden;margin-bottom:20px}
+    .playbook-hdr{background:linear-gradient(135deg,#1a0a3e,#2d1060);padding:18px 24px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none}
+    .playbook-hdr h2{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:var(--white)}
+    .playbook-hdr p{font-size:11.5px;color:rgba(255,255,255,.5);margin-top:3px}
+    .playbook-hdr-icon{font-size:28px;margin-right:14px;flex-shrink:0}
+    .playbook-hdr-left{display:flex;align-items:center}
+    .playbook-toggle{color:rgba(255,255,255,.45);font-size:13px;flex-shrink:0}
+    .playbook-body{padding:22px 24px;display:none}
+    .playbook-body.open{display:block}
+
+    .pb-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--warm-gray)}
+    .pb-tab{padding:8px 16px;font-size:12px;font-weight:600;letter-spacing:.4px;border:1px solid var(--warm-gray);border-radius:8px;background:var(--off-white);color:var(--text-muted);cursor:pointer;transition:all .15s;font-family:'DM Sans',sans-serif}
+    .pb-tab.active{background:#1a0a3e;color:var(--white);border-color:#1a0a3e;box-shadow:0 2px 10px rgba(26,10,62,.3)}
+    .pb-tab:hover:not(.active){border-color:var(--gold);color:var(--gold)}
+    .pb-panel{display:none}.pb-panel.active{display:block}
+
+    .tip-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .tip-card{border-radius:12px;padding:16px 18px;border:1px solid rgba(13,35,64,.07);background:var(--off-white)}
+    .tip-card.gold{background:linear-gradient(135deg,#fdf6e3,#fef9e7);border-color:rgba(201,168,76,.3)}
+    .tip-card.navy{background:linear-gradient(135deg,#f0f4fa,#e8eef8);border-color:rgba(30,70,120,.15)}
+    .tip-card.green{background:linear-gradient(135deg,#f0fdf4,#dcfce7);border-color:rgba(22,101,52,.2)}
+    .tip-card.red{background:linear-gradient(135deg,#fef2f2,#fee2e2);border-color:rgba(153,27,27,.15)}
+    .tip-icon{font-size:22px;margin-bottom:8px}
+    .tip-title{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:6px}
+    .tip-body{font-size:12px;color:var(--text-muted);line-height:1.65}
+    .tip-body strong{color:var(--text-dark)}
+    .tip-body em{font-style:italic;color:var(--navy-mid)}
+
+    .script-block{background:linear-gradient(135deg,#0d2340,#153256);border-radius:12px;padding:16px 20px;margin:10px 0}
+    .script-label{font-size:9.5px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+    .script-text{font-size:12.5px;color:rgba(255,255,255,.85);line-height:1.75;font-style:italic}
+    .script-note{font-size:11px;color:rgba(255,255,255,.45);margin-top:8px}
+
+    .objection-item{border-radius:10px;overflow:hidden;margin-bottom:10px;border:1px solid var(--warm-gray)}
+    .obj-q{background:var(--off-white);padding:11px 16px;font-size:12.5px;font-weight:600;color:var(--text-dark);display:flex;align-items:center;gap:8px;cursor:pointer}
+    .obj-q .obj-icon{font-size:14px;flex-shrink:0}
+    .obj-a{padding:12px 16px;font-size:12px;color:var(--text-muted);line-height:1.7;display:none;border-top:1px solid var(--warm-gray)}
+    .obj-a.open{display:block}
+    .obj-a em{display:block;background:linear-gradient(135deg,#0d2340,#153256);color:rgba(255,255,255,.82);font-style:italic;border-radius:8px;padding:10px 14px;margin-top:8px;font-size:12px;line-height:1.7}
+
+    .compare-table{width:100%;border-collapse:collapse;font-size:12px;margin-top:10px}
+    .compare-table th{background:var(--navy);color:var(--white);padding:9px 14px;text-align:left;font-size:11px;letter-spacing:.6px;font-weight:700}
+    .compare-table th:first-child{border-radius:8px 0 0 0}
+    .compare-table th:last-child{border-radius:0 8px 0 0}
+    .compare-table td{padding:8px 14px;border-bottom:1px solid var(--warm-gray);vertical-align:top;line-height:1.5}
+    .compare-table tr:hover td{background:rgba(13,35,64,.03)}
+    .compare-table tr:last-child td{border-bottom:none}
+    .badge-yes{display:inline-block;background:var(--green-soft);color:var(--green-text);font-weight:700;font-size:10px;padding:2px 7px;border-radius:10px}
+    .badge-no{display:inline-block;background:var(--red-soft);color:var(--red-text);font-weight:700;font-size:10px;padding:2px 7px;border-radius:10px}
+    .badge-cond{display:inline-block;background:var(--yellow-soft);color:var(--yellow-text);font-weight:700;font-size:10px;padding:2px 7px;border-radius:10px}
+
+    .income-table{width:100%;border-collapse:collapse;font-size:12px;margin-top:10px}
+    .income-table th{background:#1a0a3e;color:var(--white);padding:8px 13px;text-align:left;font-size:11px;font-weight:700;letter-spacing:.5px}
+    .income-table td{padding:8px 13px;border-bottom:1px solid var(--warm-gray);vertical-align:top;line-height:1.5;color:var(--text-dark)}
+    .income-table tr:hover td{background:rgba(26,10,62,.04)}
+    .income-table tr:last-child td{border-bottom:none}
+
+    /* Dynamic talking points */
+    .talking-pts{background:linear-gradient(135deg,#1a0a3e,#2d1060);border-radius:14px;padding:20px 24px;margin-bottom:20px}
+    .tp-eyebrow{font-size:9.5px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+    .tp-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:var(--white);margin-bottom:12px}
+    .tp-points{display:flex;flex-direction:column;gap:8px}
+    .tp-pt{display:flex;align-items:flex-start;gap:10px;background:rgba(255,255,255,.07);border-radius:8px;padding:10px 14px}
+    .tp-pt-icon{font-size:14px;flex-shrink:0;margin-top:1px}
+    .tp-pt-text{font-size:12.5px;color:rgba(255,255,255,.8);line-height:1.6}
+    .tp-pt-text strong{color:var(--gold-light)}
+
+    @media(max-width:640px){.tip-grid{grid-template-columns:1fr}.pb-tabs{gap:4px}}
+
     @media(max-width:960px){.two-col{grid-template-columns:1fr}.input-panel{position:static}.res-cols.c3{grid-template-columns:1fr 1fr}}
     @media(max-width:640px){nav,header,footer{padding-left:16px;padding-right:16px}.page-wrap{padding:16px 14px 60px}.hero{padding:24px 16px}.res-cols.c2,.res-cols.c3{grid-template-columns:1fr}.glossary-body.open{grid-template-columns:1fr}.sav-row{grid-template-columns:1fr}}
     @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
@@ -329,7 +401,7 @@
             </div>
           </div>
           <div id="ff-row" style="display:none;margin-top:8px;">
-            <label class="flabel" style="margin-bottom:4px;">VA Funding Fee Type <span class="tip" data-tip="First Use (~2.3% of loan). Subsequent Use (~3.6%). Exempt = 10%+ disability rating = $0 funding fee. ALWAYS confirm disability status — this can save thousands at closing.">?</span></label>
+            <label class="flabel" style="margin-bottom:4px;">VA Funding Fee Type <span class="tip" data-tip="First Time Use (FTU) = 2.6% of loan. Subsequent Use = 3.3%. IRRRL = 0.5% flat. Exempt = 10%+ service-connected disability rating = $0 — ALWAYS confirm before closing. This can save thousands.">?</span></label>
             <select id="ff-type" style="font-size:12px;padding:6px 9px;">
               <option value="first">First Use of VA Benefit</option>
               <option value="subsequent">Subsequent Use</option>
@@ -479,6 +551,8 @@
 
           <div id="refi-savings"></div>
 
+          <div id="talking-pts-wrap"></div>
+
           <div class="callout warn">
             <span>⚠️</span>
             <div><strong>Internal Use Only —</strong> Estimates only. All loans must run through AUS. DTI, PMI, MIP, and rate figures are approximations. Do not share directly with borrowers without full disclosure and actual loan disclosures.</div>
@@ -499,6 +573,7 @@
               <div class="gterm"><div class="gterm-name">IRRRL</div><div class="gterm-def">VA Streamline Refinance. Must have an existing VA loan. Usually no appraisal, minimal income docs. Must show net tangible benefit (lower rate or shorter term).</div></div>
               <div class="gterm"><div class="gterm-name">AUS</div><div class="gterm-def">Automated Underwriting System. VA uses LGY, FHA uses TOTAL Scorecard, Conventional uses DU (Fannie) or LP (Freddie). AUS can approve loans that exceed standard DTI guidelines with compensating factors.</div></div>
               <div class="gterm"><div class="gterm-name">Conforming Limit (2025)</div><div class="gterm-def">$806,500 max for conventional in most counties. Above this = jumbo = stricter underwriting. VA has no loan limit with full entitlement. FHA limits vary by county.</div></div>
+              <div class="gterm"><div class="gterm-name">ARM (Adjustable Rate Mortgage)</div><div class="gterm-def">5/1 ARM = rate fixed for 5 years, then adjusts once per year. 3/1 ARM = fixed for 3 years, then annual adjustments. Adjustment is based on an index (like SOFR) plus a margin. Caps limit how much the rate can change per adjustment and over the life of the loan. Lower initial rate = lower initial payment — but risk increases after the fixed period.</div></div>
               <div class="gterm"><div class="gterm-name">Residual Income (VA)</div><div class="gterm-def">After ALL payments, the veteran must have a set amount left over based on family size and region. This can save a VA loan that exceeds 41% DTI — always check it.</div></div>
             </div>
           </div>
@@ -508,6 +583,336 @@
     </div>
   </div>
 </div>
+
+  <!-- ══ SALES PLAYBOOK ══ -->
+  <div class="playbook-wrap" id="playbook">
+    <div class="playbook-section">
+      <div class="playbook-hdr" onclick="togglePlaybook()">
+        <div class="playbook-hdr-left">
+          <span class="playbook-hdr-icon">🎙️</span>
+          <div>
+            <h2>Sales Playbook &amp; Presentation Guide</h2>
+            <p>Scripts, comparisons, objection handlers, and income doc quick reference — click to expand</p>
+          </div>
+        </div>
+        <span class="playbook-toggle" id="pb-arrow">▼ Open</span>
+      </div>
+      <div class="playbook-body" id="pb-body">
+
+        <div class="pb-tabs">
+          <button class="pb-tab active" onclick="showPbTab('pitches',this)">💡 Key Pitches</button>
+          <button class="pb-tab" onclick="showPbTab('compare',this)">📊 Program Comparison</button>
+          <button class="pb-tab" onclick="showPbTab('objections',this)">🛡️ Objection Handlers</button>
+          <button class="pb-tab" onclick="showPbTab('arm',this)">📉 ARM Presentation</button>
+          <button class="pb-tab" onclick="showPbTab('income',this)">📄 Income Doc Guide</button>
+          <button class="pb-tab" onclick="showPbTab('vcinotes',this)">📋 VCI Policy Notes</button>
+        </div>
+
+        <!-- KEY PITCHES -->
+        <div class="pb-panel active" id="pb-pitches">
+          <div class="tip-grid">
+
+            <div class="tip-card gold">
+              <div class="tip-icon">🎖️</div>
+              <div class="tip-title">The "You Earned It" VA Close</div>
+              <div class="tip-body">Always open a VA conversation by anchoring the benefit to the veteran's service. Many vets assume VA loans are complicated or have a catch.<br><br>
+              <em>"Mr./Ms. Borrower, this is a benefit you earned through your service. It costs nothing extra each month in mortgage insurance, requires no down payment, and often comes with the most competitive rate available. Let's make sure you're using everything you're entitled to."</em><br><br>
+              <strong>Follow with the math:</strong> Pull up the MI comparison. Show them the monthly difference — no MIP, no PMI, $0/month. Let the numbers close for you.</div>
+            </div>
+
+            <div class="tip-card navy">
+              <div class="tip-icon">🚫</div>
+              <div class="tip-title">The "MI Math" Story — Making MIP Real</div>
+              <div class="tip-body">Borrowers glaze over at percentages. Make it concrete with dollars and time.<br><br>
+              <em>"At $X/month in mortgage insurance, that's $X,XXX per year. Over 5 years that's $XX,XXX. With a VA loan, that number is exactly zero — every single month."</em><br><br>
+              <strong>For FHA LTV &gt; 90%:</strong> "I want to make sure you understand — with less than 10% down on an FHA loan, the mortgage insurance stays for the entire life of the loan. It never goes away unless you refinance. That's something we need to plan around."<br><br>
+              <strong>For conventional PMI:</strong> "The difference with conventional PMI is that it cancels automatically when your equity hits 20%. You don't have to refinance or ask — it just stops."</div>
+            </div>
+
+            <div class="tip-card green">
+              <div class="tip-icon">🏠</div>
+              <div class="tip-title">The "FHA Bridge" Conversation</div>
+              <div class="tip-body">FHA is often the right short-term choice for credit-challenged borrowers. Present it as a strategy, not a consolation prize.<br><br>
+              <em>"Here's the plan: we use FHA to get you into the home today because conventional doesn't work yet. Then we build a 12–18 month roadmap — keep your credit clean, let the home appreciate, and when we hit 680+ credit and 20% equity, I'm going to call you and we'll refinance you into conventional and cut that MIP."</em><br><br>
+              <strong>Why this works:</strong> It turns a transaction into a relationship. The borrower trusts that you're thinking about their long-term financial health, not just closing a loan.</div>
+            </div>
+
+            <div class="tip-card gold">
+              <div class="tip-icon">📊</div>
+              <div class="tip-title">The "5-Year True Cost" Close</div>
+              <div class="tip-body">Borrowers obsess over rate. Train them to think in total cost.<br><br>
+              <em>"Instead of looking at rates, let's look at what you'll actually spend over the next 5 years. That includes the monthly payment, all mortgage insurance, and the upfront costs. Here's what each option actually costs you."</em><br><br>
+              <strong>Use the 5-Year Total row</strong> in the results above. An option with a slightly higher rate but no MI will often beat a lower rate with MIP over 5 years.<br><br>
+              <strong>Key insight:</strong> A 0.25% rate difference on a $400K loan = ~$60/month. But $150/month in MIP vs. $0 is a $9,000 difference over 5 years — 3× bigger impact.</div>
+            </div>
+
+            <div class="tip-card navy">
+              <div class="tip-icon">🔄</div>
+              <div class="tip-title">Plant the IRRRL / Refi Seed at Closing</div>
+              <div class="tip-body">Never lose a client to another LO when rates drop. Set expectations at origination.<br><br>
+              <em>"Today we're getting you into a great loan. Here's my promise: when rates drop by half a point or more, I'm going to personally reach out to you. For VA borrowers there's a streamlined refinance called the IRRRL — minimal paperwork, no appraisal required, very fast. I want to be the person who saves you money down the road."</em><br><br>
+              <strong>For FHA borrowers:</strong> "When we get you to 20% equity and the credit score where we want it, I'll call you about a conventional refi to drop that MIP. I'll be tracking that for you."</div>
+            </div>
+
+            <div class="tip-card green">
+              <div class="tip-icon">💳</div>
+              <div class="tip-title">The "Credit Score ROI" Pitch</div>
+              <div class="tip-body">Sometimes the best advice is to wait 60–90 days and improve the score. Frame this as financial coaching.<br><br>
+              <em>"Here's the honest truth — if we close today, you're looking at $X/month. If you spend 60 days paying down that credit card to under 30% utilization, your score should move 20–30 points. At 680+ credit, your PMI rate drops and you're saving $X/month for the life of the loan. That's potentially $XX,XXX over 5 years for 60 days of patience. What do you want to do?"</em><br><br>
+              <strong>Score tier thresholds to know:</strong><br>
+              580 → FHA eligible (3.5% down)<br>
+              620 → Conventional opens up<br>
+              680 → PMI rates meaningfully better<br>
+              740 → Best conventional LLPA tier</div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- PROGRAM COMPARISON -->
+        <div class="pb-panel" id="pb-compare">
+          <p style="font-size:12.5px;color:var(--text-muted);margin-bottom:14px;line-height:1.6">Use this table to walk borrowers through the key differences between programs. Print it or pull it up on screen during a consultation.</p>
+          <table class="compare-table">
+            <thead>
+              <tr>
+                <th>Feature</th>
+                <th>VA Loan</th>
+                <th>FHA Loan</th>
+                <th>Conventional</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Who Qualifies</strong></td><td>Veterans &amp; Active Duty only</td><td>Any borrower, primary only</td><td>Any borrower, any occupancy</td></tr>
+              <tr><td><strong>Min Down Payment</strong></td><td><span class="badge-yes">$0</span> with full entitlement</td><td><span class="badge-cond">3.5%</span> (620+ score) or <span class="badge-cond">10%</span> (500–579)</td><td><span class="badge-cond">3%</span> primary / 10% 2nd / 15% investment</td></tr>
+              <tr><td><strong>Min Credit Score</strong></td><td>580 (620 preferred)</td><td>500 (580 for 3.5% down)</td><td>620</td></tr>
+              <tr><td><strong>Monthly MI</strong></td><td><span class="badge-yes">$0 — None Ever</span></td><td>~0.55%/yr — Life of loan if LTV&gt;90%</td><td>PMI only if LTV&gt;80% — cancels at 80%</td></tr>
+              <tr><td><strong>Upfront Fee</strong></td><td>Funding fee 2.6% FTU / 3.3% SU (financed in) — $0 if exempt</td><td>UFMIP 1.75% (financed in)</td><td>None</td></tr>
+              <tr><td><strong>DTI Guideline</strong></td><td>≤41% (higher OK w/ residual income)</td><td>Up to ~57% with AUS</td><td>Up to ~50% with AUS</td></tr>
+              <tr><td><strong>Investment / 2nd Home</strong></td><td><span class="badge-no">No — Primary Only</span></td><td><span class="badge-no">No — Primary Only</span></td><td><span class="badge-yes">Yes</span></td></tr>
+              <tr><td><strong>Cash Out Max LTV</strong></td><td>100% (primary only)</td><td>80% per VCI</td><td>80% per VCI</td></tr>
+              <tr><td><strong>Streamline Refi</strong></td><td>IRRRL — 0.5% fee, no appraisal, 1×30 allowed</td><td>FHA Streamline — no appraisal, no lates past 12mo</td><td>No streamline — full doc required</td></tr>
+              <tr><td><strong>Conforming Limit</strong></td><td>No limit (full entitlement)</td><td>County-based limits</td><td>$806,500 (2025)</td></tr>
+              <tr><td><strong>Hybrid ARMs OK?</strong></td><td><span class="badge-yes">Yes</span> — Purchase, Cash Out, IRRRL</td><td><span class="badge-yes">Yes</span> — Purchase, Cash Out, Streamline</td><td><span class="badge-yes">Yes</span></td></tr>
+              <tr><td><strong>Appraisal Required?</strong></td><td>Yes (purchase/cash out) — No (IRRRL fixed)</td><td>Yes (purchase/cash out) — No (Streamline)</td><td>Yes</td></tr>
+            </tbody>
+          </table>
+
+          <div style="margin-top:18px">
+            <div class="script-block">
+              <div class="script-label">🎙️ Script — Walking a Borrower Through the Table</div>
+              <div class="script-text">"Let me show you three options side by side. The VA loan is on the left — it's only available to you because of your service, and as you can see, the mortgage insurance column is zero. That's the biggest difference. FHA in the middle works well if credit is a factor, but the mortgage insurance can last the life of the loan. Conventional on the right has PMI but it cancels when you hit 20% equity. Let me show you what each one actually costs you per month with your specific numbers..."</div>
+              <div class="script-note">Tip: Always run the numbers first (in Loan Compass), then walk through this comparison. The math does the selling — you're just the guide.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- OBJECTION HANDLERS -->
+        <div class="pb-panel" id="pb-objections">
+          <p style="font-size:12.5px;color:var(--text-muted);margin-bottom:14px;line-height:1.6">Click any objection to see the recommended response. These are designed to be conversational, not scripted — adapt them to your natural voice.</p>
+
+          <div class="objection-item">
+            <div class="obj-q" onclick="toggleObj(this)"><span class="obj-icon">❓</span>"Your rate is higher than what I saw online / another lender quoted me."</div>
+            <div class="obj-a">"I completely understand — rates online are always the headline number. What they don't show is the full picture. Let me show you the total monthly payment including mortgage insurance and all costs. A rate that's 0.125% lower but comes with $200/month in extra MI fees actually costs you more. Let's compare apples to apples." <em>Pull up the total monthly breakdown in Loan Compass. Show the 5-year total cost. Often the "lower rate" loan costs significantly more when MI is factored in.</em></div>
+          </div>
+
+          <div class="objection-item">
+            <div class="obj-q" onclick="toggleObj(this)"><span class="obj-icon">❓</span>"I'm going to wait until rates drop before I buy."</div>
+            <div class="obj-a">"That makes sense emotionally, but let's run the math together. If home prices in this market appreciate even 4% this year, a $400,000 home becomes $416,000. That $16,000 in price increase equals about $80/month in extra principal — and you'd need rates to drop roughly 0.5% just to offset that. Plus you've been renting this whole time." <em>"Here's the other piece: when rates do drop, we can refinance you — especially on a VA loan with the IRRRL. You're not locked in forever. The question isn't 'should I wait for the perfect rate' — it's 'should I start building equity today or keep paying someone else's mortgage?'"</em></div>
+          </div>
+
+          <div class="objection-item">
+            <div class="obj-q" onclick="toggleObj(this)"><span class="obj-icon">❓</span>"I don't want to pay PMI / mortgage insurance."</div>
+            <div class="obj-a">"You're right that it's a cost — let me show you exactly what it costs and when it goes away. With conventional, PMI cancels automatically when you hit 20% equity. With a $400K home appreciating at even 3% per year plus your regular payments, you could be there in 4–6 years. The question is whether putting more money down today to avoid PMI is a better use of that cash than keeping it as reserves or investments." <em>"For VA-eligible borrowers: there's actually a way to have zero mortgage insurance — the VA loan. Your service already paid for that benefit."</em></div>
+          </div>
+
+          <div class="objection-item">
+            <div class="obj-q" onclick="toggleObj(this)"><span class="obj-icon">❓</span>"I've heard VA loans are harder to get accepted / sellers don't like them."</div>
+            <div class="obj-a">"That was more true 10–15 years ago. Today's market is very different — sellers see VA offers all the time and most listing agents are VA-experienced. The VA appraisal is thorough but protects the veteran from overpaying. And from an underwriting standpoint, VA loans have very strong guidelines." <em>"Here's the reality: a pre-approved VA buyer is a strong, qualified buyer. In competitive markets, what matters is price and terms — not the loan type. I'll help you write a competitive offer and communicate clearly with the listing agent."</em></div>
+          </div>
+
+          <div class="objection-item">
+            <div class="obj-q" onclick="toggleObj(this)"><span class="obj-icon">❓</span>"I only want a 30-year fixed. I don't like the idea of an ARM."</div>
+            <div class="obj-a">"That's a completely reasonable position — the 30-year fixed is the most popular mortgage in America for good reason. Let me just show you one comparison. On a 5/1 ARM, the rate is locked for 5 full years. If you're planning to sell or refinance before that fixed period ends, you get the benefit of the lower rate with none of the adjustment risk." <em>"The key question is your time horizon: how long do you plan to be in this specific home? If it's 10+ years, I'd lean toward fixed with you. If it's 3–7 years, the ARM is worth a conversation."</em></div>
+          </div>
+
+          <div class="objection-item">
+            <div class="obj-q" onclick="toggleObj(this)"><span class="obj-icon">❓</span>"My credit isn't great. Can I even qualify?"</div>
+            <div class="obj-a">"Let's look at what you actually qualify for — you might be surprised. FHA opens at 580 with 3.5% down, and VA has no hard minimum if you're a veteran. Even a 620 score opens conventional options." <em>"If you're below those thresholds, let me give you a 60-day action plan. Paying down credit card balances below 30% of the limit can move a score 20–40 points — sometimes in one billing cycle. Let's run your scenario today and I'll show you what changes between now and hitting that next credit tier."</em></div>
+          </div>
+
+          <div class="objection-item">
+            <div class="obj-q" onclick="toggleObj(this)"><span class="obj-icon">❓</span>"What's the catch with the VA loan?"</div>
+            <div class="obj-a">"Honest answer: not much. The main things to know are: (1) there's a one-time funding fee — typically 2.6% for first-time use — that's financed into the loan, not paid at closing. Veterans with a disability rating of 10%+ are exempt from it entirely. (2) The property has to meet VA's Minimum Property Requirements, which are designed to protect the veteran from buying a home with major defects." <em>"In exchange for those two things, you get: no down payment required, no monthly mortgage insurance ever, and often the most competitive rate on the market. Most veterans who use their VA benefit say they wish they'd used it sooner."</em></div>
+          </div>
+        </div>
+
+        <!-- ARM PRESENTATION -->
+        <div class="pb-panel" id="pb-arm">
+          <div class="tip-grid">
+            <div class="tip-card navy">
+              <div class="tip-icon">🗝️</div>
+              <div class="tip-title">Qualify the Borrower's Time Horizon First</div>
+              <div class="tip-body">Before presenting an ARM, always establish how long they plan to stay.<br><br>
+              <em>"Before I show you this option, I need to ask — what's your plan for this home? Are you planning to be here long-term or is this more of a 5–7 year situation?"</em><br><br>
+              <strong>If &lt; 5 years:</strong> 3/1 or 5/1 ARM is legitimate<br>
+              <strong>If 5–8 years:</strong> 5/1 ARM worth discussing<br>
+              <strong>If 8+ years:</strong> Lean toward fixed — explain rate risk<br><br>
+              Never present an ARM to a borrower who plans to stay long-term without clearly explaining the rate adjustment risk and caps.</div>
+            </div>
+
+            <div class="tip-card gold">
+              <div class="tip-icon">📉</div>
+              <div class="tip-title">The ARM Value Proposition Script</div>
+              <div class="tip-body"><em>"A 5/1 ARM means your rate is completely fixed — locked in — for the first 5 years. Not adjusting, not changing. Fixed. After 5 years it can adjust annually based on the market index plus our margin."</em><br><br>
+              <em>"The lower initial rate means a lower payment right now. For someone planning to sell or refinance in under 5 years, you get all the savings with none of the adjustment risk."</em><br><br>
+              <strong>Always explain rate caps:</strong><br>
+              Typical VA/FHA/Conv ARM caps: 1/1/5<br>
+              Year 6 max increase: +1%<br>
+              Each year after: +1%<br>
+              Lifetime cap: +5% over start rate</div>
+            </div>
+
+            <div class="tip-card green">
+              <div class="tip-icon">🔒</div>
+              <div class="tip-title">ARM Risk Disclosure — Say It Plainly</div>
+              <div class="tip-body">Always disclose the risk clearly and document that you did. New LOs sometimes underemphasize this — don't.<br><br>
+              <em>"I want to make sure you understand: after the fixed period ends, your rate will adjust up or down based on the market. In a rising rate environment, your payment could increase. In a falling rate environment, it could decrease."</em><br><br>
+              <em>"Here's the worst-case scenario with this loan — if rates went up as much as the caps allow, your payment would become approximately $X/month. Are you comfortable with that number?"</em><br><br>
+              <strong>If they're uncomfortable with the worst case: stop and sell fixed.</strong></div>
+            </div>
+
+            <div class="tip-card red">
+              <div class="tip-icon">⚠️</div>
+              <div class="tip-title">When NOT to Recommend an ARM</div>
+              <div class="tip-body">Some situations where fixed is clearly the right call:<br><br>
+              <strong>❌ Fixed income borrowers</strong> (retirees, disability income) — payment predictability is critical<br>
+              <strong>❌ Tight DTI qualification</strong> — already borderline; rate increase could default them<br>
+              <strong>❌ Confirmed long-term plans</strong> — "this is our forever home"<br>
+              <strong>❌ First-time buyers with anxiety</strong> — stability matters for comfort<br>
+              <strong>❌ Volatile rate environment</strong> — if rates trending up, fixed locks in today's rate<br><br>
+              When in doubt, fixed is the conservative, defensible recommendation.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- INCOME DOCS -->
+        <div class="pb-panel" id="pb-income">
+          <p style="font-size:12.5px;color:var(--text-muted);margin-bottom:14px;line-height:1.6">Quick reference for what to collect from borrowers. Gather docs upfront — incomplete files cause delays and kill loans in underwriting.</p>
+          <table class="income-table">
+            <thead>
+              <tr>
+                <th>Income Source</th>
+                <th>History Required</th>
+                <th>Documentation Needed</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>W2 Salary / Hourly</strong></td><td>Current employment</td><td>1 month pay stubs + 2 years W2s</td></tr>
+              <tr><td><strong>Bonus Income</strong></td><td>2 years</td><td>2-year history from current job and prior jobs</td></tr>
+              <tr><td><strong>Commission Income</strong></td><td>2 years</td><td>2-year history from current or prior jobs</td></tr>
+              <tr><td><strong>Self-Employed</strong></td><td>2 years (or AUS approval with less)</td><td>2 years personal AND business tax returns — or what AUS calls for</td></tr>
+              <tr><td><strong>SSI / Disability</strong></td><td>Proof of receipt</td><td>Current SSI Awards letter</td></tr>
+              <tr><td><strong>Pension / Retirement</strong></td><td>Proof of receipt</td><td>Current pension/retirement statements</td></tr>
+              <tr><td><strong>Job Offer Letter</strong></td><td>Same line of work as previous job</td><td>Must be irrevocable + 1 month pay stubs by funding</td></tr>
+              <tr><td><strong>Retirement / Stock Assets</strong></td><td>60% of value max; proof of receipt</td><td>Must document continuation for min. 36 months at qualifying amount</td></tr>
+              <tr><td><strong>VA Disability Income</strong></td><td>No history required</td><td>VA Benefits Verification Letter</td></tr>
+            </tbody>
+          </table>
+
+          <div style="margin-top:16px">
+            <div class="script-block">
+              <div class="script-label">🎙️ Doc Collection Script</div>
+              <div class="script-text">"To get your pre-approval moving as fast as possible, I need a few things from you today: your last month of pay stubs, your last 2 years of W2s, your last 2 months of bank statements, a copy of your driver's license, and your Social Security number for the credit pull. The faster I get these, the faster I can get you a pre-approval letter — usually same or next day."</div>
+              <div class="script-note">Tip: Send a document checklist via text or email right after the call while they're still engaged. Momentum drops fast after the phone goes down.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- VCI POLICY NOTES -->
+        <div class="pb-panel" id="pb-vcinotes">
+          <p style="font-size:12.5px;color:var(--text-muted);margin-bottom:14px;line-height:1.6">Village Capital-specific policies and guidelines from the internal cheat sheet. These override generic industry defaults.</p>
+
+          <div class="tip-grid">
+            <div class="tip-card navy">
+              <div class="tip-icon">📋</div>
+              <div class="tip-title">VA Funding Fees (VCI Rates)</div>
+              <div class="tip-body">
+                <strong>Purchase / Cash Out:</strong><br>
+                First Time Use (FTU): 2.6%<br>
+                Subsequent Use: 3.3%<br>
+                Exempt (10%+ disability): $0<br><br>
+                <strong>IRRRL (Streamline Refi):</strong><br>
+                Flat 0.5% regardless of use history<br><br>
+                <strong>Down payment tiers:</strong><br>
+                5%+ down: 1.65% | 10%+ down: 1.40%<br><br>
+                Always check disability status before quoting — exemption saves thousands.
+              </div>
+            </div>
+
+            <div class="tip-card gold">
+              <div class="tip-icon">🔑</div>
+              <div class="tip-title">Credit Pull Policy</div>
+              <div class="tip-body">
+                <strong>Full Doc Files:</strong> Full Tri-Merge credit report<br>
+                <strong>IRRRL (Non-VCI):</strong> Mortgage Only report<br>
+                <strong>IRRRL (VCI borrower):</strong> No credit pull — Candace will review and pull Full Tri-Merge if needed<br>
+                <strong>FHA Streamline:</strong> Mortgage Only report<br><br>
+                <strong>Pre-Qual:</strong> All full files get a Pre-Qual credit report pulled first.
+              </div>
+            </div>
+
+            <div class="tip-card green">
+              <div class="tip-icon">📍</div>
+              <div class="tip-title">Texas Loan Rules</div>
+              <div class="tip-body">
+                <strong>Cash Out on Government Loans:</strong> Not allowed in Texas. Cash out must be done via Conventional only.<br><br>
+                <strong>Discount Points on TX Cash Out:</strong> Cannot be financed. If doing a TX Cash Out for reasons that disqualify the IRRRL, the borrower must bring discount points to closing in cash.<br><br>
+                Flag Texas loans immediately at intake — these rules affect the loan structure significantly.
+              </div>
+            </div>
+
+            <div class="tip-card red">
+              <div class="tip-icon">💍</div>
+              <div class="tip-title">Non-Purchasing Spouse States</div>
+              <div class="tip-body">
+                In these community property states, a non-purchasing spouse must sign specific documents even if they're not on the loan:<br><br>
+                <strong>Arizona, California, Idaho, Louisiana, Nevada, New Mexico, Texas, Washington, Wisconsin</strong><br><br>
+                Always confirm marital status and state of property at intake. Forgetting this causes underwriting delays at the worst possible time.
+              </div>
+            </div>
+
+            <div class="tip-card navy">
+              <div class="tip-icon">🔄</div>
+              <div class="tip-title">Streamline Rules</div>
+              <div class="tip-body">
+                <strong>VA IRRRL:</strong> Must be VA to VA. 1×30 late payment allowed in past 12 months. Eligible occupancy: Primary, 2nd Home, Investment. Fixed rate: must be current. Hybrid ARM: 0.5% funding fee.<br><br>
+                <strong>FHA Streamline:</strong> Must be FHA to FHA. No lates in past 12 months. No cash out allowed. No appraisal. Cannot finance discount points.<br><br>
+                <strong>Conv or Gov-to-Conv:</strong> Always a full document loan. No streamline option.
+              </div>
+            </div>
+
+            <div class="tip-card gold">
+              <div class="tip-icon">📐</div>
+              <div class="tip-title">Key LTV Limits by Transaction</div>
+              <div class="tip-body">
+                <strong>VA Purchase:</strong> 100% LTV<br>
+                <strong>VA Cash Out:</strong> 100% LTV (primary only)<br>
+                <strong>VA IRRRL:</strong> No max LTV (fixed) / 100% (ARM)<br>
+                <strong>FHA Purchase:</strong> 96.5% (3.5% down)<br>
+                <strong>FHA Cash Out:</strong> 80% max (VCI)<br>
+                <strong>FHA Simple Refi:</strong> 97.75% max<br>
+                <strong>Conv Purchase:</strong> 95% max<br>
+                <strong>Conv Refi R&amp;T:</strong> 80% max (VCI)<br>
+                <strong>Conv Cash Out:</strong> 80% max (VCI)
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- end playbook-body -->
+    </div><!-- end playbook-section -->
+  </div><!-- end playbook-wrap -->
+
 
 <footer>
   <p><strong>Village Capital &amp; Investment LLC</strong> · Loan Compass · Internal Use Only · NMLS #3317</p>
@@ -519,11 +924,13 @@
 // ═══════════════════════════════════════
 const CONF_LIMIT = 806500;
 const FHA_UFMIP  = 0.0175;
+// VCI Cheat Sheet: FTU=2.6%, SU=3.3% | IRRRL flat 0.5%
 const VA_FF_TABLE = {
-  first:      {d0:0.0230, d5:0.0165, d10:0.0140},
-  subsequent: {d0:0.0360, d5:0.0165, d10:0.0140},
+  first:      {d0:0.0260, d5:0.0165, d10:0.0140},
+  subsequent: {d0:0.0330, d5:0.0165, d10:0.0140},
   exempt:     {d0:0,      d5:0,      d10:0}
 };
+const VA_FF_IRRRL = 0.005; // IRRRL always 0.5% per VCI
 const LOAN_CLS  = {va:'va', fha:'fha', conv:'conv'};
 const LOAN_NAME = {va:'VA Loan', fha:'FHA Loan', conv:'Conventional'};
 
@@ -671,11 +1078,13 @@ function renderScenarios() {
               value="${sc.rate}" oninput="updateScen('${sc.id}','rate',this.value)" />
           </div>
           <div class="sc-field">
-            <label>Loan Term <span class="tip" data-tip="30-yr = lower payment, more interest over time. 15-yr = higher payment, way less interest, builds equity faster. Run both to show the borrower the difference.">?</span></label>
+            <label>Loan Term <span class="tip" data-tip="Fixed = rate never changes. 5/1 ARM = fixed for 5 years then adjusts yearly. 3/1 ARM = fixed for 3 years then adjusts yearly. ARMs often have lower initial rates — payment shown is for the initial fixed period only.">?</span></label>
             <select onchange="updateScen('${sc.id}','term',this.value)">
-              <option value="30" ${sc.term==='30'?'selected':''}>30-Year Fixed</option>
-              <option value="20" ${sc.term==='20'?'selected':''}>20-Year Fixed</option>
-              <option value="15" ${sc.term==='15'?'selected':''}>15-Year Fixed</option>
+              <option value="30"   ${sc.term==='30'  ?'selected':''}>30-Year Fixed</option>
+              <option value="20"   ${sc.term==='20'  ?'selected':''}>20-Year Fixed</option>
+              <option value="15"   ${sc.term==='15'  ?'selected':''}>15-Year Fixed</option>
+              <option value="arm5" ${sc.term==='arm5'?'selected':''}>5/1 Hybrid ARM</option>
+              <option value="arm3" ${sc.term==='arm3'?'selected':''}>3/1 Hybrid ARM</option>
             </select>
           </div>
         </div>
@@ -709,7 +1118,7 @@ function qualify(sc, inp) {
     // DTI estimate
     const ff = vaFF(inp.downPct, document.getElementById('ff-type').value);
     const tl = inp.loanAmt*(1+ff);
-    const pi = calcPI(tl, parseFloat(sc.rate)/100, parseInt(sc.term));
+    const pi = calcPI(tl, parseFloat(sc.rate)/100, termYears(sc.term));
     const housing = pi + inp.tax + inp.ins;
     const dti = inp.income>0 ? (housing+inp.debts)/inp.income : 0;
     if (inp.income>0) {
@@ -717,7 +1126,8 @@ function qualify(sc, inp) {
       else if (dti>0.41) warn.push(`DTI ~${fmtPct(dti)} exceeds the 41% VA guideline. Residual income test required — AUS may still approve.`);
       else               pos.push(`DTI ~${fmtPct(dti)} is within the VA guideline (≤41%).`);
     }
-    pos.push('No down payment required with full VA entitlement.');
+    if (appMode==='refi') pos.push('VA IRRRL: Funding fee is only 0.5% — much lower than a purchase. Eligible for primary, second home, AND investment property.');
+    else pos.push('No down payment required with full VA entitlement.');
     pos.push('No monthly mortgage insurance — saves hundreds per month vs. FHA/Conv.');
     if (document.getElementById('ff-type').value==='exempt') pos.push('Funding fee waived — $0 upfront fee due to disability rating.');
   }
@@ -726,6 +1136,15 @@ function qualify(sc, inp) {
     if (inp.propType!=='primary') {
       iss.push('FHA loans are for primary residences only.');
       return {status:'disqualified', iss, warn, pos};
+    }
+    // VCI: FHA Cash Out max LTV = 80%
+    if (appMode==='refi' && inp.price>0) {
+      const refiLtv = inp.loanAmt / inp.price;
+      if (refiLtv > 0.80) {
+        iss.push('FHA Cash Out max LTV is 80% per VCI guidelines. Current LTV is '+fmtPct(refiLtv)+'. Borrower needs more equity to proceed.');
+      } else {
+        pos.push('LTV '+fmtPct(refiLtv)+' is within FHA Cash Out 80% max LTV.');
+      }
     }
     if (inp.score<500) {
       iss.push(`Score ${inp.score} is below FHA's minimum of 500.`);
@@ -747,7 +1166,7 @@ function qualify(sc, inp) {
     else          pos.push('LTV ≤90% — FHA MIP will cancel after 11 years.');
     const ua = inp.loanAmt*FHA_UFMIP;
     const tl = inp.loanAmt+ua;
-    const pi = calcPI(tl, parseFloat(sc.rate)/100, parseInt(sc.term));
+    const pi = calcPI(tl, parseFloat(sc.rate)/100, termYears(sc.term));
     const mip = (tl*fhaMipAnnual(ltv,inp.loanAmt))/12;
     const housing = pi+mip+inp.tax+inp.ins;
     const dti = inp.income>0 ? (housing+inp.debts)/inp.income : 0;
@@ -766,6 +1185,15 @@ function qualify(sc, inp) {
       return {status:'disqualified', iss, warn, pos};
     }
     if (inp.loanAmt>CONF_LIMIT) iss.push(`Loan ${fmt(inp.loanAmt)} exceeds the 2025 conforming limit ($806,500). Jumbo guidelines apply.`);
+    // VCI: Conv Refi R&T max LTV = 80%, Cash Out max LTV = 80%
+    if (appMode==='refi' && inp.price>0) {
+      const refiLtv = inp.loanAmt / inp.price;
+      if (refiLtv > 0.80) {
+        iss.push('Conventional refi max LTV is 80% per VCI guidelines. Current LTV is '+fmtPct(refiLtv)+'. Borrower needs more equity or a different loan type.');
+      } else {
+        pos.push('LTV '+fmtPct(refiLtv)+' is within conventional refi 80% max LTV.');
+      }
+    }
     if (inp.propType==='investment' && inp.downPct<0.15)  iss.push('Investment property requires 15–25% down for conventional.');
     else if (inp.propType==='secondary' && inp.downPct<0.10) iss.push('Second home requires at least 10% down for conventional.');
     else if (appMode==='purchase' && inp.price>0 && inp.downPct<0.03-0.001) iss.push(`Conventional needs at least 3% down (${fmt(inp.price*0.03)}).`);
@@ -778,7 +1206,7 @@ function qualify(sc, inp) {
     if (ltv<=0.80)  pos.push('No PMI — LTV is at or below 80%.');
     else            warn.push(`PMI ~${fmtPct(pmiR)}/yr. Cancels automatically when LTV reaches 80% (unlike FHA MIP).`);
     const pmiM = (inp.loanAmt*pmiR)/12;
-    const pi = calcPI(inp.loanAmt, parseFloat(sc.rate)/100, parseInt(sc.term));
+    const pi = calcPI(inp.loanAmt, parseFloat(sc.rate)/100, termYears(sc.term));
     const housing = pi+pmiM+inp.tax+inp.ins;
     const dti = inp.income>0 ? (housing+inp.debts)/inp.income : 0;
     if (inp.income>0) {
@@ -797,35 +1225,48 @@ function qualify(sc, inp) {
 // ═══════════════════════════════════════
 // PAYMENT CALC
 // ═══════════════════════════════════════
+function isARM(term) { return term==='arm5' || term==='arm3'; }
+function armAmortTerm(term) { return 30; } // ARMs amortize on 30-yr schedule
+function termLabel(term) {
+  if (term==='arm5') return '5/1 ARM';
+  if (term==='arm3') return '3/1 ARM';
+  return term+'-Year Fixed';
+}
+function termYears(term) {
+  if (isARM(term)) return 30; // amortize over 30 yrs for payment calc
+  return parseInt(term)||30;
+}
+
 function calcPmt(sc, inp) {
   if (!sc.rate) return null;
   const rate = parseFloat(sc.rate)/100;
-  const term = parseInt(sc.term)||30;
+  const amortYrs = termYears(sc.term);
+  const arm = isARM(sc.term);
 
   if (sc.type==='va') {
     if (!vetYes) return null;
     const ff = vaFF(inp.downPct, document.getElementById('ff-type').value);
     const ffAmt = inp.loanAmt*ff;
     const tl = inp.loanAmt+ffAmt;
-    const pi = calcPI(tl, rate, term);
-    return {pi, pmi:0, mip:0, mipDur:'', ffAmt, ffPct:ff, ufmip:0, tax:inp.tax, ins:inp.ins, total:pi+inp.tax+inp.ins, loanAmt:tl};
+    const pi = calcPI(tl, rate, amortYrs);
+    return {pi, pmi:0, mip:0, mipDur:'', ffAmt, ffPct:ff, ufmip:0, tax:inp.tax, ins:inp.ins, total:pi+inp.tax+inp.ins, loanAmt:tl, arm};
   }
   if (sc.type==='fha') {
     const ltv = inp.price>0 ? inp.loanAmt/inp.price : 1;
     const ua = inp.loanAmt*FHA_UFMIP;
     const tl = inp.loanAmt+ua;
-    const pi = calcPI(tl, rate, term);
+    const pi = calcPI(tl, rate, amortYrs);
     const mipR = fhaMipAnnual(ltv, inp.loanAmt);
     const mip  = (tl*mipR)/12;
     const mipDur = ltv>0.90 ? 'Life of Loan' : '11 Years';
-    return {pi, pmi:0, mip, mipDur, mipR, ffAmt:0, ffPct:0, ufmip:ua, tax:inp.tax, ins:inp.ins, total:pi+mip+inp.tax+inp.ins, loanAmt:tl};
+    return {pi, pmi:0, mip, mipDur, mipR, ffAmt:0, ffPct:0, ufmip:ua, tax:inp.tax, ins:inp.ins, total:pi+mip+inp.tax+inp.ins, loanAmt:tl, arm};
   }
   if (sc.type==='conv') {
     const ltv = inp.price>0 ? inp.loanAmt/inp.price : 0;
     const pmiR = convPMI(inp.score, ltv);
     const pmi  = (inp.loanAmt*pmiR)/12;
-    const pi   = calcPI(inp.loanAmt, rate, term);
-    return {pi, pmi, pmiR, mip:0, mipDur:'', ffAmt:0, ffPct:0, ufmip:0, tax:inp.tax, ins:inp.ins, total:pi+pmi+inp.tax+inp.ins, loanAmt:inp.loanAmt};
+    const pi   = calcPI(inp.loanAmt, rate, amortYrs);
+    return {pi, pmi, pmiR, mip:0, mipDur:'', ffAmt:0, ffPct:0, ufmip:0, tax:inp.tax, ins:inp.ins, total:pi+pmi+inp.tax+inp.ins, loanAmt:inp.loanAmt, arm};
   }
   return null;
 }
@@ -844,7 +1285,7 @@ function buildSummary(results, bestId) {
   const best = results.find(r=>r.sc.id===bestId);
   if (!best||!best.pmt) return null;
   const others = results.filter(r=>r.sc.id!==bestId && r.pmt && r.qual.status!=='disqualified');
-  let body = `<strong>${best.sc.label}</strong> (${LOAN_NAME[best.sc.type]}, ${best.sc.term}-yr) is the best option at <strong>${fmt(best.pmt.total)}/month total payment</strong>. `;
+  let body = `<strong>${best.sc.label}</strong> (${LOAN_NAME[best.sc.type]}, ${termLabel(best.sc.term)}) is the best option at <strong>${fmt(best.pmt.total)}/month total payment</strong>. `;
   if (others.length) {
     const saves = others.map(o=>`${o.sc.label} by <strong>${fmt(Math.round(o.pmt.total-best.pmt.total))}/mo</strong>`).join(' and ');
     body += `It is less expensive than ${saves}. `;
@@ -854,6 +1295,73 @@ function buildSummary(results, bestId) {
   else body += "Conventional wins here because PMI will eventually cancel (unlike FHA's permanent MIP), and LLPAs are manageable at this credit tier and LTV. ";
   if (results.some(r=>r.qual.status==='borderline')) body += ' ⚠️ One or more scenarios are borderline — run through AUS before proceeding.';
   return {title: best.sc.label+' — Best Option', body};
+}
+
+
+// ═══════════════════════════════════════
+// DYNAMIC TALKING POINTS
+// ═══════════════════════════════════════
+function buildTalkingPoints(results, bestId, inp) {
+  const best = results.find(r=>r.sc.id===bestId);
+  if (!best||!best.pmt) return '';
+  const others = results.filter(r=>r.sc.id!==bestId && r.pmt && r.qual.status!=='disqualified');
+  const pts = [];
+
+  if (best.sc.type==='va') {
+    // No MI savings
+    const fhaSc = others.find(o=>o.sc.type==='fha');
+    const convSc = others.find(o=>o.sc.type==='conv');
+    const compare = fhaSc||convSc;
+    if (compare && compare.pmt) {
+      const miSaved = Math.round((compare.pmt.mip||compare.pmt.pmi)||0);
+      if (miSaved>0) pts.push({icon:'🚫',text:`<strong>No mortgage insurance — ever.</strong> The ${compare.sc.type.toUpperCase()} option carries ${fmt(miSaved)}/mo in MI. VA has $0. That's ${fmt(miSaved*12)}/yr and ${fmt(miSaved*60)} over 5 years saved — just on insurance.`});
+    }
+    pts.push({icon:'🎖️',text:`<strong>Open with the earned benefit angle.</strong> Say: <em>"This is a benefit you earned through your service. Let's make sure you're getting everything you're entitled to."</em> Many veterans don't know they qualify or assume VA loans are complicated.`});
+    pts.push({icon:'📊',text:`<strong>Show the side-by-side monthly payment.</strong> Pull up this screen and walk through each line. The funding fee is one-time and financed in — the savings on MI more than offset it, usually within 18–24 months.`});
+    if (document.getElementById('ff-type').value==='exempt') pts.push({icon:'💰',text:`<strong>Disability exempt — zero funding fee.</strong> This borrower pays NO funding fee. Lead with this. It's a major financial win and a strong emotional close.`});
+    pts.push({icon:'🔄',text:`<strong>Plant the IRRRL seed.</strong> Tell the borrower: <em>"When rates drop, VA lets us refinance you quickly with minimal paperwork — it's called an IRRRL. Your VA benefit keeps working for you."</em>`});
+  }
+
+  else if (best.sc.type==='fha') {
+    const convSc = others.find(o=>o.sc.type==='conv');
+    pts.push({icon:'🔑',text:`<strong>FHA is the key that opens the door.</strong> Lead with access, not cost: <em>"FHA's guidelines let us get you into a home today that conventional wouldn't approve. Once you're in and building equity, we have options."</em>`});
+    const ltv = inp.price>0 ? (inp.loanAmt/inp.price) : 1;
+    if (ltv>0.90) {
+      pts.push({icon:'⏳',text:`<strong>Address the MIP conversation head-on.</strong> Don't hide it. Say: <em>"Because you're putting less than 10% down, the FHA mortgage insurance stays for the life of the loan. Here's the plan to eventually refi into conventional and remove it once you have equity."</em>`});
+    } else {
+      pts.push({icon:'📅',text:`<strong>MIP has an end date here.</strong> LTV is under 90%, so MIP drops off after 11 years. Mention this: <em>"The good news is with your down payment, the mortgage insurance doesn't last forever — it falls off after 11 years."</em>`});
+    }
+    if (convSc && convSc.qual.status==='disqualified') {
+      pts.push({icon:'🎯',text:`<strong>FHA is the ONLY path right now.</strong> Conventional didn't qualify. You don't need to oversell — just be clear: <em>"With your current credit profile, FHA is the program that works. Let's get you in the home, and I'll help you position yourself to refinance in 12–24 months if you want."</em>`});
+    }
+    pts.push({icon:'📈',text:`<strong>Set the refinance roadmap.</strong> After closing, help them build a plan: <em>"Here's what we need — get to 20% equity and ideally 700+ credit score. When we hit those milestones I'll call you and we'll remove that MIP."</em> This builds a client for life.`});
+  }
+
+  else if (best.sc.type==='conv') {
+    pts.push({icon:'🏆',text:`<strong>Lead with PMI cancellation vs. FHA's permanent MIP.</strong> Say: <em>"Unlike FHA, your PMI is temporary. Once your home value grows to give you 20% equity, it drops off automatically — you don't have to refinance to get rid of it."</em>`});
+    const fhaSc = others.find(o=>o.sc.type==='fha');
+    if (fhaSc && fhaSc.pmt) {
+      const mipDiff = Math.round((fhaSc.pmt.mip||0)-(best.pmt.pmi||0));
+      if (mipDiff>0) pts.push({icon:'💵',text:`<strong>Quantify the MIP vs. PMI difference.</strong> FHA's MIP runs ${fmt(fhaSc.pmt.mip)}/mo vs. conventional's PMI at ${fmt(best.pmt.pmi)}/mo — that's ${fmt(mipDiff)}/mo less right now, and conventional PMI goes away. FHA MIP (at LTV>90%) never does.`});
+    }
+    if (inp.score>=740) pts.push({icon:'💳',text:`<strong>Credit score is working in their favor here.</strong> A ${inp.score} score earns the best LLPA tier — the pricing adjustments are minimal. Tell them: <em>"Your credit score is actually saving you money on this loan. This is the benefit of maintaining good credit."</em>`});
+    pts.push({icon:'🏠',text:`<strong>Investment / second home eligibility.</strong> Conventional works for primary, second homes, and investment properties. If there's any chance this borrower may want to convert or buy another property later, plant that seed now.`});
+  }
+
+  // Universal ARM tip if applicable
+  if (results.some(r=>isARM(r.sc.term) && r.qual.status!=='disqualified')) {
+    pts.push({icon:'📉',text:`<strong>For the ARM scenario: establish the time horizon first.</strong> Ask: <em>"How long do you plan to be in this home?"</em> If they say 3–7 years, an ARM is a legitimate strategy. If they say 10+ years, pivot to fixed and explain rate risk clearly.`});
+  }
+
+  if (!pts.length) return '';
+  return `
+  <div class="talking-pts">
+    <div class="tp-eyebrow">🎙️ Sales Playbook</div>
+    <div class="tp-title">How to Present This to Your Borrower</div>
+    <div class="tp-points">
+      ${pts.map(p=>`<div class="tp-pt"><span class="tp-pt-icon">${p.icon}</span><div class="tp-pt-text">${p.text}</div></div>`).join('')}
+    </div>
+  </div>`;
 }
 
 // ═══════════════════════════════════════
@@ -896,7 +1404,7 @@ function renderResults(results, inp) {
         ${pmt.mip>0 ? `<div class="pay-row"><span class="pay-label">FHA MIP <span class="tip" data-tip="FHA mortgage insurance (monthly). Duration: ${pmt.mipDur}. If LTV was above 90% at closing, this never cancels.">?</span></span><span class="pay-val">${fmt(pmt.mip)}/mo (${pmt.mipDur})</span></div>` : ''}
         ${pmt.pmi>0 ? `<div class="pay-row"><span class="pay-label">PMI <span class="tip" data-tip="Private Mortgage Insurance (~${fmtPct(pmt.pmiR)}/yr). Cancels automatically when LTV hits 80% — much better than FHA MIP.">?</span></span><span class="pay-val">${fmt(pmt.pmi)}/mo</span></div>` : ''}
         ${pmt.mip===0&&pmt.pmi===0 ? `<div class="pay-row"><span class="pay-label">Mortgage Insurance</span><span class="pay-val" style="color:var(--green-text);font-weight:700">None ✓</span></div>` : ''}
-        ${pmt.ffAmt>0 ? `<div class="pay-row"><span class="pay-label">VA Funding Fee <span class="tip" data-tip="One-time fee financed into the loan: ${fmtPct(pmt.ffPct)} = ${fmt(pmt.ffAmt)}. Not a monthly cost.">?</span></span><span class="pay-val">${fmt(pmt.ffAmt)} upfront</span></div>` : ''}
+        ${pmt.ffAmt>0 ? `<div class="pay-row"><span class="pay-label">VA Funding Fee <span class="tip" data-tip="VCI rates: FTU=2.6%, Subsequent=3.3%, IRRRL=0.5%. Financed into loan: ${fmtPct(pmt.ffPct)} = ${fmt(pmt.ffAmt)} added to balance.">?</span></span><span class="pay-val">${fmt(pmt.ffAmt)} (${fmtPct(pmt.ffPct)})</span></div>` : ''}
         ${pmt.ufmip>0 ? `<div class="pay-row"><span class="pay-label">FHA UFMIP <span class="tip" data-tip="Upfront Mortgage Insurance Premium: 1.75% of the loan, financed in. Not monthly, but increases the loan balance.">?</span></span><span class="pay-val">${fmt(pmt.ufmip)} upfront</span></div>` : ''}
         <div class="pay-row"><span class="pay-label">Tax + Insurance (est.)</span><span class="pay-val">${fmt(pmt.tax+pmt.ins)}/mo</span></div>
         <div class="pay-row total-row${isLow&&n>1?' lowest':''}">
@@ -906,8 +1414,9 @@ function renderResults(results, inp) {
       </div>
       <div class="five-yr">
         <span>5-Year Total: ${fmt(pmt.total*60)}</span>
-        <span>${sc.term}-Year Fixed</span>
-      </div>`;
+        <span>${termLabel(sc.term)}</span>
+      </div>
+      ${pmt.arm ? '<div style="background:#fef9c3;border-left:3px solid #d97706;border-radius:6px;padding:7px 10px;margin-bottom:10px;font-size:11px;color:#78350f;line-height:1.5"><strong>\u26a0\ufe0f ARM \u2014 Rate Will Adjust</strong><br>Payment above is the initial fixed-period rate only. After the fixed period, the rate adjusts annually based on a market index + margin. Confirm rate caps and worst-case scenario with the borrower before proceeding.</div>' : ''}`;
     }
 
     return `
@@ -915,7 +1424,7 @@ function renderResults(results, inp) {
       <div class="res-col-hdr ${cls}">
         <div class="res-col-top"><span>Scenario</span>${isBest&&n>1?'<span class="best-badge">⭐ Best Pick</span>':''}</div>
         <div class="res-col-name">${sc.label}</div>
-        <span class="res-col-type ${cls}">${LOAN_NAME[sc.type]} · ${sc.term}-yr</span>
+        <span class="res-col-type ${cls}">${LOAN_NAME[sc.type]} · ${termLabel(sc.term)}</span>
       </div>
       <div class="res-col-body">
         <div class="verdict ${qual.status}">
@@ -940,6 +1449,11 @@ function renderResults(results, inp) {
     document.getElementById('bs-title').textContent = sum.title;
     document.getElementById('bs-body').innerHTML = sum.body;
   }
+
+  // Dynamic talking points
+  const tpHtml = bestId ? buildTalkingPoints(results, bestId, inp) : '';
+  const tpEl = document.getElementById('talking-pts-wrap');
+  if (tpEl) tpEl.innerHTML = tpHtml;
 
   renderRefi(results, inp);
 }
@@ -1046,6 +1560,30 @@ function runAnalysis() {
   const rOut = document.getElementById('results-out');
   rOut.classList.add('show');
   setTimeout(()=>rOut.scrollIntoView({behavior:'smooth',block:'start'}),50);
+}
+
+
+// ═══════════════════════════════════════
+// SALES PLAYBOOK UI
+// ═══════════════════════════════════════
+function togglePlaybook() {
+  const body  = document.getElementById('pb-body');
+  const arrow = document.getElementById('pb-arrow');
+  const open  = body.classList.toggle('open');
+  arrow.textContent = open ? '▲ Close' : '▼ Open';
+  if (open) document.getElementById('playbook').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function showPbTab(id, btn) {
+  document.querySelectorAll('.pb-tab').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.pb-panel').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('pb-'+id).classList.add('active');
+}
+
+function toggleObj(el) {
+  const ans = el.nextElementSibling;
+  ans.classList.toggle('open');
 }
 
 // ═══════════════════════════════════════
