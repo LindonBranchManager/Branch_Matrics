@@ -1199,8 +1199,38 @@ function qualify(sc, inp) {
       else if (dti>0.41) warn.push(`DTI ~${fmtPct(dti)} exceeds the 41% VA guideline. Residual income test required — AUS may still approve.`);
       else               pos.push(`DTI ~${fmtPct(dti)} is within the VA guideline (≤41%).`);
     }
-    if (appMode==='refi') pos.push('VA IRRRL: Funding fee is only 0.5% — much lower than a purchase. Eligible for primary, second home, AND investment property.');
-    else pos.push('No down payment required with full VA entitlement.');
+    if (appMode==='refi') {
+      // IRRRL Net Tangible Benefit check — must run in qualify() so it blocks the card
+      const newIsARM  = isARM(sc.term);
+      const currIsARM = inp.currLoanStructure === 'arm';
+      const newRate   = parseFloat(sc.rate||0);
+      const rateDrop  = inp.currRate - newRate; // positive = lower new rate
+
+      if (inp.currRate > 0) {
+        if (!currIsARM && newIsARM) {
+          // Fixed → ARM: 2% interest rate reduction required
+          if (rateDrop < 0.02) {
+            const needed = (inp.currRate - 0.02).toFixed(3);
+            iss.push('IRRRL FAILS — Fixed to ARM requires a 2.00% interest rate reduction. '
+              + 'Current: ' + inp.currRate + '% → New: ' + newRate + '% = '
+              + (rateDrop > 0 ? rateDrop.toFixed(3) + '% drop' : 'rate not reduced')
+              + '. Need ' + needed + '% or lower to qualify.');
+          } else {
+            pos.push('IRRRL NTB ✓ — Fixed → ARM rate drop of ' + rateDrop.toFixed(3) + '% meets the 2% minimum.');
+          }
+        } else {
+          const transLabel = currIsARM ? (newIsARM ? 'ARM → ARM' : 'ARM → Fixed') : 'Fixed → Fixed';
+          if (rateDrop <= 0) {
+            iss.push('IRRRL FAILS — ' + transLabel + ': new rate (' + newRate + '%) must be lower than current rate (' + inp.currRate + '%). Rate did not decrease.');
+          } else {
+            pos.push('IRRRL NTB ✓ — ' + transLabel + ' rate drops ' + rateDrop.toFixed(3) + '%. Meets net tangible benefit.');
+          }
+        }
+      }
+      pos.push('VA IRRRL: 0.5% funding fee. Eligible on primary, 2nd home, and investment property.');
+    } else {
+      pos.push('No down payment required with full VA entitlement.');
+    }
     pos.push('No monthly mortgage insurance — saves hundreds per month vs. FHA/Conv.');
     if (document.getElementById('ff-type').value==='exempt') pos.push('Funding fee waived — $0 upfront fee due to disability rating.');
   }
