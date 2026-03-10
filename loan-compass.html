@@ -1830,5 +1830,26 @@ onScoreChange();
 setTog('vet','no');
 addScenario();
 </script>
+
+<div id="build-stamp" style="
+  position:fixed;bottom:10px;right:14px;z-index:999;
+  font-family:'DM Sans',sans-serif;font-size:10px;
+  color:rgba(13,35,64,.45);background:rgba(255,255,255,.82);
+  backdrop-filter:blur(4px);border:1px solid rgba(13,35,64,.08);
+  border-radius:6px;padding:4px 9px;pointer-events:none;line-height:1.4;
+  box-shadow:0 1px 4px rgba(0,0,0,.06);">
+  Last updated: <span id="build-ts"></span>
+</div>
+<script>
+(function(){
+  var d = new Date(document.lastModified);
+  var mo = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  var h = d.getHours(), m = d.getMinutes();
+  var ampm = h>=12?'PM':'AM'; h = h%12||12;
+  document.getElementById('build-ts').textContent =
+    mo[d.getMonth()]+' '+d.getDate()+', '+d.getFullYear()+
+    ' · '+h+':'+(m<10?'0'+m:m)+' '+ampm;
+})();
+</script>
 </body>
 </html>
