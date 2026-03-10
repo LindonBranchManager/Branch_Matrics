@@ -458,6 +458,13 @@
               </select>
             </div>
             <div class="fgroup">
+              <label class="flabel">Current Rate Structure <span class="tip" data-tip="Is the current loan a Fixed Rate or an Adjustable Rate Mortgage (ARM)? This matters for IRRRL rules: Fixed → ARM requires a 2% interest rate reduction. All other transitions just need the rate to decrease.">?</span></label>
+              <select id="curr-loan-structure">
+                <option value="fixed">Fixed Rate</option>
+                <option value="arm">ARM / Hybrid ARM</option>
+              </select>
+            </div>
+            <div class="fgroup" style="grid-column:1/-1;">
               <label class="flabel">Current Interest Rate</label>
               <input type="number" id="curr-rate" placeholder="7.125" step="0.125" min="0" max="20" />
             </div>
@@ -570,7 +577,7 @@
               <div class="gterm"><div class="gterm-name">PMI (Conventional)</div><div class="gterm-def">Private Mortgage Insurance on conventional loans when LTV is above 80%. Unlike FHA MIP, PMI automatically cancels when LTV reaches 80% — a huge long-term advantage.</div></div>
               <div class="gterm"><div class="gterm-name">VA Funding Fee</div><div class="gterm-def">One-time fee financed into a VA loan. Ranges 1.4%–3.6% based on down payment and first vs. subsequent use. Veterans with 10%+ disability rating pay $0.</div></div>
               <div class="gterm"><div class="gterm-name">LLPA</div><div class="gterm-def">Loan Level Price Adjustments — extra fees on conventional loans charged by Fannie/Freddie based on credit score and LTV. Lower credit + higher LTV = higher LLPA = effectively a higher rate. This is why FHA sometimes wins at lower credit scores.</div></div>
-              <div class="gterm"><div class="gterm-name">IRRRL</div><div class="gterm-def">VA Streamline Refinance. Must have an existing VA loan. Usually no appraisal, minimal income docs. Must show net tangible benefit (lower rate or shorter term).</div></div>
+              <div class="gterm"><div class="gterm-name">IRRRL (VA Streamline)</div><div class="gterm-def">VA to VA only. No appraisal (fixed rate). 0.5% funding fee. 1×30 late allowed past 12 months. Payment reduction rules: Fixed→Fixed = rate must drop. Fixed→ARM = 2% rate reduction required. ARM→Fixed = rate must drop. ARM→ARM = rate must drop.</div></div>
               <div class="gterm"><div class="gterm-name">AUS</div><div class="gterm-def">Automated Underwriting System. VA uses LGY, FHA uses TOTAL Scorecard, Conventional uses DU (Fannie) or LP (Freddie). AUS can approve loans that exceed standard DTI guidelines with compensating factors.</div></div>
               <div class="gterm"><div class="gterm-name">Conforming Limit (2025)</div><div class="gterm-def">$806,500 max for conventional in most counties. Above this = jumbo = stricter underwriting. VA has no loan limit with full entitlement. FHA limits vary by county.</div></div>
               <div class="gterm"><div class="gterm-name">ARM (Adjustable Rate Mortgage)</div><div class="gterm-def">5/1 ARM = rate fixed for 5 years, then adjusts once per year. 3/1 ARM = fixed for 3 years, then annual adjustments. Adjustment is based on an index (like SOFR) plus a margin. Caps limit how much the rate can change per adjustment and over the life of the loan. Lower initial rate = lower initial payment — but risk increases after the fixed period.</div></div>
@@ -885,7 +892,13 @@
               <div class="tip-icon">🔄</div>
               <div class="tip-title">Streamline Rules</div>
               <div class="tip-body">
-                <strong>VA IRRRL:</strong> Must be VA to VA. 1×30 late payment allowed in past 12 months. Eligible occupancy: Primary, 2nd Home, Investment. Fixed rate: must be current. Hybrid ARM: 0.5% funding fee.<br><br>
+                <strong>VA IRRRL Net Tangible Benefit Rules:</strong><br>
+                Fixed → Fixed: Rate must decrease (must be current)<br>
+                Fixed → ARM: 2% interest rate reduction required<br>
+                ARM → Fixed: No reduction required<br>
+                ARM → ARM: rate must decrease<br>
+                Funding fee: 0.5% flat. 1×30 late allowed past 12 mo.<br>
+                Eligible occupancy: Primary, 2nd Home, Investment.<br><br>
                 <strong>FHA Streamline:</strong> Must be FHA to FHA. No lates in past 12 months. No cash out allowed. No appraisal. Cannot finance discount points.<br><br>
                 <strong>Conv or Gov-to-Conv:</strong> Always a full document loan. No streamline option.
               </div>
@@ -1472,15 +1485,50 @@ function renderRefi(results, inp) {
 
   let streamNote='';
   if (inp.currLoanType==='va' && vetYes) {
-    const vaR = results.find(r=>r.sc.type==='va' && r.qual.status!=='disqualified');
-    if (vaR && inp.currRate > parseFloat(vaR.sc.rate||0)) {
-      streamNote += `<div class="callout info"><span>⚡</span><div><strong>IRRRL Eligible</strong> — Current VA loan + lower new rate = qualifies for a VA Streamline. Typically no appraisal, minimal income docs required. Fastest way to a lower payment.</div></div>`;
+    const vaScens = results.filter(r=>r.sc.type==='va' && r.qual.status!=='disqualified' && r.pmt);
+    vaScens.forEach(vaR => {
+      const newRate    = parseFloat(vaR.sc.rate||0);
+      const newIsARM   = isARM(vaR.sc.term);
+      const currIsARM  = inp.currLoanStructure === 'arm';
+      const rateDrop   = inp.currRate - newRate; // positive = rate is lower
+      const rateDropPct = rateDrop; // in percentage points
+
+      // IRRRL Net Tangible Benefit rules per VCI cheat sheet:
+      // Fixed → Fixed: rate must decrease
+      // Fixed → ARM:   2% interest rate reduction required
+      // ARM   → Fixed: rate must decrease
+      // ARM   → ARM:   rate must decrease
+
+      const fixedToArm  = !currIsARM && newIsARM;
+      const transLabel  = currIsARM ? (newIsARM ? 'ARM → ARM' : 'ARM → Fixed') : (newIsARM ? 'Fixed → ARM' : 'Fixed → Fixed');
+
+      if (fixedToArm) {
+        // Fixed → ARM: only case requiring a 2% rate drop
+        if (rateDrop < 0.02) {
+          const neededRate = (inp.currRate - 0.02).toFixed(3);
+          streamNote += `<div class="callout warn"><span>⚠️</span><div><strong>IRRRL Failed — Fixed → ARM Requires 2% Rate Reduction (${vaR.sc.label})</strong><br>Current rate: ${inp.currRate}% → New rate: ${newRate}% = ${rateDrop > 0 ? rateDrop.toFixed(3) + '% reduction' : 'no reduction'}. Need ${neededRate}% or lower to meet the 2% minimum rate drop required when going Fixed → ARM.</div></div>`;
+        } else {
+          streamNote += `<div class="callout info"><span>⚡</span><div><strong>IRRRL Eligible — Fixed → ARM (${vaR.sc.label})</strong> Rate drops ${rateDrop.toFixed(3)}% — meets the 2% minimum rate reduction. No appraisal, 0.5% funding fee, 1×30 late in past 12 months allowed.</div></div>`;
+        }
+      } else {
+        // All other transitions: rate must simply decrease
+        if (rateDrop <= 0) {
+          streamNote += `<div class="callout warn"><span>⚠️</span><div><strong>IRRRL Failed — ${transLabel} Requires Lower Rate (${vaR.sc.label})</strong> New rate (${newRate}%) must be lower than current rate (${inp.currRate}%). No minimum drop required — just needs to decrease.</div></div>`;
+        } else {
+          streamNote += `<div class="callout info"><span>⚡</span><div><strong>IRRRL Eligible — ${transLabel} (${vaR.sc.label})</strong> Rate drops from ${inp.currRate}% to ${newRate}% (−${rateDrop.toFixed(3)}%). No appraisal, 0.5% funding fee, 1×30 late in past 12 months allowed.</div></div>`;
+        }
+      }
+    });
+    if (vaScens.length===0 && results.some(r=>r.sc.type==='va')) {
+      streamNote += `<div class="callout warn"><span>⚠️</span><div><strong>IRRRL — Scenario Disqualified</strong> The VA scenario did not pass qualification checks. Review the disqualification reasons in the results above.</div></div>`;
     }
   }
   if (inp.currLoanType==='fha') {
     const fhaR = results.find(r=>r.sc.type==='fha' && r.qual.status!=='disqualified');
     if (fhaR && inp.currRate > parseFloat(fhaR.sc.rate||0)) {
-      streamNote += `<div class="callout info"><span>⚡</span><div><strong>FHA Streamline Eligible</strong> — Current FHA + lower rate = qualifies for FHA Streamline. No appraisal required, simplified credit and income review.</div></div>`;
+      streamNote += `<div class="callout info"><span>⚡</span><div><strong>FHA Streamline Eligible (${fhaR.sc.label})</strong> — Current FHA + lower rate = qualifies for FHA Streamline. No appraisal required, no lates in past 12 months required, simplified credit and income review.</div></div>`;
+    } else if (fhaR) {
+      streamNote += `<div class="callout warn"><span>⚠️</span><div><strong>FHA Streamline — Rate Not Reduced</strong> New rate must be lower than current rate (${inp.currRate}%) to qualify for FHA Streamline.</div></div>`;
     }
   }
 
@@ -1516,7 +1564,7 @@ function runAnalysis() {
   const taxIn  = parseFloat(document.getElementById('monthly-tax').value)||0;
   const insIn  = parseFloat(document.getElementById('monthly-ins').value)||100;
 
-  let price, loanAmt, downAmt, downPct, currPmt=0, currRate=0, currLoanType='';
+  let price, loanAmt, downAmt, downPct, currPmt=0, currRate=0, currLoanType='', currLoanStructure='fixed';
 
   if (appMode==='purchase') {
     price   = parseFloat(document.getElementById('purchase-price').value)||0;
@@ -1535,12 +1583,13 @@ function runAnalysis() {
     currPmt    = parseFloat(document.getElementById('curr-payment').value)||0;
     currRate   = parseFloat(document.getElementById('curr-rate').value)||0;
     currLoanType = document.getElementById('curr-loan-type').value;
+    currLoanStructure = document.getElementById('curr-loan-structure').value;
   }
 
   const tax = taxIn>0 ? taxIn : (price*0.012)/12;
   const ins = insIn;
 
-  const inp = {score, income, debts, price, loanAmt, downAmt, downPct, propType, tax, ins, currPmt, currRate, currLoanType};
+  const inp = {score, income, debts, price, loanAmt, downAmt, downPct, propType, tax, ins, currPmt, currRate, currLoanType, currLoanStructure};
 
   const missingRate = scenarios.find(s=>!s.rate);
   if (missingRate && !confirm(`"${missingRate.label}" has no rate. Continue without a payment estimate for it?`)) return;
