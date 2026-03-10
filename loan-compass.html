@@ -1707,7 +1707,7 @@ function runAnalysis() {
   const taxIn  = parseFloat(document.getElementById('monthly-tax').value)||0;
   const insIn  = parseFloat(document.getElementById('monthly-ins').value)||100;
 
-  let price, loanAmt, downAmt, downPct, currPmt=0, currRate=0, currLoanType='', currLoanStructure='fixed';
+  let price, loanAmt, downAmt, downPct, currPmt=0, currRate=0, currLoanType='', currLoanStructure='fixed', coAmt=0, refiPurpose='purchase';
 
   if (appMode==='purchase') {
     price   = parseFloat(document.getElementById('purchase-price').value)||0;
@@ -1718,11 +1718,11 @@ function runAnalysis() {
   } else {
     const homeVal   = parseFloat(document.getElementById('home-value').value)||0;
     const currBal   = parseFloat(document.getElementById('curr-balance').value)||0;
-    const coAmt     = parseFloat(document.getElementById('cashout-amount').value)||0;
+    coAmt           = parseFloat(document.getElementById('cashout-amount').value)||0;
     const newLoanEl = document.getElementById('new-loan-amt');
     const newLoanOverride = newLoanEl ? parseFloat(newLoanEl.value)||0 : 0;
     if (!homeVal && !currBal) { alert('Please enter the home value or current balance.'); return; }
-    const refiPurpose = document.getElementById('refi-purpose').value;
+    refiPurpose     = document.getElementById('refi-purpose').value;
     price      = homeVal;
     // For cash-out: new loan = balance + cash-out amount; R&T/Streamline: just current balance
     loanAmt    = refiPurpose==='cashout' && (currBal+coAmt)>0 ? currBal+coAmt : (currBal || homeVal);
@@ -1737,8 +1737,7 @@ function runAnalysis() {
   const tax = taxIn>0 ? taxIn : (price*0.012)/12;
   const ins = insIn;
 
-  const refiPurposeVal = appMode==='refi' ? document.getElementById('refi-purpose').value : 'purchase';
-  const inp = {score, income, debts, price, loanAmt, downAmt, downPct, propType, tax, ins, currPmt, currRate, currLoanType, currLoanStructure, refiPurpose:refiPurposeVal, cashOutAmt:coAmt||0};
+  const inp = {score, income, debts, price, loanAmt, downAmt, downPct, propType, tax, ins, currPmt, currRate, currLoanType, currLoanStructure, refiPurpose, cashOutAmt:coAmt};
 
   const missingRate = scenarios.find(s=>!s.rate);
   if (missingRate && !confirm(`"${missingRate.label}" has no rate. Continue without a payment estimate for it?`)) return;
