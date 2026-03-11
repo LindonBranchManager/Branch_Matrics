@@ -1039,14 +1039,16 @@ function exportCSV() {
 // ═══════════════════════════════════════════════
 // POPCX INTEGRATION
 // ═══════════════════════════════════════════════
-const PCX_TOKEN_KEY = 'vci-pcx-token';
-const PCX_USER_KEY  = 'vci-pcx-user-id';
+const PCX_TOKEN_KEY    = 'vci-pcx-token';
+const PCX_USER_KEY     = 'vci-pcx-user-id';
+const PCX_BUSINESS_KEY = 'vci-pcx-business-id';
 let pcxPage = 1;
 let pcxTotalPages = 1;
 let pcxLastListId = null;
 
-function getPCXToken() { return localStorage.getItem(PCX_TOKEN_KEY)||''; }
-function getPCXUserId(){ return localStorage.getItem(PCX_USER_KEY)||''; }
+function getPCXToken()     { return localStorage.getItem(PCX_TOKEN_KEY)||''; }
+function getPCXUserId()    { return localStorage.getItem(PCX_USER_KEY)||''; }
+function getPCXBusinessId(){ return localStorage.getItem(PCX_BUSINESS_KEY)||'4'; }
 
 function pcxTokenExpired(token) {
   try {
@@ -1140,14 +1142,21 @@ async function fetchPCXEntries(page=1) {
 
     const res = await fetch(
       `https://api.popcx.com/call-lists/${listId}/entries?${params}`,
-      { headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/json', 'Api-Version': '1' } }
+      { headers: {
+          'Authorization': `Bearer ${token}`,
+          'Accept': 'application/json',
+          'Api-Version': '1',
+          'X-Popcx-Business': getPCXBusinessId(),
+      }}
     );
 
     if (res.status===401) {
       area.innerHTML = '<div class="pcx-error">🔒 Unauthorized — token may be expired. Go to Setup tab to refresh.</div>'; return;
     }
     if (!res.ok) {
-      area.innerHTML = `<div class="pcx-error">❌ API error ${res.status}. Check your Call List ID and try again.</div>`; return;
+      let detail = '';
+      try { const e = await res.json(); detail = JSON.stringify(e); } catch(x){}
+      area.innerHTML = `<div class="pcx-error">❌ API error ${res.status}${detail ? ': '+detail : ''}</div>`; return;
     }
 
     const data = await res.json();
