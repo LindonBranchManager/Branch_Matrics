@@ -177,7 +177,7 @@
     </div>
     <div class="contact-line">
       <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-      <a href="mailto:kcsmalley@villagecapital.com">kcsmalley@villagecapital.com</a>
+      <a href="/cdn-cgi/l/email-protection#9ef5fdedf3fff2f2fbe7dee8f7f2f2fff9fbfdffeef7eafff2b0fdf1f3"><span class="__cf_email__" data-cfemail="3a515949575b56565f437a4c5356565b5d5f595b4a534e5b5614595557">[email&#160;protected]</span></a>
     </div>
   </div>
 </div>
@@ -190,7 +190,7 @@
       <div class="section-hdr">
         <div class="section-hdr-icon lo">🛠️</div>
         <div><h2>LO Toolkit</h2><p>Quoting, qualification, pipeline, and file prep tools</p></div>
-        <span class="section-count">6 tools</span>
+        <span class="section-count">7 tools</span>
       </div>
       <div class="tool-grid">
         <a class="tool-card" href="va-quote-creator.html">
@@ -222,6 +222,11 @@
           <div class="tc-top"><div class="tc-icon">📋</div><span class="tc-arrow">↗</span></div>
           <div><div class="tc-name">Loan Matrix</div><div class="tc-tag">Guidelines · Limits · MIP Tables</div></div>
           <div class="tc-desc">Program guidelines, LTV limits, seasoning, MIP tables, and credit requirements.</div>
+        </a>
+        <a class="tool-card" href="loan-submission.html">
+          <div class="tc-top"><div class="tc-icon">📨</div><span class="tc-arrow">↗</span></div>
+          <div><div class="tc-name">New Loan Submission</div><div class="tc-tag">New App · Resubmission · LOA Pipeline</div></div>
+          <div class="tc-desc">Submit a new borrower file directly into the LOA Pipeline tab in Branch Tracker.</div>
         </a>
       </div>
 
@@ -337,7 +342,7 @@
   <p><strong>Village Capital &amp; Investment LLC</strong> · Lindon Branch · Internal Use Only · NMLS #3317</p>
 </footer>
 
-<script data-cfasync="false">
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false">
   document.getElementById('today-date').textContent = new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
 
   const ANNOUNCE_SHEET_ID = 'YOUR_ANNOUNCE_SHEET_ID_HERE';
@@ -356,13 +361,4 @@
       const msg  = rows[0]?.c[0]?.v || 'No announcement posted yet.';
       const date = rows[1]?.c[0]?.v || '';
       display.style.whiteSpace = 'pre-wrap';
-      display.textContent = msg;
-      if (date) lastUpd.textContent = date;
-    } catch(err) {
-      display.innerHTML = '<span style="color:#8a9ab0;font-style:italic">Could not load announcement.</span>';
-    }
-  }
-  loadAnnouncement();
-</script>
-</body>
-</html>
+    
