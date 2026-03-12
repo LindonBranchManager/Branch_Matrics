@@ -730,17 +730,24 @@ body {
           <input type="number" id="currentEscrow" placeholder="Auto" readonly style="background:#f0f4fb;color:var(--text-muted);">
         </div>
         <div class="field">
-          <label>
+          <label style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
             Monthly Taxes
-            <a id="countyLink" href="#" target="_blank" rel="noopener" style="font-size:0.68rem;font-weight:700;color:var(--gold);margin-left:6px;text-decoration:none;border:1px solid var(--gold);border-radius:3px;padding:1px 5px;">🔍 County</a>
-            <span style="color:var(--steel);font-size:0.7rem;">(auto)</span>
+            <a id="countyLink" href="#" target="_blank" rel="noopener" style="font-size:0.68rem;font-weight:700;color:var(--gold);text-decoration:none;border:1px solid var(--gold);border-radius:3px;padding:1px 5px;">🔍 County</a>
+            <label id="taxesOverrideToggle" style="display:inline-flex;align-items:center;gap:4px;cursor:pointer;font-size:0.68rem;font-weight:700;color:var(--steel);text-transform:none;letter-spacing:0;margin:0;padding:1px 6px;border:1px solid var(--border);border-radius:3px;background:white;">
+              <input type="checkbox" id="taxesOverrideCb" onchange="toggleOverride('taxes')" style="width:12px;height:12px;accent-color:var(--navy);margin:0;"> Manual
+            </label>
           </label>
-          <input type="number" id="taxes" placeholder="Auto" readonly style="background:#f0f4fb;color:var(--text-muted);">
+          <input type="number" id="taxes" placeholder="Auto" readonly style="background:#f0f4fb;color:var(--text-muted);" oninput="calcAll()">
         </div>
         <div class="field">
-          <label>Hazard Insurance / Month <span style="color:var(--steel);font-size:0.7rem;">(auto)</span></label>
-          <input type="number" id="insurance" placeholder="Auto" readonly style="background:#f0f4fb;color:var(--text-muted);">
-          <span class="hint">≈ 35% of monthly taxes</span>
+          <label style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+            Hazard Insurance / Month
+            <label id="insuranceOverrideToggle" style="display:inline-flex;align-items:center;gap:4px;cursor:pointer;font-size:0.68rem;font-weight:700;color:var(--steel);text-transform:none;letter-spacing:0;margin:0;padding:1px 6px;border:1px solid var(--border);border-radius:3px;background:white;">
+              <input type="checkbox" id="insuranceOverrideCb" onchange="toggleOverride('insurance')" style="width:12px;height:12px;accent-color:var(--navy);margin:0;"> Manual
+            </label>
+          </label>
+          <input type="number" id="insurance" placeholder="Auto" readonly style="background:#f0f4fb;color:var(--text-muted);" oninput="calcAll()">
+          <span class="hint" id="insuranceHint">≈ 35% of escrow — check Manual to override</span>
         </div>
       </div>
 
@@ -1075,14 +1082,44 @@ function calcEscrowBreakdown() {
   const escrow  = Math.max(0, piti - pi);
   document.getElementById('currentEscrow').value = escrow > 0 ? escrow.toFixed(2) : '';
 
-  // Hazard ≈ 35% of escrow (remainder is taxes)
-  // Taxes entered first (easier to look up), hazard auto-calcs
-  // Actually flow: PITI - PI = escrow; hazard ≈ 35% of escrow; taxes = escrow - hazard
+  // Only overwrite taxes/insurance if not in manual override mode
+  const taxesManual     = document.getElementById('taxesOverrideCb')?.checked;
+  const insuranceManual = document.getElementById('insuranceOverrideCb')?.checked;
+
   const hazard = Math.round(escrow * 0.35 * 100) / 100;
   const taxes  = Math.max(0, Math.round((escrow - hazard) * 100) / 100);
-  document.getElementById('insurance').value = hazard > 0 ? hazard.toFixed(2) : '';
-  document.getElementById('taxes').value     = taxes  > 0 ? taxes.toFixed(2)  : '';
+  if (!insuranceManual) document.getElementById('insurance').value = hazard > 0 ? hazard.toFixed(2) : '';
+  if (!taxesManual)     document.getElementById('taxes').value     = taxes  > 0 ? taxes.toFixed(2)  : '';
   calcAll();
+}
+
+function toggleOverride(field) {
+  const cb    = document.getElementById(field + 'OverrideCb');
+  const input = document.getElementById(field);
+  const hint  = field === 'insurance' ? document.getElementById('insuranceHint') : null;
+  const isManual = cb.checked;
+
+  if (isManual) {
+    // Switch to manual: make editable, highlight, clear value so user types their own
+    input.removeAttribute('readonly');
+    input.style.background = '#fffbe8';
+    input.style.color      = 'var(--text)';
+    input.style.borderColor = 'var(--gold)';
+    input.style.boxShadow  = '0 0 0 3px rgba(201,168,76,0.2)';
+    input.placeholder = 'Enter amount';
+    input.focus();
+    if (hint) hint.textContent = '✏️ Manual entry — auto-calc disabled';
+  } else {
+    // Revert to auto: restore readonly styling and recalculate
+    input.setAttribute('readonly', true);
+    input.style.background  = '#f0f4fb';
+    input.style.color       = 'var(--text-muted)';
+    input.style.borderColor = '';
+    input.style.boxShadow   = '';
+    input.placeholder = 'Auto';
+    if (hint) hint.textContent = '≈ 35% of escrow — check Manual to override';
+    calcEscrowBreakdown();
+  }
 }
 
 function autoPopulateBaseLoans() {
