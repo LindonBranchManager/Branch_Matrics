@@ -365,20 +365,9 @@
 
   <!-- Setup banner -->
   <div class="setup-banner">
-    <div style="font-size:20px;flex-shrink:0">⚙️</div>
+    <div style="font-size:20px;flex-shrink:0">✅</div>
     <div>
-      <strong>One-time setup:</strong> This form posts to Google Sheets via Apps Script. In Branch Tracker → <strong>Extensions → Apps Script</strong>, add a route for the <code>LockRelock Request</code> sheet (or reuse the same web app with a <code>sheet</code> param). Then replace <code>PASTE_YOUR_APPS_SCRIPT_URL_HERE</code> below with your deployment URL.
-      <br/><br/>
-      <strong>Apps Script addition:</strong><br/>
-      <code style="display:block;margin-top:6px;white-space:pre-wrap;line-height:1.6">function doPost(e) {
-  var data = JSON.parse(e.postData.contents);
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
-  var sheet = ss.getSheetByName(data.sheet || 'LockRelock Request');
-  sheet.appendRow(data.row);
-  return ContentService
-    .createTextOutput(JSON.stringify({success:true}))
-    .setMimeType(ContentService.MimeType.JSON);
-}</code>
+      <strong>Connected via SheetDB:</strong> This form submits directly to the <code>Lock/Relock Request</code> tab in Branch Tracker using SheetDB. No Apps Script setup required. Make sure your sheet's header row in row 1 matches the expected column names exactly.
     </div>
   </div>
 
@@ -615,7 +604,7 @@
 
 <script>
   // ── CONFIGURATION ──────────────────────────────────────────────────────────
-  const APPS_SCRIPT_URL = 'PASTE_YOUR_APPS_SCRIPT_URL_HERE';
+  const SHEETDB_URL = 'https://sheetdb.io/api/v1/2zy77uupf8whe';
   // ──────────────────────────────────────────────────────────────────────────
 
   // Set today's date default
@@ -638,7 +627,7 @@
 
     // Update submit note
     document.getElementById('submitNote').textContent =
-      `Submitting a ${type} to the LockRelock Request tab in Branch Tracker.`;
+      `Submitting a ${type} to the Lock/Relock Request tab in Branch Tracker.`;
 
     // Toggle required on extension fields
     const daysReq = document.getElementById('daysRequested');
@@ -766,11 +755,6 @@
       if (!extReason) { showToast('Detailed Reason is required for extensions.', 'error'); return; }
     }
 
-    if (APPS_SCRIPT_URL === 'PASTE_YOUR_APPS_SCRIPT_URL_HERE') {
-      showToast('Apps Script URL not configured — see setup banner above.', 'error');
-      return;
-    }
-
     const btn = document.getElementById('submitBtn');
     btn.disabled = true;
     btn.textContent = 'Submitting…';
@@ -778,42 +762,40 @@
     const now = new Date();
     const ts = now.toLocaleString('en-US');
 
-    // Row matches LockRelock Request column order:
-    // Timestamp | Lock Request Or Extension | Loan Number | # of Days Requested |
-    // Detailed Reason for Extension | Approved Competing Offer? | Loan Type | Loan Purpose |
-    // Rate Locked | Pricing Locked | Amortization | Have you submitted your lock in PPE? |
-    // Borrower Last Name | Upload email or screenshot | Loan Officer | Loan Officer Email |
-    // Column 2 (status) | Todays Date | Email Address | Column 19
-    const row = [
-      ts,
-      reqType,
-      loanNumber,
-      daysReq || '',
-      extReason || '',
-      approvedCO || '',
-      loanType,
-      loanPurpose,
-      rateLocked,
-      pricingLocked,
-      amortization,
-      submittedPPE,
-      borrowerLN,
-      screenshot || '',
-      lo,
-      loEmail,
-      '',   // Column 2 — status stamp added by ops
-      todaysDate,
-      loEmail,
-      '',   // Column 19
-    ];
+    // Data object — keys must match your sheet's header row exactly
+    const data = {
+      'Timestamp'                                        : ts,
+      'Lock Request Or Extension'                        : reqType,
+      'Loan Number'                                      : loanNumber,
+      '# of Days Requested'                              : daysReq || '',
+      'Detailed Reason for Extension'                    : extReason || '',
+      'Approved Competing Offer?'                        : approvedCO || '',
+      'Loan Type'                                        : loanType,
+      'Loan Purpose'                                     : loanPurpose,
+      'Rate Locked'                                      : rateLocked,
+      'Pricing Locked - As shown on PPE'                 : pricingLocked,
+      'Amortization'                                     : amortization,
+      'Have you submitted your lock in PPE?'             : submittedPPE,
+      'Borrower Last Name'                               : borrowerLN,
+      'Upload email or screenshot of approved pricing'   : screenshot || '',
+      'Loan Officer'                                     : lo,
+      'Loan Officer Email'                               : loEmail,
+      'Status'                                           : '',
+      'Todays Date'                                      : todaysDate,
+      'Email Address'                                    : loEmail,
+    };
 
     try {
-      await fetch(APPS_SCRIPT_URL, {
+      const res = await fetch(`${SHEETDB_URL}?sheet=Lock%2FRelock%20Request`, {
         method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ sheet: 'LockRelock Request', row })
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({ data })
       });
+
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error || `HTTP ${res.status}`);
+      }
 
       document.getElementById('successTitle').textContent =
         reqType === 'Extension Request' ? 'Extension Submitted!' : 'Lock Request Submitted!';
@@ -822,7 +804,7 @@
       document.getElementById('successOverlay').classList.add('visible');
 
     } catch (err) {
-      showToast('Submission failed. Check your network or Apps Script URL.', 'error');
+      showToast('Submission failed: ' + err.message, 'error');
       console.error(err);
     } finally {
       btn.disabled = false;
