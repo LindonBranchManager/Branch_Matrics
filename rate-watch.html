@@ -359,7 +359,12 @@ table.pipe-tbl tr:hover td{background:var(--cream)}
 
         <div id="rw-debug" style="display:none;background:#fdecea;border:1px solid #c0392b;border-radius:6px;padding:10px 14px;font-size:12px;color:#c0392b;margin-top:12px;word-break:break-all;line-height:1.5"></div>
 
-        <button class="run-btn" onclick="runSingle()">
+        <button class="run-btn" onclick="
+          var d=document.getElementById('rw-debug');
+          d.style.display='block';
+          d.textContent='🔘 Click registered. runSingle is: '+typeof runSingle;
+          if(typeof runSingle==='function'){ runSingle(); }
+        ">
           <span class="btn-icon">📡</span> Run Rate Watch Analysis
         </button>
       </div>
@@ -505,6 +510,11 @@ table.pipe-tbl tr:hover td{background:var(--cream)}
 <div id="build-stamp">Last updated: <span id="build-ts"></span></div>
 
 <script data-cfasync="false">
+window.onerror = function(msg, src, line, col, err) {
+  const d = document.getElementById('rw-debug');
+  if (d) { d.style.display='block'; d.textContent = '🔴 SCRIPT ERROR line '+line+': '+msg; }
+  return false;
+};
 // ═══════════════════════════════════════════════════════════════════
 //  STEP 1 OF 1  ──  PASTE YOUR FIREBASE CONFIG HERE
 //
