@@ -198,8 +198,44 @@ table.pipe-tbl tr:hover td{background:var(--cream)}
   body{background:#fff}
 }
 </style>
+
+<!-- ═══════════════════════════════════════════════════════════
+     FIREBASE SDKs  (do not change these lines)
+════════════════════════════════════════════════════════════ -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
 </head>
 <body>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SIGN-IN OVERLAY  — shown until Google auth completes
+════════════════════════════════════════════════════════════ -->
+<div id="auth-overlay" style="
+  position:fixed;inset:0;z-index:9999;
+  background:var(--navy);
+  display:flex;align-items:center;justify-content:center;
+  flex-direction:column;gap:18px;
+">
+  <div style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:600;color:var(--gold);letter-spacing:.5px">
+    Rate Watch
+  </div>
+  <div style="font-size:13px;color:rgba(255,255,255,.55);margin-top:-8px">Lindon Branch · Village Capital</div>
+  <button id="sign-in-btn" onclick="signIn()" style="
+    display:flex;align-items:center;gap:10px;
+    background:#fff;color:#1a2535;
+    border:none;border-radius:8px;
+    padding:12px 22px;font-size:14px;font-weight:600;
+    cursor:pointer;margin-top:8px;
+    box-shadow:0 4px 18px rgba(0,0,0,.3);
+    font-family:'DM Sans',sans-serif;
+  ">
+    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="20" height="20" alt="Google" />
+    Sign in with Google
+  </button>
+  <div id="auth-msg" style="font-size:12px;color:rgba(255,255,255,.4);min-height:16px"></div>
+</div>
 
 <!-- NAV -->
 <nav>
@@ -212,6 +248,10 @@ table.pipe-tbl tr:hover td{background:var(--cream)}
     <a href="rate-watch.html" class="active">Rate Watch</a>
     <a href="VillageMarket.html">Village Market</a>
     <a href="shoutouts.html">Shout Outs</a>
+  </div>
+  <div style="margin-left:auto;display:flex;align-items:center;gap:10px;flex-shrink:0">
+    <span id="nav-user" style="font-size:11.5px;color:rgba(255,255,255,.55)"></span>
+    <button onclick="signOut()" id="sign-out-btn" style="display:none;font-size:11px;font-weight:600;color:rgba(255,255,255,.6);background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:5px;padding:4px 10px;cursor:pointer;font-family:'DM Sans',sans-serif">Sign Out</button>
   </div>
 </nav>
 
@@ -463,9 +503,87 @@ table.pipe-tbl tr:hover td{background:var(--cream)}
 <div id="build-stamp">Last updated: <span id="build-ts"></span></div>
 
 <script data-cfasync="false">
-// ═══════════════════════════════════════════════════
-// HELPERS
-// ═══════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════════════
+//  STEP 1 OF 1  ──  PASTE YOUR FIREBASE CONFIG HERE
+//
+//  How to get this:
+//    1. Go to https://console.firebase.google.com
+//    2. Create a project (or open an existing one)
+//    3. Click the </> (Web) icon to add a web app
+//    4. Copy the firebaseConfig object Firebase gives you
+//    5. Paste it below, replacing the placeholder values
+//
+//  Also do these two things in the Firebase console:
+//    • Authentication → Sign-in method → Enable "Google"
+//    • Realtime Database → Create database → Start in test mode
+// ═══════════════════════════════════════════════════════════════════
+const firebaseConfig = {
+  apiKey:            "AIzaSyDDu0Scxf21JkqQe6RAZLyPCfNyckBMR1w",
+  authDomain:        "lindonbranch-71d52.firebaseapp.com",
+  databaseURL:       "https://lindonbranch-71d52-default-rtdb.firebaseio.com",
+  projectId:         "lindonbranch-71d52",
+  storageBucket:     "lindonbranch-71d52.firebasestorage.app",
+  messagingSenderId: "974170801115",
+  appId:             "1:974170801115:web:94b7817ade141c6eedddfe",
+  measurementId:     "G-SYVTDP8MR9"
+};
+
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db   = firebase.database();
+
+let currentUser = null;
+
+// ── AUTH ──────────────────────────────────────────────────────────
+function signIn() {
+  document.getElementById('auth-msg').textContent = 'Opening Google sign-in…';
+  const provider = new firebase.auth.GoogleAuthProvider();
+  auth.signInWithPopup(provider).catch(err => {
+    document.getElementById('auth-msg').textContent = 'Sign-in failed: ' + err.message;
+  });
+}
+
+function signOut() {
+  auth.signOut();
+}
+
+auth.onAuthStateChanged(user => {
+  if (user) {
+    currentUser = user;
+    document.getElementById('auth-overlay').style.display = 'none';
+    document.getElementById('nav-user').textContent = user.displayName || user.email;
+    document.getElementById('sign-out-btn').style.display = '';
+    loadPipeline();
+  } else {
+    currentUser = null;
+    document.getElementById('auth-overlay').style.display = 'flex';
+    document.getElementById('nav-user').textContent = '';
+    document.getElementById('sign-out-btn').style.display = 'none';
+    pipeline = [];
+  }
+});
+
+// ── FIREBASE PIPELINE READ / WRITE ───────────────────────────────
+function pipelineRef() {
+  return db.ref('pipelines/' + currentUser.uid + '/borrowers');
+}
+
+function loadPipeline() {
+  pipelineRef().on('value', snapshot => {
+    const data = snapshot.val();
+    pipeline = data ? Object.values(data) : [];
+    if (currentMode === 'pipeline') renderPipeline();
+  });
+}
+
+function savePipeline() {
+  if (!currentUser) return;
+  // Convert array to keyed object for Firebase
+  const obj = {};
+  pipeline.forEach(b => { obj[b.id] = b; });
+  pipelineRef().set(obj).catch(err => console.error('Save failed:', err));
+}
+// ─────────────────────────────────────────────────────────────────
 const fmt  = v => v==null?'—':'$'+Math.abs(Math.round(v)).toLocaleString();
 const fmtR = v => v?v.toFixed(3)+'%':'—';
 const fmtN = v => v==null?'—':Math.round(v).toLocaleString();
@@ -736,12 +854,8 @@ function buildTalkingPts(name, type, currRate, todayRate, balance, remTerm, curr
 // ═══════════════════════════════════════════════════
 // PIPELINE
 // ═══════════════════════════════════════════════════
-let pipeline = JSON.parse(localStorage.getItem('rw-pipeline')||'[]');
+let pipeline = [];
 let editingId = null;
-
-function savePipeline() {
-  localStorage.setItem('rw-pipeline', JSON.stringify(pipeline));
-}
 
 function openAddModal(id) {
   editingId = id||null;
