@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Income Calculator — Mortgage Qualifying Income Tool</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0f1623;--bg2:#0a0f1a;--bg3:#141e2e;--bg4:#1a2535;
+  --border:#1e2d45;--border2:#2a3a52;
+  --text:#e2e8f0;--text2:#94a3b8;--text3:#64748b;--text4:#4a5568;
+  --gold:#f59e0b;--gold2:#d97706;--green:#10b981;--blue:#38bdf8;--red:#ef4444;
+  --font:'DM Sans',sans-serif;--mono:'DM Mono',monospace;
+}
+html,body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;font-size:14px}
+/* ── LAYOUT ── */
+.app{display:flex;flex-direction:column;min-height:100vh}
+.topbar{background:var(--bg2);border-bottom:1px solid var(--border);padding:12px 24px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.logo{display:flex;align-items:center;gap:10px}
+.logomark{width:32px;height:32px;background:linear-gradient(135deg,var(--gold),var(--gold2));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:var(--bg2);font-family:var(--mono)}
+.logo-text{font-size:15px;font-weight:700;color:#f1f5f9;letter-spacing:-.01em}
+.logo-sub{font-size:11px;color:var(--text3)}
+.borrower-area{display:flex;align-items:center;gap:10px}
+.borrower-label{font-size:12px;color:var(--text3);font-weight:500}
+.borrower-input{background:var(--bg4);border:1px solid var(--border2);border-radius:6px;padding:7px 12px;color:var(--text);font-size:13px;font-family:var(--font);width:210px;outline:none;transition:border-color .2s}
+.borrower-input:focus{border-color:var(--gold)}
+.borrower-input::placeholder{color:var(--text4)}
+.body{display:flex;flex:1;overflow:hidden}
+.sidebar{width:218px;background:var(--bg2);border-right:1px solid var(--border);padding:18px 0;flex-shrink:0;overflow-y:auto}
+.sidebar-label{font-size:10px;font-weight:600;color:var(--text4);text-transform:uppercase;letter-spacing:.1em;padding:0 16px 10px}
+.nav-item{display:flex;align-items:center;gap:9px;padding:9px 16px;cursor:pointer;border-left:3px solid transparent;font-size:13px;font-weight:500;color:var(--text3);transition:all .15s;user-select:none}
+.nav-item:hover{background:var(--bg3);color:var(--text2)}
+.nav-item.active{background:var(--bg3);border-left-color:var(--gold);color:#f1f5f9}
+.nav-icon{width:28px;height:28px;background:var(--bg4);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.nav-item.active .nav-icon{background:#f59e0b22}
+.nav-badge{margin-left:auto;background:#f59e0b22;color:var(--gold);font-size:10px;font-weight:600;padding:2px 7px;border-radius:20px;font-family:var(--mono)}
+.sidebar-hr{border:none;border-top:1px solid var(--border);margin:14px 0}
+.nav-summary{display:flex;align-items:center;gap:9px;padding:9px 16px;cursor:pointer;border-left:3px solid transparent;font-size:13px;font-weight:600;color:var(--gold);transition:all .15s;user-select:none}
+.nav-summary:hover,.nav-summary.active{background:var(--bg3);border-left-color:var(--gold)}
+.content{flex:1;overflow-y:auto;padding:26px;background:var(--bg)}
+.content::-webkit-scrollbar{width:4px}
+.content::-webkit-scrollbar-track{background:var(--bg2)}
+.content::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+/* ── PANEL HEADER ── */
+.panel-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:22px;flex-wrap:wrap;gap:10px}
+.panel-title{font-size:19px;font-weight:700;color:#f1f5f9;letter-spacing:-.02em}
+.panel-sub{font-size:12px;color:var(--text3);margin-top:3px}
+.avg-area{display:flex;align-items:center;gap:8px}
+.avg-label{font-size:12px;color:var(--text3);white-space:nowrap}
+.avg-select{background:var(--bg4);border:1px solid var(--border2);border-radius:6px;padding:6px 10px;color:var(--text);font-size:12px;font-family:var(--font);outline:none;cursor:pointer}
+.avg-select:focus{border-color:var(--gold)}
+/* ── CARDS ── */
+.card{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:14px}
+.card-title{font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.card-title::after{content:'';flex:1;height:1px;background:var(--border)}
+/* ── FIELDS ── */
+.field-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(195px,1fr));gap:13px}
+.field-group{display:flex;flex-direction:column;gap:5px}
+.field-label{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.06em}
+.field-input{background:var(--bg);border:1px solid var(--border2);border-radius:6px;padding:8px 11px;color:var(--text);font-size:13px;font-family:var(--font);outline:none;width:100%;transition:border-color .2s}
+.field-input:focus{border-color:var(--gold)}
+.field-input::placeholder{color:var(--text4)}
+.field-select{background:var(--bg);border:1px solid var(--border2);border-radius:6px;padding:8px 11px;color:var(--text);font-size:13px;font-family:var(--font);outline:none;width:100%;cursor:pointer}
+.field-select:focus{border-color:var(--gold)}
+.inline-row{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+.inline-row .field-label{white-space:nowrap}
+.inline-row .field-input,.inline-row .field-select{width:auto}
+/* ── UPLOAD ZONE ── */
+.upload-zone{border:2px dashed var(--border2);border-radius:10px;padding:24px;text-align:center;cursor:pointer;transition:all .2s;background:var(--bg)}
+.upload-zone:hover,.upload-zone.drag{border-color:var(--gold);background:#f59e0b08}
+.upload-icon{font-size:26px;margin-bottom:8px}
+.upload-title{font-size:13px;font-weight:600;color:var(--text2);margin-bottom:3px}
+.upload-sub{font-size:12px;color:var(--text4)}
+.upload-pills{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;margin-top:10px}
+.pill{background:var(--bg4);border:1px solid var(--border2);border-radius:20px;padding:2px 9px;font-size:11px;color:var(--text3);font-family:var(--mono)}
+.doc-list{margin-top:14px;display:flex;flex-direction:column;gap:9px}
+.doc-item{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:11px 14px;display:flex;align-items:flex-start;gap:11px}
+.doc-item.extracting{border-color:#f59e0b44}
+.doc-item.done{border-color:#10b98144}
+.doc-item.error{border-color:#ef444444}
+.doc-ficon{width:34px;height:34px;border-radius:7px;background:var(--bg4);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.doc-info{flex:1;min-width:0}
+.doc-name{font-size:13px;font-weight:500;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.doc-status{font-size:11px;margin-top:3px;font-family:var(--mono)}
+.doc-status.extracting{color:var(--gold)}
+.doc-status.done{color:var(--green)}
+.doc-status.error{color:var(--red)}
+.doc-extracted{margin-top:9px;background:var(--bg3);border-radius:6px;padding:9px 11px;display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:7px}
+.ext-field{display:flex;flex-direction:column;gap:2px}
+.ext-label{font-size:10px;color:var(--text3);font-weight:500;text-transform:uppercase;letter-spacing:.05em}
+.ext-value{font-size:12px;color:var(--green);font-weight:600;font-family:var(--mono)}
+.ext-note{font-size:11px;color:var(--gold);font-style:italic;margin-top:6px}
+.apply-btn{background:#10b98122;border:1px solid #10b98144;border-radius:6px;padding:4px 10px;font-size:11px;font-weight:600;color:var(--green);cursor:pointer;font-family:var(--font);margin-top:7px;transition:all .15s}
+.apply-btn:hover{background:#10b98133}
+.remove-btn{background:none;border:none;color:var(--text4);cursor:pointer;font-size:15px;flex-shrink:0;transition:color .15s;padding:2px}
+.remove-btn:hover{color:var(--red)}
+/* ── YEAR TABS ── */
+.year-tabs{display:flex;gap:7px;margin-bottom:16px;flex-wrap:wrap}
+.year-tab{padding:5px 13px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid var(--border2);background:transparent;color:var(--text3);transition:all .15s;font-family:var(--font)}
+.year-tab.active{background:#f59e0b22;border-color:var(--gold);color:var(--gold)}
+.year-tab:hover:not(.active){background:var(--bg4);color:var(--text2)}
+.add-year-btn{padding:5px 13px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;border:1px dashed var(--border2);background:transparent;color:var(--text4);transition:all .15s;font-family:var(--font)}
+.add-year-btn:hover{border-color:var(--gold);color:var(--gold)}
+/* ── CALC RESULTS ── */
+.calc-result{background:#0f1a0f;border:1px solid #10b98133;border-radius:8px;padding:12px 15px;display:flex;align-items:center;justify-content:space-between;margin-top:12px}
+.calc-result.alt{background:#0a1a1a;border-color:#0891b233}
+.calc-result.alt2{background:#0f1a0f55;border-color:#10b98122}
+.cr-label{font-size:12px;color:var(--text3);font-weight:500}
+.cr-note{font-size:11px;color:var(--text4);margin-top:2px}
+.cr-value{font-size:17px;font-weight:700;color:var(--green);font-family:var(--mono)}
+.cr-value.blue{color:var(--blue)}
+/* ── QUALIFYING BAR ── */
+.q-bar{background:linear-gradient(135deg,#0f1a0f,#0a1a0a);border:1px solid #10b98155;border-radius:10px;padding:15px 19px;display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.qb-label{font-size:12px;color:var(--text3);font-weight:600}
+.qb-method{font-size:11px;color:var(--text4);margin-top:2px}
+.qb-value{font-size:21px;font-weight:700;color:var(--green);font-family:var(--mono);text-align:right}
+.qb-per{font-size:10px;color:var(--text4)}
+/* ── SUMMARY ── */
+.total-bar{background:linear-gradient(135deg,var(--bg3),var(--bg4));border:1px solid #f59e0b44;border-radius:12px;padding:22px 26px;display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;position:relative;overflow:hidden}
+.total-bar::before{content:'';position:absolute;top:0;left:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--gold),var(--gold2))}
+.tb-label{font-size:14px;color:var(--text2);font-weight:500}
+.tb-sub{font-size:11px;color:var(--text4);margin-top:3px}
+.tb-value{font-size:34px;font-weight:700;color:var(--gold);font-family:var(--mono);letter-spacing:-.03em}
+.summary-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:13px;margin-bottom:22px}
+.sum-card{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:18px;position:relative;overflow:hidden}
+.sum-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),transparent)}
+.sum-card-label{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px}
+.sum-card-value{font-size:24px;font-weight:700;color:#f1f5f9;font-family:var(--mono);letter-spacing:-.02em}
+.sum-card-method{font-size:11px;color:var(--text4);margin-top:3px}
+table{width:100%;border-collapse:collapse}
+th{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;padding:8px 13px;text-align:left;border-bottom:1px solid var(--border)}
+td{padding:11px 13px;font-size:13px;color:var(--text2);border-bottom:1px solid #0f1623}
+td.amt{color:var(--green);font-family:var(--mono);font-weight:600}
+td.total-row{color:#f1f5f9;font-weight:700}
+td.total-amt{color:var(--gold);font-family:var(--mono);font-weight:700;font-size:15px}
+tr:hover td{background:#141e2e22}
+/* ── EMPTY ── */
+.empty{text-align:center;padding:55px 20px;color:var(--text4)}
+.empty-icon{font-size:34px;margin-bottom:10px}
+.empty-title{font-size:14px;font-weight:600;margin-bottom:5px;color:var(--text3)}
+/* ── SPIN ── */
+@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.spin{display:inline-block;animation:spin 1s linear infinite}
+/* ── SECTION SPACER ── */
+.sep{height:12px}
+</style>
+</head>
+<body>
+<div class="app">
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <div class="logo">
+      <div class="logomark">IC</div>
+      <div>
+        <div class="logo-text">Income Calculator</div>
+        <div class="logo-sub">Mortgage Qualifying Income Tool</div>
+      </div>
+    </div>
+    <div class="borrower-area">
+      <span class="borrower-label">Borrower</span>
+      <input class="borrower-input" id="borrowerName" placeholder="Last, First" oninput="updateSummaryHeader()">
+    </div>
+  </div>
+
+  <!-- BODY -->
+  <div class="body">
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+      <div class="sidebar-label">Income Types</div>
+      <div class="nav-item active" id="nav-w2" onclick="switchTab('w2')">
+        <div class="nav-icon">📋</div><span>W-2 / Base Salary</span><span class="nav-badge" id="badge-w2" style="display:none">✓</span>
+      </div>
+      <div class="nav-item" id="nav-hourly" onclick="switchTab('hourly')">
+        <div class="nav-icon">⏱</div><span>Hourly / Pay Stubs</span><span class="nav-badge" id="badge-hourly" style="display:none">✓</span>
+      </div>
+      <div class="nav-item" id="nav-sch_c" onclick="switchTab('sch_c')">
+        <div class="nav-icon">📊</div><span>Schedule C (Self-Emp)</span><span class="nav-badge" id="badge-sch_c" style="display:none">✓</span>
+      </div>
+      <div class="nav-item" id="nav-business" onclick="switchTab('business')">
+        <div class="nav-icon">🏢</div><span>Business Returns</span><span class="nav-badge" id="badge-business" style="display:none">✓</span>
+      </div>
+      <div class="nav-item" id="nav-ss" onclick="switchTab('ss')">
+        <div class="nav-icon">🛡</div><span>Social Security / SSDI</span><span class="nav-badge" id="badge-ss" style="display:none">✓</span>
+      </div>
+      <hr class="sidebar-hr">
+      <div class="nav-summary" id="nav-summary" onclick="switchTab('summary')">
+        <div class="nav-icon">📈</div><span>Income Summary</span>
+      </div>
+    </div>
+
+    <!-- CONTENT PANELS -->
+    <div class="content" id="content">
+
+      <!-- ═══ W-2 PANEL ═══ -->
+      <div id="panel-w2">
+        <div class="panel-header">
+          <div><div class="panel-title">📋 W-2 / Base Salary</div><div class="panel-sub">Upload W-2 forms or enter manually · multi-year supported</div></div>
+          <div class="avg-area"><span class="avg-label">Averaging Method</span>
+            <select class="avg-select" id="avg-w2" onchange="recalcW2()">
+              <option value="recent">Most Recent Year Only</option>
+              <option value="two_year" selected>2-Year Average</option>
+              <option value="lower">Lower of 2 Years</option>
+              <option value="ytd">YTD / Current Only</option>
+            </select>
+          </div>
+        </div>
+        <div id="w2-year-tabs" class="year-tabs"></div>
+        <div id="w2-year-content"></div>
+        <div id="w2-q-bar"></div>
+      </div>
+
+      <!-- ═══ HOURLY PANEL ═══ -->
+      <div id="panel-hourly" style="display:none">
+        <div class="panel-header">
+          <div><div class="panel-title">⏱ Hourly / Pay Stubs</div><div class="panel-sub">Upload pay stubs for AI extraction or enter manually</div></div>
+          <div class="avg-area"><span class="avg-label">Averaging Method</span>
+            <select class="avg-select" id="avg-hourly" onchange="recalcHourly()">
+              <option value="ytd" selected>YTD / Current Period Only</option>
+              <option value="recent">Period × Frequency</option>
+              <option value="hourly_rate">Hourly Rate Method</option>
+            </select>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">📄 Document Upload — Pay Stub</div>
+          <div id="dz-hourly"></div>
+        </div>
+        <div class="card">
+          <div class="card-title">✏️ Manual Entry — Pay Stub Details</div>
+          <div class="field-grid" style="margin-bottom:13px">
+            <div class="field-group">
+              <label class="field-label">Pay Frequency</label>
+              <select class="field-select" id="h-freq" onchange="recalcHourly()">
+                <option value="52">Weekly (÷52)</option>
+                <option value="26" selected>Bi-Weekly (÷26)</option>
+                <option value="24">Semi-Monthly (÷24)</option>
+                <option value="12">Monthly (÷12)</option>
+              </select>
+            </div>
+            <div class="field-group">
+              <label class="field-label">Gross Pay This Period ($)</label>
+              <input class="field-input" id="h-period" placeholder="0.00" oninput="recalcHourly()">
+            </div>
+            <div class="field-group">
+              <label class="field-label">YTD Gross Earnings ($)</label>
+              <input class="field-input" id="h-ytd" placeholder="0.00" oninput="recalcHourly()">
+            </div>
+            <div class="field-group">
+              <label class="field-label">YTD Months Elapsed</label>
+              <input class="field-input" id="h-ytd-months" placeholder="e.g. 6.5" oninput="recalcHourly()">
+            </div>
+          </div>
+          <div style="border-top:1px solid var(--border);padding-top:13px">
+            <div style="font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:11px">Hourly Rate (optional override)</div>
+            <div class="field-grid">
+              <div class="field-group">
+                <label class="field-label">Hourly Rate ($)</label>
+                <input class="field-input" id="h-rate" placeholder="0.00" oninput="recalcHourly()">
+              </div>
+              <div class="field-group">
+                <label class="field-label">Avg Hours/Week</label>
+                <input class="field-input" id="h-hours" placeholder="40" oninput="recalcHourly()">
+              </div>
+            </div>
+          </div>
+          <div id="hourly-results"></div>
+        </div>
+        <div id="hourly-q-bar"></div>
+      </div>
+
+      <!-- ═══ SCHEDULE C PANEL ═══ -->
+      <div id="panel-sch_c" style="display:none">
+        <div class="panel-header">
+          <div><div class="panel-title">📊 Schedule C (Self-Employed)</div><div class="panel-sub">Net profit + standard mortgage add-backs · multi-year</div></div>
+          <div class="avg-area"><span class="avg-label">Averaging Method</span>
+            <select class="avg-select" id="avg-sch_c" onchange="recalcSchC()">
+              <option value="recent">Most Recent Year Only</option>
+              <option value="two_year" selected>2-Year Average</option>
+              <option value="lower">Lower of 2 Years</option>
+            </select>
+          </div>
+        </div>
+        <div id="schc-year-tabs" class="year-tabs"></div>
+        <div id="schc-year-content"></div>
+        <div id="schc-q-bar"></div>
+      </div>
+
+      <!-- ═══ BUSINESS PANEL ═══ -->
+      <div id="panel-business" style="display:none">
+        <div class="panel-header">
+          <div><div class="panel-title">🏢 Business Returns (1120S / 1065)</div><div class="panel-sub">S-Corp & Partnership · ordinary income + add-backs × ownership %</div></div>
+          <div class="avg-area"><span class="avg-label">Averaging Method</span>
+            <select class="avg-select" id="avg-business" onchange="recalcBusiness()">
+              <option value="recent">Most Recent Year Only</option>
+              <option value="two_year" selected>2-Year Average</option>
+              <option value="lower">Lower of 2 Years</option>
+            </select>
+          </div>
+        </div>
+        <div id="biz-year-tabs" class="year-tabs"></div>
+        <div id="biz-year-content"></div>
+        <div id="biz-q-bar"></div>
+      </div>
+
+      <!-- ═══ SS PANEL ═══ -->
+      <div id="panel-ss" style="display:none">
+        <div class="panel-header">
+          <div><div class="panel-title">🛡 Social Security / Disability</div><div class="panel-sub">SSA award letters, SSA-1099 · 125% gross-up applied for non-taxable</div></div>
+        </div>
+        <div class="card">
+          <div class="card-title">📄 Document Upload — Award Letter / SSA-1099</div>
+          <div id="dz-ss"></div>
+        </div>
+        <div class="card">
+          <div class="card-title">✏️ Manual Entry — Benefit Details</div>
+          <div class="field-grid">
+            <div class="field-group">
+              <label class="field-label">Benefit Type</label>
+              <select class="field-select" id="ss-type" onchange="recalcSS()">
+                <option value="retirement">Retirement (SSA)</option>
+                <option value="disability">SSDI — Social Security Disability</option>
+                <option value="ssi">SSI — Supplemental Security Income</option>
+                <option value="survivor">Survivor Benefits</option>
+              </select>
+            </div>
+            <div class="field-group">
+              <label class="field-label">Monthly Benefit Amount ($)</label>
+              <input class="field-input" id="ss-monthly" placeholder="0.00" oninput="recalcSS()">
+            </div>
+            <div class="field-group">
+              <label class="field-label">Gross Annual (SSA-1099 Box 5) ($)</label>
+              <input class="field-input" id="ss-annual" placeholder="0.00" oninput="recalcSS()">
+            </div>
+          </div>
+          <div id="ss-results"></div>
+        </div>
+        <div id="ss-q-bar"></div>
+      </div>
+
+      <!-- ═══ SUMMARY PANEL ═══ -->
+      <div id="panel-summary" style="display:none">
+        <div class="panel-header">
+          <div><div class="panel-title">📈 Income Summary</div><div class="panel-sub">Total qualifying income across all sources</div></div>
+        </div>
+        <div id="summary-content"></div>
+      </div>
+
+    </div><!-- /content -->
+  </div><!-- /body -->
+</div><!-- /app -->
+
+<script>
+// ── STATE ──────────────────────────────────────────────────────────────────────
+const state = {
+  w2: { years: [
+    {year: new Date().getFullYear()-1, box1:'', box5:'', box12:'', docs:[]},
+    {year: new Date().getFullYear()-2, box1:'', box5:'', box12:'', docs:[]}
+  ], activeYear: 0 },
+  schc: { years: [
+    {year: new Date().getFullYear()-1, netProfit:'', depreciation:'', depletion:'', mileage:'', meals:'', docs:[]},
+    {year: new Date().getFullYear()-2, netProfit:'', depreciation:'', depletion:'', mileage:'', meals:'', docs:[]}
+  ], activeYear: 0 },
+  biz: { years: [
+    {year: new Date().getFullYear()-1, type:'1120S', ordIncome:'', w2wages:'', depreciation:'', depletion:'', amortization:'', ownerPct:'100', docs:[]},
+    {year: new Date().getFullYear()-2, type:'1120S', ordIncome:'', w2wages:'', depreciation:'', depletion:'', amortization:'', ownerPct:'100', docs:[]}
+  ], activeYear: 0 }
+};
+
+let activeTab = 'w2';
+
+// ── FORMATTING ─────────────────────────────────────────────────────────────────
+function fmt(n){
+  if(n===null||n===undefined||isNaN(n)) return '—';
+  return '$'+Number(n).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+}
+function parseNum(s){ return parseFloat((s||'').toString().replace(/,/g,''))||0; }
+
+// ── TAB SWITCHING ──────────────────────────────────────────────────────────────
+function switchTab(tab){
+  document.querySelectorAll('.nav-item,.nav-summary').forEach(el=>el.classList.remove('active'));
+  const panels = ['w2','hourly','sch_c','business','ss','summary'];
+  panels.forEach(p=>{
+    const el = document.getElementById('panel-'+p);
+    if(el) el.style.display = (p===tab)?'':'none';
+  });
+  (document.getElementById('nav-'+tab)||document.getElementById('nav-'+tab))?.classList.add('active');
+  document.getElementById('nav-'+tab)?.classList.add('active');
+  activeTab = tab;
+  if(tab==='summary') renderSummary();
+}
+
+// ── UPLOAD ZONE BUILDER ─────────────────────────────────────────────────────────
+function buildDropZone(containerId, docTypes, incomeType, onExtracted){
+  const el = document.getElementById(containerId);
+  if(!el) return;
+  const dzId = 'dz_inner_'+containerId;
+  const listId = 'dz_list_'+containerId;
+  el.innerHTML = `
+    <div class="upload-zone" id="${dzId}" onclick="document.getElementById('fi_${containerId}').click()"
+      ondragover="event.preventDefault();this.classList.add('drag')"
+      ondragleave="this.classList.remove('drag')"
+      ondrop="dzDrop(event,'${containerId}','${incomeType}')">
+      <div class="upload-icon">⬆</div>
+      <div class="upload-title">Drop files here or click to upload</div>
+      <div class="upload-sub">AI will extract income data automatically</div>
+      <div class="upload-pills">
+        ${docTypes.map(t=>`<span class="pill">${t}</span>`).join('')}
+        <span class="pill">PDF</span><span class="pill">JPG</span><span class="pill">PNG</span>
+      </div>
+    </div>
+    <input type="file" id="fi_${containerId}" multiple accept=".pdf,.jpg,.jpeg,.png,.webp" style="display:none"
+      onchange="dzFiles(this.files,'${containerId}','${incomeType}')">
+    <div class="doc-list" id="${listId}"></div>`;
+  // store callback
+  window['_dzcb_'+containerId] = onExtracted;
+}
+
+function dzDrop(e, cid, incomeType){
+  e.preventDefault();
+  document.getElementById('dz_inner_'+cid)?.classList.remove('drag');
+  dzFiles(e.dataTransfer.files, cid, incomeType);
+}
+
+function dzFiles(files, cid, incomeType){
+  Array.from(files).forEach(f => processFile(f, cid, incomeType));
+}
+
+async function processFile(file, cid, incomeType){
+  const listEl = document.getElementById('dz_list_'+cid);
+  if(!listEl) return;
+  const id = 'doc_'+Date.now()+'_'+Math.random().toString(36).slice(2);
+  const icon = file.name.endsWith('.pdf') ? '📄' : '🖼️';
+  const item = document.createElement('div');
+  item.id = id; item.className = 'doc-item extracting';
+  item.innerHTML = `
+    <div class="doc-ficon">${icon}</div>
+    <div class="doc-info">
+      <div class="doc-name">${file.name}</div>
+      <div class="doc-status extracting"><span class="spin">⟳</span> Extracting income data...</div>
+    </div>
+    <button class="remove-btn" onclick="document.getElementById('${id}').remove()">✕</button>`;
+  listEl.appendChild(item);
+
+  try {
+    const b64 = await toBase64(file);
+    const media = file.type || (file.name.endsWith('.pdf') ? 'application/pdf' : 'image/jpeg');
+    const extracted = await aiExtract(b64, media, incomeType, file.name);
+    const info = item.querySelector('.doc-info');
+    item.className = 'doc-item done';
+    const entries = Object.entries(extracted).filter(([k,v])=>v!==null && v!==undefined && k!=='notes' && k!=='doc_type');
+    info.innerHTML = `
+      <div class="doc-name">${file.name}</div>
+      <div class="doc-status done">✓ Extraction complete</div>
+      <div class="doc-extracted">
+        ${entries.map(([k,v])=>`<div class="ext-field"><span class="ext-label">${k.replace(/_/g,' ')}</span><span class="ext-value">${typeof v==='number'?fmt(v):v}</span></div>`).join('')}
+      </div>
+      ${extracted.notes ? `<div class="ext-note">⚠ ${extracted.notes}</div>` : ''}
+      <button class="apply-btn" onclick="applyExtracted('${cid}',${JSON.stringify(extracted).replace(/'/g,"&#39;").replace(/"/g,'&quot;')})">↗ Apply to Fields</button>`;
+  } catch(err){
+    item.className = 'doc-item error';
+    item.querySelector('.doc-status').className = 'doc-status error';
+    item.querySelector('.doc-status').textContent = '⚠ '+err.message;
+  }
+}
+
+function applyExtracted(cid, extracted){
+  // delegate to registered callback
+  const cb = window['_dzcb_'+cid];
+  if(cb) cb(extracted);
+}
+
+function toBase64(file){
+  return new Promise((res,rej)=>{
+    const r=new FileReader();
+    r.onload=()=>res(r.result.split(',')[1]);
+    r.onerror=()=>rej(new Error('File read failed'));
+    r.readAsDataURL(file);
+  });
+}
+
+// ── AI EXTRACTION ──────────────────────────────────────────────────────────────
+const PROMPTS = {
+  w2: `Extract income data from this W-2 tax form. Return ONLY valid JSON, no markdown, no preamble:
+{"tax_year":"YYYY","box1_wages":number_or_null,"box5_medicare":number_or_null,"box12_deferred":number_or_null,"employer_name":"string_or_null","notes":"string_or_null"}`,
+  hourly: `Extract income data from this pay stub. Return ONLY valid JSON, no markdown:
+{"pay_frequency":"weekly|biweekly|semimonthly|monthly|null","pay_period_gross":number_or_null,"ytd_gross":number_or_null,"ytd_months_elapsed":number_or_null,"hourly_rate":number_or_null,"hours_per_week":number_or_null,"employer_name":"string_or_null","notes":"string_or_null"}`,
+  sch_c: `Extract Schedule C self-employment income from this tax return. Return ONLY valid JSON, no markdown:
+{"tax_year":"YYYY","net_profit":number_or_null,"gross_receipts":number_or_null,"depreciation":number_or_null,"depletion":number_or_null,"meals_50pct":number_or_null,"mileage_deduction":number_or_null,"business_name":"string_or_null","notes":"string_or_null"}`,
+  business: `Extract business tax return data from this 1120S or 1065. Return ONLY valid JSON, no markdown:
+{"return_type":"1120S|1065","tax_year":"YYYY","ordinary_income":number_or_null,"w2_wages_paid":number_or_null,"depreciation":number_or_null,"depletion":number_or_null,"amortization":number_or_null,"business_name":"string_or_null","notes":"string_or_null"}`,
+  ss: `Extract Social Security or disability benefit data from this document. Return ONLY valid JSON, no markdown:
+{"benefit_type":"retirement|disability|ssi|survivor|null","monthly_benefit":number_or_null,"gross_annual":number_or_null,"effective_date":"string_or_null","recipient_name":"string_or_null","notes":"string_or_null"}`
+};
+
+async function aiExtract(base64, mediaType, incomeType, fileName){
+  const prompt = PROMPTS[incomeType] || PROMPTS.w2;
+  const contentBlock = mediaType==='application/pdf'
+    ? {type:'document',source:{type:'base64',media_type:'application/pdf',data:base64}}
+    : {type:'image',source:{type:'base64',media_type:mediaType,data:base64}};
+
+  const resp = await fetch('https://api.anthropic.com/v1/messages',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({
+      model:'claude-sonnet-4-20250514',
+      max_tokens:1000,
+      messages:[{role:'user',content:[contentBlock,{type:'text',text:prompt}]}]
+    })
+  });
+  if(!resp.ok) throw new Error('API error '+resp.status);
+  const data = await resp.json();
+  const text = data.content?.find(b=>b.type==='text')?.text||'';
+  const clean = text.replace(/```json|```/g,'').trim();
+  return JSON.parse(clean);
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// W-2 SECTION
+// ═══════════════════════════════════════════════════════════════════════════════
+function initW2(){
+  renderW2Tabs();
+  renderW2Year(0);
+}
+
+function renderW2Tabs(){
+  const tabs = document.getElementById('w2-year-tabs');
+  if(!tabs) return;
+  let html = state.w2.years.map((y,i)=>{
+    const monthly = calcW2Monthly(y);
+    const label = monthly ? `${y.year} · ${fmt(monthly)}/mo` : y.year;
+    return `<button class="year-tab${state.w2.activeYear===i?' active':''}" onclick="switchW2Year(${i})">${label}</button>`;
+  }).join('');
+  html += `<button class="add-year-btn" onclick="addW2Year()">+ Year</button>`;
+  tabs.innerHTML = html;
+}
+
+function renderW2Year(idx){
+  const y = state.w2.years[idx];
+  if(!y) return;
+  const content = document.getElementById('w2-year-content');
+
+  content.innerHTML = `
+    <div class="card">
+      <div class="card-title">📄 Document Upload — W-2 Year ${y.year}</div>
+      <div id="dz-w2-${idx}"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">✏️ Manual Entry — W-2</div>
+      <div class="inline-row">
+        <span class="field-label">Tax Year</span>
+        <input class="field-input" style="width:90px" value="${y.year}" onchange="w2SetYear(${idx},this.value)">
+      </div>
+      <div class="field-grid">
+        <div class="field-group">
+          <label class="field-label">Box 1 — Wages, Tips, Other Comp</label>
+          <input class="field-input" id="w2-box1-${idx}" placeholder="0.00" value="${y.box1||''}" oninput="w2Update(${idx},'box1',this.value)">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Box 5 — Medicare Wages</label>
+          <input class="field-input" id="w2-box5-${idx}" placeholder="0.00" value="${y.box5||''}" oninput="w2Update(${idx},'box5',this.value)">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Box 12 — Deferred Comp (Code D/E/AA)</label>
+          <input class="field-input" id="w2-box12-${idx}" placeholder="0.00" value="${y.box12||''}" oninput="w2Update(${idx},'box12',this.value)">
+        </div>
+      </div>
+      <div id="w2-year-result-${idx}"></div>
+    </div>`;
+
+  buildDropZone(`dz-w2-${idx}`, ['W-2','Verification of Employment'], 'w2', (ext)=>{
+    if(ext.box1_wages) w2Update(idx,'box1',ext.box1_wages);
+    if(ext.box5_medicare) w2Update(idx,'box5',ext.box5_medicare);
+    if(ext.box12_deferred) w2Update(idx,'box12',ext.box12_deferred);
+    if(ext.tax_year){ state.w2.years[idx].year=parseInt(ext.tax_year); renderW2Tabs(); }
+    document.getElementById('w2-box1-'+idx) && (document.getElementById('w2-box1-'+idx).value = state.w2.years[idx].box1||'');
+    document.getElementById('w2-box5-'+idx) && (document.getElementById('w2-box5-'+idx).value = state.w2.years[idx].box5||'');
+    recalcW2();
+  });
+
+  renderW2YearResult(idx);
+  renderW2QBar();
+}
+
+function w2Update(idx, field, val){
+  state.w2.years[idx][field] = val;
+  renderW2YearResult(idx);
+  renderW2Tabs();
+  renderW2QBar();
+  updateBadge('w2');
+}
+
+function w2SetYear(idx, val){
+  state.w2.years[idx].year = val;
+  renderW2Tabs();
+}
+
+function switchW2Year(idx){
+  state.w2.activeYear = idx;
+  renderW2Tabs();
+  renderW2Year(idx);
+}
+
+function addW2Year(){
+  const minYear = Math.min(...state.w2.years.map(y=>parseInt(y.year)));
+  state.w2.years.push({year:minYear-1, box1:'', box5:'', box12:'', docs:[]});
+  switchW2Year(state.w2.years.length-1);
+}
+
+function calcW2Monthly(y){
+  const box1 = parseNum(y.box1);
+  return box1 ? box1/12 : null;
+}
+
+function renderW2YearResult(idx){
+  const y = state.w2.years[idx];
+  const el = document.getElementById(`w2-year-result-${idx}`);
+  if(!el) return;
+  const m = calcW2Monthly(y);
+  if(!m){ el.innerHTML=''; return; }
+  el.innerHTML = `<div class="calc-result"><div><div class="cr-label">${y.year} Annual → Monthly</div><div class="cr-note">${fmt(parseNum(y.box1))} ÷ 12</div></div><div class="cr-value">${fmt(m)}/mo</div></div>`;
+}
+
+function recalcW2(){ renderW2Tabs(); renderW2YearResult(state.w2.activeYear); renderW2QBar(); }
+
+function getW2Qualifying(){
+  const method = document.getElementById('avg-w2')?.value||'two_year';
+  const calcs = state.w2.years.map(y=>({year:parseInt(y.year),m:calcW2Monthly(y)})).filter(c=>c.m);
+  if(!calcs.length) return null;
+  return applyMethod(calcs, method);
+}
+
+function renderW2QBar(){
+  const el = document.getElementById('w2-q-bar');
+  if(!el) return;
+  const v = getW2Qualifying();
+  const method = document.getElementById('avg-w2')?.value||'two_year';
+  el.innerHTML = v ? qBar('W-2 Qualifying Monthly Income', v, method) : '';
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// HOURLY SECTION
+// ═══════════════════════════════════════════════════════════════════════════════
+function initHourly(){
+  buildDropZone('dz-hourly',['Pay Stub','VOE'],'hourly',(ext)=>{
+    if(ext.ytd_gross){ document.getElementById('h-ytd').value=ext.ytd_gross; }
+    if(ext.pay_period_gross){ document.getElementById('h-period').value=ext.pay_period_gross; }
+    if(ext.hourly_rate){ document.getElementById('h-rate').value=ext.hourly_rate; }
+    if(ext.hours_per_week){ document.getElementById('h-hours').value=ext.hours_per_week; }
+    if(ext.ytd_months_elapsed){ document.getElementById('h-ytd-months').value=ext.ytd_months_elapsed; }
+    if(ext.pay_frequency){
+      const map={weekly:'52',biweekly:'26',semimonthly:'24',monthly:'12'};
+      const sel=document.getElementById('h-freq');
+      if(sel && map[ext.pay_frequency]) sel.value=map[ext.pay_frequency];
+    }
+    recalcHourly();
+  });
+}
+
+function recalcHourly(){
+  const freq = parseInt(document.getElementById('h-freq')?.value||26);
+  const period = parseNum(document.getElementById('h-period')?.value);
+  const ytd = parseNum(document.getElementById('h-ytd')?.value);
+  const ytdM = parseNum(document.getElementById('h-ytd-months')?.value);
+  const rate = parseNum(document.getElementById('h-rate')?.value);
+  const hours = parseNum(document.getElementById('h-hours')?.value)||40;
+
+  const ytdMethod = ytd && ytdM ? ytd/ytdM : null;
+  const periodMethod = period ? (period*freq)/12 : null;
+  const rateMethod = rate ? (rate*hours*52)/12 : null;
+
+  let html = '';
+  if(ytdMethod) html += `<div class="calc-result"><div><div class="cr-label">YTD Method</div><div class="cr-note">${fmt(ytd)} ÷ ${ytdM} months</div></div><div class="cr-value">${fmt(ytdMethod)}/mo</div></div>`;
+  if(periodMethod) html += `<div class="calc-result alt2"><div><div class="cr-label">Period × Frequency</div><div class="cr-note">${fmt(period)} × ${freq} ÷ 12</div></div><div class="cr-value">${fmt(periodMethod)}/mo</div></div>`;
+  if(rateMethod) html += `<div class="calc-result alt2"><div><div class="cr-label">Hourly Rate Method</div><div class="cr-note">$${document.getElementById('h-rate')?.value}/hr × ${hours}hrs × 52 ÷ 12</div></div><div class="cr-value">${fmt(rateMethod)}/mo</div></div>`;
+
+  const res = document.getElementById('hourly-results');
+  if(res) res.innerHTML = html;
+
+  const method = document.getElementById('avg-hourly')?.value||'ytd';
+  let qualifying = null;
+  if(method==='ytd') qualifying = ytdMethod || periodMethod || rateMethod;
+  else if(method==='recent') qualifying = periodMethod || ytdMethod || rateMethod;
+  else qualifying = rateMethod || ytdMethod || periodMethod;
+
+  const qbar = document.getElementById('hourly-q-bar');
+  if(qbar) qbar.innerHTML = qualifying ? qBar('Hourly Qualifying Monthly Income', qualifying, method) : '';
+  updateBadge('hourly');
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// SCHEDULE C SECTION
+// ═══════════════════════════════════════════════════════════════════════════════
+function initSchC(){
+  renderSchCTabs();
+  renderSchCYear(0);
+}
+
+function renderSchCTabs(){
+  const tabs = document.getElementById('schc-year-tabs');
+  if(!tabs) return;
+  let html = state.schc.years.map((y,i)=>{
+    const m = calcSchCMonthly(y);
+    const label = m ? `${y.year} · ${fmt(m)}/mo` : y.year;
+    return `<button class="year-tab${state.schc.activeYear===i?' active':''}" onclick="switchSchCYear(${i})">${label}</button>`;
+  }).join('');
+  html += `<button class="add-year-btn" onclick="addSchCYear()">+ Year</button>`;
+  tabs.innerHTML = html;
+}
+
+function renderSchCYear(idx){
+  const y = state.schc.years[idx];
+  const content = document.getElementById('schc-year-content');
+  content.innerHTML = `
+    <div class="card">
+      <div class="card-title">📄 Document Upload — 1040 with Schedule C (${y.year})</div>
+      <div id="dz-schc-${idx}"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">✏️ Schedule C — Manual Entry</div>
+      <div class="inline-row">
+        <span class="field-label">Tax Year</span>
+        <input class="field-input" style="width:90px" value="${y.year}" onchange="schcSetYear(${idx},this.value)">
+      </div>
+      <div class="field-grid">
+        <div class="field-group">
+          <label class="field-label">Line 31 — Net Profit / (Loss)</label>
+          <input class="field-input" placeholder="0.00" value="${y.netProfit||''}" oninput="schcUpdate(${idx},'netProfit',this.value)">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Depreciation (Form 4562)</label>
+          <input class="field-input" placeholder="0.00" value="${y.depreciation||''}" oninput="schcUpdate(${idx},'depreciation',this.value)">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Depletion Add-back</label>
+          <input class="field-input" placeholder="0.00" value="${y.depletion||''}" oninput="schcUpdate(${idx},'depletion',this.value)">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Non-recurring Mileage</label>
+          <input class="field-input" placeholder="0.00" value="${y.mileage||''}" oninput="schcUpdate(${idx},'mileage',this.value)">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Meals (50% add-back)</label>
+          <input class="field-input" placeholder="0.00" value="${y.meals||''}" oninput="schcUpdate(${idx},'meals',this.value)">
+        </div>
+      </div>
+      <div id="schc-year-result-${idx}"></div>
+    </div>`;
+
+  buildDropZone(`dz-schc-${idx}`,['1040 w/ Sch. C','1099-NEC'],'sch_c',(ext)=>{
+    const u = (k,v)=>{if(v!=null){state.schc.years[idx][k]=v;}};
+    u('netProfit',ext.net_profit); u('depreciation',ext.depreciation);
+    u('depletion',ext.depletion); u('meals',ext.meals_50pct); u('mileage',ext.mileage_deduction);
+    if(ext.tax_year){ state.schc.years[idx].year=parseInt(ext.tax_year); renderSchCTabs(); }
+    renderSchCYear(idx);
+  });
+
+  renderSchCYearResult(idx);
+  renderSchCQBar();
+}
+
+function schcUpdate(idx, field, val){
+  state.schc.years[idx][field]=val;
+  renderSchCYearResult(idx); renderSchCTabs(); renderSchCQBar(); updateBadge('sch_c');
+}
+function schcSetYear(idx,val){ state.schc.years[idx].year=val; renderSchCTabs(); }
+function switchSchCYear(idx){ state.schc.activeYear=idx; renderSchCTabs(); renderSchCYear(idx); }
+function addSchCYear(){
+  const minYear=Math.min(...state.schc.years.map(y=>parseInt(y.year)));
+  state.schc.years.push({year:minYear-1,netProfit:'',depreciation:'',depletion:'',mileage:'',meals:'',docs:[]});
+  switchSchCYear(state.schc.years.length-1);
+}
+
+function calcSchCAnnual(y){
+  return parseNum(y.netProfit)+parseNum(y.depreciation)+parseNum(y.depletion)+parseNum(y.mileage)+parseNum(y.meals);
+}
+function calcSchCMonthly(y){ const a=calcSchCAnnual(y); return a?a/12:null; }
+
+function renderSchCYearResult(idx){
+  const y=state.schc.years[idx];
+  const el=document.getElementById(`schc-year-result-${idx}`);
+  if(!el) return;
+  const m=calcSchCMonthly(y);
+  if(!m){el.innerHTML='';return;}
+  const net=parseNum(y.netProfit), addbacks=calcSchCAnnual(y)-net;
+  el.innerHTML=`<div class="calc-result"><div><div class="cr-label">${y.year} Qualifying Annual → Monthly</div><div class="cr-note">${fmt(net)} net + ${fmt(addbacks)} add-backs = ${fmt(calcSchCAnnual(y))} ÷ 12</div></div><div class="cr-value">${fmt(m)}/mo</div></div>`;
+}
+
+function recalcSchC(){ renderSchCTabs(); renderSchCYearResult(state.schc.activeYear); renderSchCQBar(); }
+
+function getSchCQualifying(){
+  const method=document.getElementById('avg-sch_c')?.value||'two_year';
+  const calcs=state.schc.years.map(y=>({year:parseInt(y.year),m:calcSchCMonthly(y)})).filter(c=>c.m);
+  if(!calcs.length) return null;
+  return applyMethod(calcs,method);
+}
+
+function renderSchCQBar(){
+  const el=document.getElementById('schc-q-bar');
+  if(!el) return;
+  const v=getSchCQualifying();
+  const method=document.getElementById('avg-sch_c')?.value||'two_year';
+  el.innerHTML = v ? qBar('Schedule C Qualifying Monthly Income',v,method) : '';
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// BUSINESS SECTION
+// ═══════════════════════════════════════════════════════════════════════════════
+function initBiz(){
+  renderBizTabs();
+  renderBizYear(0);
+}
+
+function renderBizTabs(){
+  const tabs=document.getElementById('biz-year-tabs');
+  if(!tabs) return;
+  let html=state.biz.years.map((y,i)=>{
+    const m=calcBizMonthly(y);
+    const label=m ? `${y.type} ${y.year} · ${fmt(m)}/mo` : `${y.type} ${y.year}`;
+    return `<button class="year-tab${state.biz.activeYear===i?' active':''}" onclick="switchBizYear(${i})">${label}</button>`;
+  }).join('');
+  html+=`<button class="add-year-btn" onclick="addBizYear()">+ Year</button>`;
+  tabs.innerHTML=html;
+}
+
+function renderBizYear(idx){
+  const y=state.biz.years[idx];
+  const content=document.getElementById('biz-year-content');
+  content.innerHTML=`
+    <div class="card">
+      <div class="card-title">📄 Document Upload — Business Return (${y.year})</div>
+      <div id="dz-biz-${idx}"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">✏️ ${y.type} Return — Manual Entry</div>
+      <div class="inline-row" style="gap:16px;margin-bottom:14px">
+        <div style="display:flex;align-items:center;gap:8px">
+          <span class="field-label">Tax Year</span>
+          <input class="field-input" style="width:90px" value="${y.year}" onchange="bizSetField(${idx},'year',this.value)">
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span class="field-label">Return Type</span>
+          <select class="field-select" style="width:130px" onchange="bizSetField(${idx},'type',this.value)">
+            <option value="1120S"${y.type==='1120S'?' selected':''}>1120S (S-Corp)</option>
+            <option value="1065"${y.type==='1065'?' selected':''}>1065 (Partnership)</option>
+          </select>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span class="field-label">Ownership %</span>
+          <input class="field-input" style="width:80px" value="${y.ownerPct||'100'}" onchange="bizUpdate(${idx},'ownerPct',this.value)">
+        </div>
+      </div>
+      <div class="field-grid">
+        <div class="field-group">
+          <label class="field-label">Ordinary Income (Sch. K Line 1)</label>
+          <input class="field-input" placeholder="0.00" value="${y.ordIncome||''}" oninput="bizUpdate(${idx},'ordIncome',this.value)">
+        </div>
+        <div class="field-group">
+          <label class="field-label">W-2 Wages Paid to Borrower</label>
+          <input class="field-input" placeholder="0.00" value="${y.w2wages||''}" oninput="bizUpdate(${idx},'w2wages',this.value)">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Depreciation Add-back</label>
+          <input class="field-input" placeholder="0.00" value="${y.depreciation||''}" oninput="bizUpdate(${idx},'depreciation',this.value)">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Depletion Add-back</label>
+          <input class="field-input" placeholder="0.00" value="${y.depletion||''}" oninput="bizUpdate(${idx},'depletion',this.value)">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Amortization Add-back</label>
+          <input class="field-input" placeholder="0.00" value="${y.amortization||''}" oninput="bizUpdate(${idx},'amortization',this.value)">
+        </div>
+      </div>
+      <div id="biz-year-result-${idx}"></div>
+    </div>`;
+
+  buildDropZone(`dz-biz-${idx}`,['1120S','1065','K-1'],'business',(ext)=>{
+    const u=(k,v)=>{if(v!=null) state.biz.years[idx][k]=v;};
+    u('ordIncome',ext.ordinary_income); u('w2wages',ext.w2_wages_paid);
+    u('depreciation',ext.depreciation); u('depletion',ext.depletion); u('amortization',ext.amortization);
+    if(ext.tax_year) state.biz.years[idx].year=parseInt(ext.tax_year);
+    if(ext.return_type) state.biz.years[idx].type=ext.return_type;
+    renderBizYear(idx); renderBizTabs();
+  });
+
+  renderBizYearResult(idx);
+  renderBizQBar();
+}
+
+function bizUpdate(idx,field,val){
+  state.biz.years[idx][field]=val;
+  renderBizYearResult(idx); renderBizTabs(); renderBizQBar(); updateBadge('business');
+}
+function bizSetField(idx,field,val){ state.biz.years[idx][field]=val; renderBizTabs(); renderBizYear(idx); }
+function switchBizYear(idx){ state.biz.activeYear=idx; renderBizTabs(); renderBizYear(idx); }
+function addBizYear(){
+  const minYear=Math.min(...state.biz.years.map(y=>parseInt(y.year)));
+  state.biz.years.push({year:minYear-1,type:state.biz.years[0]?.type||'1120S',ordIncome:'',w2wages:'',depreciation:'',depletion:'',amortization:'',ownerPct:'100',docs:[]});
+  switchBizYear(state.biz.years.length-1);
+}
+
+function calcBizAnnual(y){
+  const pct=parseNum(y.ownerPct||100)/100;
+  return (parseNum(y.ordIncome)+parseNum(y.depreciation)+parseNum(y.depletion)+parseNum(y.amortization))*pct;
+}
+function calcBizMonthly(y){ const a=calcBizAnnual(y); return a?a/12:null; }
+
+function renderBizYearResult(idx){
+  const y=state.biz.years[idx];
+  const el=document.getElementById(`biz-year-result-${idx}`);
+  if(!el) return;
+  const m=calcBizMonthly(y);
+  if(!m){el.innerHTML='';return;}
+  el.innerHTML=`<div class="calc-result"><div><div class="cr-label">${y.year} Adjusted Business Income (× ${y.ownerPct||100}%)</div><div class="cr-note">${fmt(calcBizAnnual(y))} annual ÷ 12</div></div><div class="cr-value">${fmt(m)}/mo</div></div>`;
+}
+
+function recalcBusiness(){ renderBizTabs(); renderBizYearResult(state.biz.activeYear); renderBizQBar(); }
+
+function getBizQualifying(){
+  const method=document.getElementById('avg-business')?.value||'two_year';
+  const calcs=state.biz.years.map(y=>({year:parseInt(y.year),m:calcBizMonthly(y)})).filter(c=>c.m);
+  if(!calcs.length) return null;
+  return applyMethod(calcs,method);
+}
+
+function renderBizQBar(){
+  const el=document.getElementById('biz-q-bar');
+  if(!el) return;
+  const v=getBizQualifying();
+  const method=document.getElementById('avg-business')?.value||'two_year';
+  el.innerHTML = v ? qBar('Business Return Qualifying Monthly Income',v,method) : '';
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// SOCIAL SECURITY SECTION
+// ═══════════════════════════════════════════════════════════════════════════════
+function initSS(){
+  buildDropZone('dz-ss',['SSA Award Letter','SSA-1099','Benefit Verification'],'ss',(ext)=>{
+    if(ext.monthly_benefit) document.getElementById('ss-monthly').value=ext.monthly_benefit;
+    if(ext.gross_annual) document.getElementById('ss-annual').value=ext.gross_annual;
+    if(ext.benefit_type){
+      const sel=document.getElementById('ss-type');
+      if(sel) sel.value=ext.benefit_type;
+    }
+    recalcSS();
+  });
+}
+
+function recalcSS(){
+  const monthly=parseNum(document.getElementById('ss-monthly')?.value);
+  const annual=parseNum(document.getElementById('ss-annual')?.value);
+  const base=monthly||(annual/12)||0;
+  const grossed=base*1.25;
+
+  const res=document.getElementById('ss-results');
+  if(res){
+    if(base){
+      res.innerHTML=`
+        <div class="calc-result"><div><div class="cr-label">Monthly Benefit (as-stated)</div><div class="cr-note">Non-taxable SS income — gross-up may apply</div></div><div class="cr-value">${fmt(base)}/mo</div></div>
+        <div class="calc-result alt"><div><div class="cr-label">Conventional Gross-Up (125%)</div><div class="cr-note">${fmt(base)} × 1.25 — use when non-taxable</div></div><div class="cr-value blue">${fmt(grossed)}/mo</div></div>`;
+    } else {
+      res.innerHTML='';
+    }
+  }
+
+  const qbar=document.getElementById('ss-q-bar');
+  if(qbar) qbar.innerHTML = base ? qBar('SS / Disability Qualifying Monthly Income',grossed,'Gross-Up Applied (125%)') : '';
+  updateBadge('ss');
+}
+
+function getSSQualifying(){
+  const monthly=parseNum(document.getElementById('ss-monthly')?.value);
+  const annual=parseNum(document.getElementById('ss-annual')?.value);
+  const base=monthly||(annual/12)||0;
+  return base ? base*1.25 : null;
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════════════════════════════════════════════
+function applyMethod(calcs, method){
+  const sorted=[...calcs].sort((a,b)=>b.year-a.year);
+  if(method==='recent'||method==='ytd') return sorted[0]?.m;
+  if(method==='two_year'){
+    const top2=sorted.slice(0,2);
+    return top2.reduce((s,c)=>s+c.m,0)/top2.length;
+  }
+  if(method==='lower') return Math.min(...calcs.map(c=>c.m));
+  return sorted[0]?.m;
+}
+
+const METHOD_LABELS = {
+  recent:'Most Recent Year',two_year:'2-Year Average',
+  lower:'Lower of 2 Years',ytd:'YTD / Current',
+  'Gross-Up Applied (125%)':'Gross-Up Applied (125%)',
+  hourly_rate:'Hourly Rate Method'
+};
+
+function methodLabel(m){ return METHOD_LABELS[m]||m; }
+
+function qBar(label, value, method){
+  return `<div class="q-bar"><div><div class="qb-label">${label}</div><div class="qb-method">${methodLabel(method)}</div></div><div><div class="qb-value">${fmt(value)}</div><div class="qb-per">/ month</div></div></div>`;
+}
+
+function updateBadge(type){
+  const badge=document.getElementById('badge-'+type);
+  if(!badge) return;
+  let hasData=false;
+  if(type==='w2') hasData=state.w2.years.some(y=>parseNum(y.box1));
+  else if(type==='hourly') hasData=!!(parseNum(document.getElementById('h-ytd')?.value)||parseNum(document.getElementById('h-period')?.value)||parseNum(document.getElementById('h-rate')?.value));
+  else if(type==='sch_c') hasData=state.schc.years.some(y=>parseNum(y.netProfit));
+  else if(type==='business') hasData=state.biz.years.some(y=>parseNum(y.ordIncome));
+  else if(type==='ss') hasData=!!(parseNum(document.getElementById('ss-monthly')?.value)||parseNum(document.getElementById('ss-annual')?.value));
+  badge.style.display=hasData?'':'none';
+}
+
+function updateSummaryHeader(){ /* handled in renderSummary */ }
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// SUMMARY PAGE
+// ═══════════════════════════════════════════════════════════════════════════════
+function renderSummary(){
+  const rows=[
+    {label:'W-2 / Base Salary',icon:'📋',value:getW2Qualifying(),method:document.getElementById('avg-w2')?.value||'two_year'},
+    {label:'Hourly / Pay Stubs',icon:'⏱',value:getHourlyQualifying(),method:'ytd'},
+    {label:'Schedule C (Self-Employed)',icon:'📊',value:getSchCQualifying(),method:document.getElementById('avg-sch_c')?.value||'two_year'},
+    {label:'Business Returns',icon:'🏢',value:getBizQualifying(),method:document.getElementById('avg-business')?.value||'two_year'},
+    {label:'Social Security / Disability',icon:'🛡',value:getSSQualifying(),method:'Gross-Up Applied (125%)'},
+  ].filter(r=>r.value);
+
+  const total=rows.reduce((s,r)=>s+r.value,0);
+  const borrower=document.getElementById('borrowerName')?.value||'Borrower';
+  const el=document.getElementById('summary-content');
+
+  if(!rows.length){
+    el.innerHTML=`<div class="empty"><div class="empty-icon">📋</div><div class="empty-title">No income data entered yet</div><div style="font-size:13px">Use the income type tabs on the left to enter or upload income documents.</div></div>`;
+    return;
+  }
+
+  const cards=rows.map(r=>`
+    <div class="sum-card">
+      <div class="sum-card-label">${r.icon} ${r.label}</div>
+      <div class="sum-card-value">${fmt(r.value)}</div>
+      <div class="sum-card-method">per month · ${methodLabel(r.method)}</div>
+    </div>`).join('');
+
+  const tableRows=rows.map(r=>`
+    <tr>
+      <td>${r.icon} ${r.label}</td>
+      <td class="amt">${fmt(r.value)}</td>
+      <td class="amt">${fmt(r.value*12)}</td>
+      <td style="color:var(--text4);font-size:12px;font-family:var(--mono)">${methodLabel(r.method)}</td>
+    </tr>`).join('');
+
+  el.innerHTML=`
+    <div class="total-bar">
+      <div>
+        <div class="tb-label">Total Qualifying Monthly Income</div>
+        <div class="tb-sub">${borrower} · Combined all sources</div>
+      </div>
+      <div class="tb-value">${fmt(total)}</div>
+    </div>
+    <div class="summary-grid">${cards}</div>
+    <div class="card">
+      <div class="card-title">📑 Full Breakdown</div>
+      <table>
+        <thead><tr><th>Income Source</th><th>Monthly</th><th>Annual</th><th>Method</th></tr></thead>
+        <tbody>
+          ${tableRows}
+          <tr>
+            <td class="total-row">TOTAL QUALIFYING</td>
+            <td class="total-amt">${fmt(total)}</td>
+            <td class="total-amt">${fmt(total*12)}</td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>`;
+}
+
+function getHourlyQualifying(){
+  const freq=parseInt(document.getElementById('h-freq')?.value||26);
+  const period=parseNum(document.getElementById('h-period')?.value);
+  const ytd=parseNum(document.getElementById('h-ytd')?.value);
+  const ytdM=parseNum(document.getElementById('h-ytd-months')?.value);
+  const rate=parseNum(document.getElementById('h-rate')?.value);
+  const hours=parseNum(document.getElementById('h-hours')?.value)||40;
+  if(ytd&&ytdM) return ytd/ytdM;
+  if(period) return (period*freq)/12;
+  if(rate) return (rate*hours*52)/12;
+  return null;
+}
+
+// ── INIT ───────────────────────────────────────────────────────────────────────
+window.addEventListener('DOMContentLoaded',()=>{
+  initW2();
+  initHourly();
+  initSchC();
+  initBiz();
+  initSS();
+});
+</script>
+</body>
+</html>
