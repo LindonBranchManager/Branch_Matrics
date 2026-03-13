@@ -15,6 +15,9 @@
       --shadow:0 2px 16px rgba(13,35,64,.08);
       --shadow-lg:0 8px 40px rgba(13,35,64,.15);
       --r:12px;--r-sm:8px;
+      --sales-light:#2a5fa8;
+      --ops-green:#1a5c3a;--ops-green-light:#2a7a50;
+      --forms-purple:#4a2880;--forms-purple-pale:#f0ebfa;
     }
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     html{scroll-behavior:smooth}
@@ -53,30 +56,40 @@
     .content-layout{display:grid;grid-template-columns:1fr 320px;gap:32px;align-items:start}
 
     /* SECTION HEADERS */
-    .section-hdr{display:flex;align-items:center;gap:14px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border)}
-    .section-hdr-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
-    .section-hdr-icon.lo{background:rgba(13,35,64,.08)}
-    .section-hdr-icon.ops{background:rgba(201,168,76,.12)}
-    .section-hdr-icon.life{background:rgba(26,122,74,.1)}
+    .section-hdr{display:flex;align-items:center;gap:14px;margin-bottom:16px;padding-bottom:12px;border-bottom:2px solid var(--border)}
+    .section-hdr-icon{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+    .section-hdr-icon.sales   {background:rgba(30,70,120,.1)}
+    .section-hdr-icon.ops-tool{background:rgba(26,92,58,.1)}
+    .section-hdr-icon.ops     {background:rgba(201,168,76,.12)}
+    .section-hdr-icon.forms   {background:rgba(74,40,128,.09)}
+    .section-hdr-icon.life    {background:rgba(26,122,74,.1)}
     .section-hdr h2{font-family:'Cormorant Garamond',serif;font-size:21px;font-weight:600;color:var(--navy)}
     .section-hdr p{font-size:11.5px;color:var(--text-muted);margin-top:1px}
-    .section-hdr .section-count{margin-left:auto;font-size:10.5px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--text-muted);white-space:nowrap}
+    .section-count{margin-left:auto;font-size:10.5px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--text-muted);white-space:nowrap;background:var(--cream);padding:3px 10px;border-radius:20px}
 
-    /* LO TOOLKIT - 3 col */
+    /* TOOL CARDS — 3-col */
     .tool-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:32px}
     .tool-card{background:var(--white);border:1px solid var(--border);border-radius:var(--r);text-decoration:none;padding:16px 18px;display:flex;flex-direction:column;gap:10px;box-shadow:var(--shadow);transition:transform .2s,box-shadow .2s,border-color .2s;position:relative;overflow:hidden}
-    .tool-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--navy),var(--navy-light));opacity:0;transition:opacity .2s}
-    .tool-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg);border-color:rgba(13,35,64,.2)}
+    .tool-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;opacity:0;transition:opacity .2s}
+    .tool-card.sales-card::before{background:linear-gradient(90deg,var(--navy),var(--sales-light))}
+    .tool-card.ops-card::before{background:linear-gradient(90deg,var(--ops-green),var(--ops-green-light))}
+    .tool-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
+    .tool-card.sales-card:hover{border-color:rgba(30,70,120,.22)}
+    .tool-card.ops-card:hover{border-color:rgba(26,92,58,.22)}
     .tool-card:hover::before{opacity:1}
     .tc-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
-    .tc-icon{width:38px;height:38px;border-radius:8px;flex-shrink:0;background:linear-gradient(135deg,var(--navy),var(--navy-light));display:flex;align-items:center;justify-content:center;font-size:18px}
+    .tc-icon{width:38px;height:38px;border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:18px}
+    .tc-icon.sales-icon{background:linear-gradient(135deg,var(--navy),var(--sales-light))}
+    .tc-icon.ops-icon{background:linear-gradient(135deg,var(--ops-green),var(--ops-green-light))}
     .tc-arrow{font-size:18px;color:var(--text-muted);line-height:1;transition:transform .2s,color .2s}
-    .tool-card:hover .tc-arrow{transform:translate(2px,-2px);color:var(--navy)}
+    .tool-card:hover .tc-arrow{transform:translate(2px,-2px)}
+    .sales-card:hover .tc-arrow{color:var(--navy)}
+    .ops-card:hover .tc-arrow{color:var(--ops-green)}
     .tc-name{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:2px}
     .tc-tag{font-size:10.5px;font-weight:600;color:var(--text-muted);letter-spacing:.3px}
     .tc-desc{font-size:11.5px;color:var(--text-muted);line-height:1.6}
 
-    /* BRANCH OPS - 2 col */
+    /* RESOURCE CARDS — 2-col */
     .resource-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:32px}
     .resource-card{background:var(--white);border:1px solid var(--border);border-radius:var(--r);text-decoration:none;padding:16px 18px;display:flex;align-items:flex-start;gap:14px;box-shadow:var(--shadow);transition:transform .2s,box-shadow .2s,border-color .2s}
     .resource-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);border-color:var(--gold)}
@@ -85,6 +98,19 @@
     .rc-name{font-size:13.5px;font-weight:700;color:var(--navy);margin-bottom:3px}
     .rc-desc{font-size:11.5px;color:var(--text-muted);line-height:1.55}
     .rc-cta{font-size:11px;font-weight:600;color:var(--gold);margin-top:7px}
+
+    /* FORM CARDS — 3-col compact */
+    .forms-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:32px}
+    .form-card{background:var(--white);border:1px solid var(--border);border-radius:var(--r-sm);text-decoration:none;padding:13px 15px;display:flex;align-items:center;gap:11px;box-shadow:var(--shadow);transition:transform .18s,box-shadow .18s,border-color .18s;position:relative;overflow:hidden}
+    .form-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--forms-purple),#7b52c8);opacity:0;transition:opacity .18s}
+    .form-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);border-color:rgba(74,40,128,.2)}
+    .form-card:hover::before{opacity:1}
+    .fc-icon{width:34px;height:34px;flex-shrink:0;border-radius:7px;background:var(--forms-purple-pale);display:flex;align-items:center;justify-content:center;font-size:16px}
+    .fc-body{flex:1;min-width:0}
+    .fc-name{font-size:12.5px;font-weight:700;color:var(--navy);margin-bottom:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .fc-tag{font-size:10px;color:var(--text-muted)}
+    .fc-arrow{font-size:14px;color:var(--text-muted);flex-shrink:0;transition:color .18s,transform .18s}
+    .form-card:hover .fc-arrow{color:var(--forms-purple);transform:translateX(2px)}
 
     /* BRANCH LIFE */
     .life-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:12px}
@@ -130,15 +156,15 @@
     footer{background:var(--navy);text-align:center;padding:16px 24px;font-size:11px;color:rgba(255,255,255,.35);letter-spacing:.5px}
 
     @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
-    .tool-card,.resource-card,.life-card{animation:fadeUp .4s ease both}
+    .tool-card,.resource-card,.form-card,.life-card{animation:fadeUp .38s ease both}
     .tool-card:nth-child(1){animation-delay:.04s}.tool-card:nth-child(2){animation-delay:.09s}.tool-card:nth-child(3){animation-delay:.14s}
-    .tool-card:nth-child(4){animation-delay:.19s}.tool-card:nth-child(5){animation-delay:.24s}.tool-card:nth-child(6){animation-delay:.29s}
+    .tool-card:nth-child(4){animation-delay:.19s}.tool-card:nth-child(5){animation-delay:.24s}
     .resource-card:nth-child(1){animation-delay:.05s}.resource-card:nth-child(2){animation-delay:.1s}
-    .resource-card:nth-child(3){animation-delay:.15s}.resource-card:nth-child(4){animation-delay:.2s}
+    .resource-card:nth-child(3){animation-delay:.15s}
     .life-card:nth-child(1){animation-delay:.05s}.life-card:nth-child(2){animation-delay:.1s}
 
-    @media(max-width:900px){.content-layout{grid-template-columns:1fr}.sidebar{order:-1}.tool-grid{grid-template-columns:repeat(2,1fr)}}
-    @media(max-width:560px){main{padding:28px 16px 60px}.hero{padding:28px 20px 24px}header{padding:0 20px}.tool-grid,.resource-grid,.life-grid{grid-template-columns:1fr}}
+    @media(max-width:900px){.content-layout{grid-template-columns:1fr}.sidebar{order:-1}.tool-grid{grid-template-columns:repeat(2,1fr)}.forms-grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:560px){main{padding:28px 16px 60px}.hero{padding:28px 20px 24px}header{padding:0 20px}.tool-grid,.resource-grid,.life-grid,.forms-grid{grid-template-columns:1fr}}
     @media print{header,footer{display:none}}
   </style>
 </head>
@@ -177,7 +203,7 @@
     </div>
     <div class="contact-line">
       <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-      <a href="/cdn-cgi/l/email-protection#9ef5fdedf3fff2f2fbe7dee8f7f2f2fff9fbfdffeef7eafff2b0fdf1f3"><span class="__cf_email__" data-cfemail="3a515949575b56565f437a4c5356565b5d5f595b4a534e5b5614595557">[email&#160;protected]</span></a>
+      <a href="mailto:kc@villagecapital.com">kc@villagecapital.com</a>
     </div>
   </div>
 </div>
@@ -186,96 +212,160 @@
   <div class="content-layout">
     <div>
 
-      <!-- LO TOOLKIT -->
+      <!-- ══════════════════════════════════════════ -->
+      <!--  SALES TOOLS                               -->
+      <!-- ══════════════════════════════════════════ -->
       <div class="section-hdr">
-        <div class="section-hdr-icon lo">🛠️</div>
-        <div><h2>LO Toolkit</h2><p>Quoting, qualification, pipeline, and file prep tools</p></div>
-        <span class="section-count">10 tools</span>
+        <div class="section-hdr-icon sales">💰</div>
+        <div><h2>Sales Tools</h2><p>Quoting, qualification, leads, and rate analysis</p></div>
+        <span class="section-count">5 tools</span>
       </div>
       <div class="tool-grid">
-        <a class="tool-card" href="va-quote-creator.html">
-          <div class="tc-top"><div class="tc-icon">📊</div><span class="tc-arrow">↗</span></div>
+
+        <a class="tool-card sales-card" href="va-quote-creator.html">
+          <div class="tc-top"><div class="tc-icon sales-icon">📊</div><span class="tc-arrow">↗</span></div>
           <div><div class="tc-name">Quote Lab</div><div class="tc-tag">VA · FHA · Conventional</div></div>
           <div class="tc-desc">Side-by-side scenario comparison with printable Pre-Quote and Fees Worksheet.</div>
         </a>
-        <a class="tool-card" href="loan-compass.html">
-          <div class="tc-top"><div class="tc-icon">🧭</div><span class="tc-arrow">↗</span></div>
+
+        <a class="tool-card sales-card" href="loan-compass.html">
+          <div class="tc-top"><div class="tc-icon sales-icon">🧭</div><span class="tc-arrow">↗</span></div>
           <div><div class="tc-name">Loan Compass</div><div class="tc-tag">Qualify · Compare · Recommend</div></div>
           <div class="tc-desc">Enter a borrower scenario and see which programs qualify, which fits best, and why.</div>
         </a>
-        <a class="tool-card" href="rate-watch.html">
-          <div class="tc-top"><div class="tc-icon">📈</div><span class="tc-arrow">↗</span></div>
+
+        <a class="tool-card sales-card" href="income-calculator.html">
+          <div class="tc-top"><div class="tc-icon sales-icon">🧮</div><span class="tc-arrow">↗</span></div>
+          <div><div class="tc-name">Income Calculator</div><div class="tc-tag">W-2 · Self-Employed · Rental</div></div>
+          <div class="tc-desc">Calculate qualifying income from tax returns, pay stubs, and rental schedules.</div>
+        </a>
+
+        <a class="tool-card sales-card" href="rate-watch.html">
+          <div class="tc-top"><div class="tc-icon sales-icon">📈</div><span class="tc-arrow">↗</span></div>
           <div><div class="tc-name">Rate Watch</div><div class="tc-tag">Breakeven · Trigger Rate · Pipeline</div></div>
           <div class="tc-desc">Calculate refi breakeven, find trigger rates, and track your rate-sensitive pipeline.</div>
         </a>
-        <a class="tool-card" href="file-checklist.html">
-          <div class="tc-top"><div class="tc-icon">✅</div><span class="tc-arrow">↗</span></div>
-          <div><div class="tc-name">File Checklist</div><div class="tc-tag">Purchase · Refi · VA · FHA · Conv</div></div>
-          <div class="tc-desc">Build a dynamic document checklist by loan type, income type, and borrower flags.</div>
-        </a>
-        <a class="tool-card" href="lead-pipeline.html">
-          <div class="tc-top"><div class="tc-icon">🎯</div><span class="tc-arrow">↗</span></div>
+
+        <a class="tool-card sales-card" href="lead-pipeline.html">
+          <div class="tc-top"><div class="tc-icon sales-icon">🎯</div><span class="tc-arrow">↗</span></div>
           <div><div class="tc-name">Lead Pipeline</div><div class="tc-tag">Nurture · Follow-Up · PopCX Import</div></div>
           <div class="tc-desc">Track quote-sent leads through your nurture process with call logs and follow-up reminders.</div>
         </a>
-        <a class="tool-card" href="matrix.html">
-          <div class="tc-top"><div class="tc-icon">📋</div><span class="tc-arrow">↗</span></div>
+
+      </div>
+
+      <!-- ══════════════════════════════════════════ -->
+      <!--  OPERATIONAL TOOLS                         -->
+      <!-- ══════════════════════════════════════════ -->
+      <div class="section-hdr">
+        <div class="section-hdr-icon ops-tool">⚙️</div>
+        <div><h2>Operational Tools</h2><p>File prep, workflow, guidelines, and training</p></div>
+        <span class="section-count">4 tools</span>
+      </div>
+      <div class="tool-grid">
+
+        <a class="tool-card ops-card" href="file-checklist.html">
+          <div class="tc-top"><div class="tc-icon ops-icon">✅</div><span class="tc-arrow">↗</span></div>
+          <div><div class="tc-name">File Checklist</div><div class="tc-tag">Purchase · Refi · VA · FHA · Conv</div></div>
+          <div class="tc-desc">Build a dynamic document checklist by loan type, income type, and borrower flags.</div>
+        </a>
+
+        <a class="tool-card ops-card" href="loan-launch-pad.html">
+          <div class="tc-top"><div class="tc-icon ops-icon">🚀</div><span class="tc-arrow">↗</span></div>
+          <div><div class="tc-name">Loan Launch Pad</div><div class="tc-tag">Setup · Submission · Kickoff</div></div>
+          <div class="tc-desc">Step-by-step new loan setup checklist from app received through submission to processing.</div>
+        </a>
+
+        <a class="tool-card ops-card" href="matrix.html">
+          <div class="tc-top"><div class="tc-icon ops-icon">📋</div><span class="tc-arrow">↗</span></div>
           <div><div class="tc-name">Loan Matrix</div><div class="tc-tag">Guidelines · Limits · MIP Tables</div></div>
           <div class="tc-desc">Program guidelines, LTV limits, seasoning, MIP tables, and credit requirements.</div>
         </a>
-        <a class="tool-card" href="loan-submission.html">
-          <div class="tc-top"><div class="tc-icon">📨</div><span class="tc-arrow">↗</span></div>
-          <div><div class="tc-name">New Loan Submission</div><div class="tc-tag">New App · Resubmission · LOA Pipeline</div></div>
-          <div class="tc-desc">Submit a new borrower file directly into the LOA Pipeline tab in Branch Tracker.</div>
+
+        <a class="tool-card ops-card" href="lo-playbook.html">
+          <div class="tc-top"><div class="tc-icon ops-icon">📖</div><span class="tc-arrow">↗</span></div>
+          <div><div class="tc-name">LO Playbook</div><div class="tc-tag">Scripts · Process · Best Practices</div></div>
+          <div class="tc-desc">Call scripts, objection handling, process flows, and branch standards for LOs and LOAs.</div>
         </a>
-        <a class="tool-card" href="lock-request.html">
-          <div class="tc-top"><div class="tc-icon">🔒</div><span class="tc-arrow">↗</span></div>
-          <div><div class="tc-name">Lock / Extension Request</div><div class="tc-tag">New Lock · Extension · PPE</div></div>
-          <div class="tc-desc">Submit a new rate lock or extension request directly into Branch Tracker.</div>
-        </a>
-        <a class="tool-card" href="competing-offer.html">
-          <div class="tc-top"><div class="tc-icon">⚔️</div><span class="tc-arrow">↗</span></div>
-          <div><div class="tc-name">Competing Offer Request</div><div class="tc-tag">LE · CD · Pricing Match</div></div>
-          <div class="tc-desc">Submit a competing offer with PDF upload. LE/CD goes to Drive, row logged in Branch Tracker.</div>
-        </a>
-        <a class="tool-card" href="general-concession.html">
-          <div class="tc-top"><div class="tc-icon">💰</div><span class="tc-arrow">↗</span></div>
-          <div><div class="tc-name">Concession Request</div><div class="tc-tag">Pricing · Recoup · Rate Match</div></div>
-          <div class="tc-desc">Request a general pricing concession for management review. Logged directly in Branch Tracker.</div>
-        </a>
+
       </div>
 
-      <!-- BRANCH OPS -->
+      <!-- ══════════════════════════════════════════ -->
+      <!--  REQUEST FORMS                             -->
+      <!-- ══════════════════════════════════════════ -->
       <div class="section-hdr">
-        <div class="section-hdr-icon ops">⚙️</div>
-        <div><h2>Branch Operations</h2><p>Forms, directory, metrics, and documents</p></div>
-        <span class="section-count">6 resources</span>
+        <div class="section-hdr-icon forms">📬</div>
+        <div><h2>Request Forms</h2><p>Submit exception and approval requests to operations and secondary</p></div>
+        <span class="section-count">9 forms</span>
+      </div>
+      <div class="forms-grid">
+
+        <a class="form-card" href="concession.html">
+          <div class="fc-icon">💲</div>
+          <div class="fc-body"><div class="fc-name">Concession Request</div><div class="fc-tag">Pricing · Lender Credit</div></div>
+          <div class="fc-arrow">→</div>
+        </a>
+
+        <a class="form-card" href="general-concession.html">
+          <div class="fc-icon">📄</div>
+          <div class="fc-body"><div class="fc-name">General Concession</div><div class="fc-tag">Branch-Level Exception</div></div>
+          <div class="fc-arrow">→</div>
+        </a>
+
+        <a class="form-card" href="lock-request.html">
+          <div class="fc-icon">🔒</div>
+          <div class="fc-body"><div class="fc-name">Lock Request</div><div class="fc-tag">Initial Rate Lock</div></div>
+          <div class="fc-arrow">→</div>
+        </a>
+
+        <a class="form-card" href="lock-relock.html">
+          <div class="fc-icon">🔁</div>
+          <div class="fc-body"><div class="fc-name">Re-Lock Request</div><div class="fc-tag">Extension · Re-Price</div></div>
+          <div class="fc-arrow">→</div>
+        </a>
+
+        <a class="form-card" href="appraisal-exception.html">
+          <div class="fc-icon">🏠</div>
+          <div class="fc-body"><div class="fc-name">Appraisal Exception</div><div class="fc-tag">Value · Waiver · PIW</div></div>
+          <div class="fc-arrow">→</div>
+        </a>
+
+        <a class="form-card" href="competing-offer.html">
+          <div class="fc-icon">⚔️</div>
+          <div class="fc-body"><div class="fc-name">Competing Offer</div><div class="fc-tag">Price Match · Retention</div></div>
+          <div class="fc-arrow">→</div>
+        </a>
+
+        <a class="form-card" href="cca-form.html">
+          <div class="fc-icon">📑</div>
+          <div class="fc-body"><div class="fc-name">CCA Form</div><div class="fc-tag">Credit Auth · Compliance</div></div>
+          <div class="fc-arrow">→</div>
+        </a>
+
+        <a class="form-card" href="loa-submission.html">
+          <div class="fc-icon">📤</div>
+          <div class="fc-body"><div class="fc-name">LOA Submission</div><div class="fc-tag">LOA → Processing Handoff</div></div>
+          <div class="fc-arrow">→</div>
+        </a>
+
+        <a class="form-card" href="loan-submission.html">
+          <div class="fc-icon">🏦</div>
+          <div class="fc-body"><div class="fc-name">Loan Submission</div><div class="fc-tag">Submit to Underwriting</div></div>
+          <div class="fc-arrow">→</div>
+        </a>
+
+      </div>
+
+      <!-- ══════════════════════════════════════════ -->
+      <!--  BRANCH OPERATIONS                         -->
+      <!-- ══════════════════════════════════════════ -->
+      <div class="section-hdr">
+        <div class="section-hdr-icon ops">📂</div>
+        <div><h2>Branch Operations</h2><p>Directory, metrics, and document resources</p></div>
+        <span class="section-count">3 resources</span>
       </div>
       <div class="resource-grid">
-        <a class="resource-card" href="competing-offer.html">
-          <div class="rc-icon">⚔️</div>
-          <div class="rc-body">
-            <div class="rc-name">Competing Offer Request</div>
-            <div class="rc-desc">Submit a competing offer with LE/CD upload directly to Drive and Branch Tracker.</div>
-            <div class="rc-cta">Submit →</div>
-          </div>
-        </a>
-        <a class="resource-card" href="general-concession.html">
-          <div class="rc-icon">💲</div>
-          <div class="rc-body">
-            <div class="rc-name">Concession Request</div>
-            <div class="rc-desc">Request a pricing concession with full detail and optional supporting doc upload.</div>
-            <div class="rc-cta">Submit →</div>
-          </div>
-        </a>
-        <a class="resource-card" href="forms.html">
-          <div class="rc-icon">📝</div>
-          <div class="rc-body">
-            <div class="rc-name">Request Forms</div>
-            <div class="rc-desc">Appraisal fee exceptions, DFT requests, and other branch forms.</div>
-            <div class="rc-cta">Open Forms →</div>
-          </div>
-        </a>
+
         <a class="resource-card" href="nmls.html">
           <div class="rc-icon">👥</div>
           <div class="rc-body">
@@ -284,6 +374,7 @@
             <div class="rc-cta">View Directory →</div>
           </div>
         </a>
+
         <a class="resource-card" href="metrics.html">
           <div class="rc-icon">📉</div>
           <div class="rc-body">
@@ -292,6 +383,7 @@
             <div class="rc-cta">View Metrics →</div>
           </div>
         </a>
+
         <a class="resource-card" href="docs.html">
           <div class="rc-icon">📁</div>
           <div class="rc-body">
@@ -300,9 +392,12 @@
             <div class="rc-cta">Open Docs →</div>
           </div>
         </a>
+
       </div>
 
-      <!-- BRANCH LIFE -->
+      <!-- ══════════════════════════════════════════ -->
+      <!--  BRANCH LIFE                               -->
+      <!-- ══════════════════════════════════════════ -->
       <div class="section-hdr">
         <div class="section-hdr-icon life">🌿</div>
         <div><h2>Branch Life</h2><p>Team culture, recognition, and the snack shop</p></div>
@@ -335,9 +430,11 @@
         <div class="announce-footer">Last updated: <span id="last-updated">—</span></div>
       </div>
 
-    </div>
+    </div><!-- end main col -->
 
-    <!-- SIDEBAR -->
+    <!-- ══════════════════════════════════════════ -->
+    <!--  SIDEBAR                                   -->
+    <!-- ══════════════════════════════════════════ -->
     <div class="sidebar">
       <div class="sidebar-card">
         <div class="sidebar-hdr">
@@ -373,7 +470,7 @@
   <p><strong>Village Capital &amp; Investment LLC</strong> · Lindon Branch · Internal Use Only · NMLS #3317</p>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false">
+<script>
   document.getElementById('today-date').textContent = new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
 
   const ANNOUNCE_SHEET_ID = 'YOUR_ANNOUNCE_SHEET_ID_HERE';
@@ -381,15 +478,24 @@
     const display = document.getElementById('announce-display');
     const lastUpd = document.getElementById('last-updated');
     if (ANNOUNCE_SHEET_ID === 'YOUR_ANNOUNCE_SHEET_ID_HERE') {
-      display.innerHTML = '<span style="color:#8a9ab0;font-style:italic">Setup needed — add your Sheet ID to index.html</span>'; return;
+      display.innerHTML = '<span style="color:#8a9ab0;font-style:italic">Setup needed — add your Sheet ID to index.html</span>';
+      return;
     }
     try {
       const url = `https://docs.google.com/spreadsheets/d/${ANNOUNCE_SHEET_ID}/gviz/tq?tqx=out:json&t=${Date.now()}`;
-      const res = await fetch(url);
+      const res  = await fetch(url);
       const text = await res.text();
       const json = JSON.parse(text.substring(47).slice(0,-2));
       const rows = json.table.rows;
       const msg  = rows[0]?.c[0]?.v || 'No announcement posted yet.';
       const date = rows[1]?.c[0]?.v || '';
-      display.style.whiteSpace = 'pre-wrap';
-    
+      display.textContent = msg;
+      if (date) lastUpd.textContent = date;
+    } catch(e) {
+      display.innerHTML = '<span style="color:#8a9ab0;font-style:italic">Could not load announcement.</span>';
+    }
+  }
+  loadAnnouncement();
+</script>
+</body>
+</html>
