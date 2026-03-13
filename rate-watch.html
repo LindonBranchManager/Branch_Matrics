@@ -530,7 +530,12 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
-const db   = firebase.database();
+let db = null;
+try {
+  db = firebase.database();
+} catch(e) {
+  console.warn('Realtime Database not available — pipeline sync disabled. Create the database in Firebase console.', e);
+}
 
 let currentUser = null;
 
@@ -569,6 +574,7 @@ function pipelineRef() {
 }
 
 function loadPipeline() {
+  if (!db) return;
   pipelineRef().on('value', snapshot => {
     const data = snapshot.val();
     pipeline = data ? Object.values(data) : [];
@@ -577,8 +583,7 @@ function loadPipeline() {
 }
 
 function savePipeline() {
-  if (!currentUser) return;
-  // Convert array to keyed object for Firebase
+  if (!currentUser || !db) return;
   const obj = {};
   pipeline.forEach(b => { obj[b.id] = b; });
   pipelineRef().set(obj).catch(err => console.error('Save failed:', err));
@@ -640,6 +645,7 @@ function setMode(m, btn) {
 // SINGLE BORROWER
 // ═══════════════════════════════════════════════════
 function runSingle() {
+  try {
   const name       = document.getElementById('s-name').value||'Borrower';
   const loanType   = document.getElementById('s-loan-type').value;
   const currRate   = parseFloat(document.getElementById('s-curr-rate').value)||0;
@@ -811,6 +817,10 @@ function runSingle() {
   // Show results
   document.getElementById('single-results').style.display = '';
   setTimeout(()=>document.getElementById('single-results').scrollIntoView({behavior:'smooth',block:'start'}),50);
+  } catch(err) {
+    alert('Run error: ' + err.message);
+    console.error(err);
+  }
 }
 
 function oppTierLabel(tier) {
