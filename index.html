@@ -163,7 +163,22 @@
     .resource-card:nth-child(3){animation-delay:.15s}
     .life-card:nth-child(1){animation-delay:.05s}.life-card:nth-child(2){animation-delay:.1s}
 
-    @media(max-width:900px){.content-layout{grid-template-columns:1fr}.sidebar{order:-1}.tool-grid{grid-template-columns:repeat(2,1fr)}.forms-grid{grid-template-columns:repeat(2,1fr)}}
+
+    /* FIREBASE SECTION */
+    .section-hdr-icon.firebase{background:rgba(255,160,0,.12)}
+    .firebase-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:32px}
+    .firebase-card{background:var(--white);border:1px solid var(--border);border-radius:var(--r);text-decoration:none;padding:18px 20px;display:flex;align-items:flex-start;gap:14px;box-shadow:var(--shadow);transition:transform .2s,box-shadow .2s,border-color .2s;position:relative;overflow:hidden}
+    .firebase-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#f57c00,#ffa726);opacity:0;transition:opacity .2s}
+    .firebase-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg);border-color:rgba(255,160,0,.25)}
+    .firebase-card:hover::before{opacity:1}
+    .fb-icon{width:42px;height:42px;border-radius:9px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:20px;background:linear-gradient(135deg,#e65100,#f57c00)}
+    .fb-body{flex:1;min-width:0}
+    .fb-name{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:3px}
+    .fb-tag{font-size:10.5px;font-weight:600;color:var(--text-muted);letter-spacing:.3px;margin-bottom:6px}
+    .fb-desc{font-size:11.5px;color:var(--text-muted);line-height:1.6}
+    .fb-badge{display:inline-flex;align-items:center;gap:4px;font-size:9.5px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:#e65100;background:rgba(255,160,0,.1);border:1px solid rgba(255,160,0,.2);padding:2px 8px;border-radius:10px;margin-top:6px}
+
+    @media(max-width:900px){.content-layout{grid-template-columns:1fr}.sidebar{order:-1}.tool-grid{grid-template-columns:repeat(2,1fr)}.forms-grid{grid-template-columns:repeat(2,1fr)}.firebase-grid{grid-template-columns:1fr}}
     @media(max-width:560px){main{padding:28px 16px 60px}.hero{padding:28px 20px 24px}header{padding:0 20px}.tool-grid,.resource-grid,.life-grid,.forms-grid{grid-template-columns:1fr}}
     @media print{header,footer{display:none}}
   </style>
@@ -203,7 +218,7 @@
     </div>
     <div class="contact-line">
       <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-      <a href="mailto:kc@villagecapital.com">kc@villagecapital.com</a>
+      <a href="mailto:kcsmalley@villagecapital.com" style="color:rgba(255,255,255,.68);text-decoration:none">kcsmalley@villagecapital.com</a>
     </div>
   </div>
 </div>
@@ -211,6 +226,58 @@
 <main>
   <div class="content-layout">
     <div>
+
+      <!-- ══════════════════════════════════════════ -->
+      <!--  PIPELINE & OPERATIONS (Firebase)           -->
+      <!-- ══════════════════════════════════════════ -->
+      <div class="section-hdr">
+        <div class="section-hdr-icon firebase">🔥</div>
+        <div><h2>Pipeline &amp; Operations</h2><p>Powered by Firebase · Google login required · Real-time data</p></div>
+        <span class="section-count">4 apps</span>
+      </div>
+      <div class="firebase-grid">
+
+        <a class="firebase-card" href="https://lindonprocessingpipeline.web.app/pipeline.html" target="_blank" rel="noopener">
+          <div class="fb-icon">📋</div>
+          <div class="fb-body">
+            <div class="fb-name">Processing Pipeline</div>
+            <div class="fb-tag">LOA · Setup Tracker · Processing Status</div>
+            <div class="fb-desc">Full loan lifecycle from LOA intake to funded. Real-time checkboxes, notes, and status tracking shared across the whole team.</div>
+            <div class="fb-badge">🔒 Login Required</div>
+          </div>
+        </a>
+
+        <a class="firebase-card" href="https://lindonprocessingpipeline.web.app/loan-submission.html" target="_blank" rel="noopener">
+          <div class="fb-icon">📝</div>
+          <div class="fb-body">
+            <div class="fb-name">New Loan Submission</div>
+            <div class="fb-tag">LOA Pipeline · Intake Form</div>
+            <div class="fb-desc">Submit a new loan directly into the LOA Pipeline. All 10 sections — borrower info, credit auth, employment, income, and notes.</div>
+            <div class="fb-badge">🔒 Login Required</div>
+          </div>
+        </a>
+
+        <a class="firebase-card" href="https://lindonprocessingpipeline.web.app/operations-request.html" target="_blank" rel="noopener">
+          <div class="fb-icon">⚔️</div>
+          <div class="fb-body">
+            <div class="fb-name">Operations Request</div>
+            <div class="fb-tag">Concession · Competing Offer</div>
+            <div class="fb-desc">Submit a general concession request or competing offer to Secondary. Saves to Firebase and sends a formatted email automatically.</div>
+            <div class="fb-badge">🔒 Login Required</div>
+          </div>
+        </a>
+
+        <a class="firebase-card" href="https://lindonprocessingpipeline.web.app/rate-watch.html" target="_blank" rel="noopener">
+          <div class="fb-icon">📡</div>
+          <div class="fb-body">
+            <div class="fb-name">Rate Watch</div>
+            <div class="fb-tag">Breakeven · Trigger Rate · LO Pipeline</div>
+            <div class="fb-desc">Analyze refi scenarios with discount point adjustment per rate step. Save borrowers to your private pipeline — each LO sees only their own.</div>
+            <div class="fb-badge">🔒 Login Required</div>
+          </div>
+        </a>
+
+      </div>
 
       <!-- ══════════════════════════════════════════ -->
       <!--  SALES TOOLS                               -->
@@ -222,7 +289,7 @@
       </div>
       <div class="tool-grid">
 
-        <a class="tool-card sales-card" href="va-quote-creator.html">
+        <a class="tool-card sales-card" href="https://lindonprocessingpipeline.web.app/quote-lab.html" target="_blank" rel="noopener">
           <div class="tc-top"><div class="tc-icon sales-icon">📊</div><span class="tc-arrow">↗</span></div>
           <div><div class="tc-name">Quote Lab</div><div class="tc-tag">VA · FHA · Conventional</div></div>
           <div class="tc-desc">Side-by-side scenario comparison with printable Pre-Quote and Fees Worksheet.</div>
@@ -234,16 +301,18 @@
           <div class="tc-desc">Enter a borrower scenario and see which programs qualify, which fits best, and why.</div>
         </a>
 
-        <a class="tool-card sales-card" href="income-calculator.html">
-          <div class="tc-top"><div class="tc-icon sales-icon">🧮</div><span class="tc-arrow">↗</span></div>
-          <div><div class="tc-name">Income Calculator</div><div class="tc-tag">W-2 · Self-Employed · Rental</div></div>
-          <div class="tc-desc">Calculate qualifying income from tax returns, pay stubs, and rental schedules.</div>
-        </a>
 
-        <a class="tool-card sales-card" href="rate-watch.html">
+
+        <a class="tool-card sales-card" href="https://lindonprocessingpipeline.web.app/rate-watch.html" target="_blank" rel="noopener">
           <div class="tc-top"><div class="tc-icon sales-icon">📈</div><span class="tc-arrow">↗</span></div>
           <div><div class="tc-name">Rate Watch</div><div class="tc-tag">Breakeven · Trigger Rate · Pipeline</div></div>
           <div class="tc-desc">Calculate refi breakeven, find trigger rates, and track your rate-sensitive pipeline.</div>
+        </a>
+
+        <a class="tool-card sales-card" href="lo-playbook.html">
+          <div class="tc-top"><div class="tc-icon sales-icon">📖</div><span class="tc-arrow">↗</span></div>
+          <div><div class="tc-name">LO Playbook</div><div class="tc-tag">Scripts · Process · Best Practices</div></div>
+          <div class="tc-desc">Call scripts, objection handling, process flows, and branch standards for LOs and LOAs.</div>
         </a>
 
         <a class="tool-card sales-card" href="lead-pipeline.html">
@@ -264,6 +333,12 @@
       </div>
       <div class="tool-grid">
 
+        <a class="tool-card ops-card" href="income-calculator.html">
+          <div class="tc-top"><div class="tc-icon ops-icon">🧮</div><span class="tc-arrow">↗</span></div>
+          <div><div class="tc-name">Income Calculator</div><div class="tc-tag">W-2 · Self-Employed · Rental</div></div>
+          <div class="tc-desc">Calculate qualifying income from tax returns, pay stubs, and rental schedules.</div>
+        </a>
+
         <a class="tool-card ops-card" href="file-checklist.html">
           <div class="tc-top"><div class="tc-icon ops-icon">✅</div><span class="tc-arrow">↗</span></div>
           <div><div class="tc-name">File Checklist</div><div class="tc-tag">Purchase · Refi · VA · FHA · Conv</div></div>
@@ -282,11 +357,7 @@
           <div class="tc-desc">Program guidelines, LTV limits, seasoning, MIP tables, and credit requirements.</div>
         </a>
 
-        <a class="tool-card ops-card" href="lo-playbook.html">
-          <div class="tc-top"><div class="tc-icon ops-icon">📖</div><span class="tc-arrow">↗</span></div>
-          <div><div class="tc-name">LO Playbook</div><div class="tc-tag">Scripts · Process · Best Practices</div></div>
-          <div class="tc-desc">Call scripts, objection handling, process flows, and branch standards for LOs and LOAs.</div>
-        </a>
+
 
       </div>
 
@@ -295,20 +366,20 @@
       <!-- ══════════════════════════════════════════ -->
       <div class="section-hdr">
         <div class="section-hdr-icon forms">📬</div>
-        <div><h2>Request Forms</h2><p>Submit exception and approval requests to operations and secondary</p></div>
+        <div><h2>Request Forms</h2><p>Submit exception and approval requests · Some forms require Firebase login</p></div>
         <span class="section-count">9 forms</span>
       </div>
       <div class="forms-grid">
 
-        <a class="form-card" href="concession.html">
+        <a class="form-card" href="https://lindonprocessingpipeline.web.app/operations-request.html" target="_blank" rel="noopener">
           <div class="fc-icon">💲</div>
-          <div class="fc-body"><div class="fc-name">Concession Request</div><div class="fc-tag">Pricing · Lender Credit</div></div>
+          <div class="fc-body"><div class="fc-name">Concession Request</div><div class="fc-tag">Pricing · Lender Credit · 🔒 Firebase</div></div>
           <div class="fc-arrow">→</div>
         </a>
 
-        <a class="form-card" href="general-concession.html">
+        <a class="form-card" href="https://lindonprocessingpipeline.web.app/operations-request.html" target="_blank" rel="noopener">
           <div class="fc-icon">📄</div>
-          <div class="fc-body"><div class="fc-name">General Concession</div><div class="fc-tag">Branch-Level Exception</div></div>
+          <div class="fc-body"><div class="fc-name">General Concession</div><div class="fc-tag">Branch-Level Exception · 🔒 Firebase</div></div>
           <div class="fc-arrow">→</div>
         </a>
 
@@ -330,9 +401,9 @@
           <div class="fc-arrow">→</div>
         </a>
 
-        <a class="form-card" href="competing-offer.html">
+        <a class="form-card" href="https://lindonprocessingpipeline.web.app/operations-request.html" target="_blank" rel="noopener">
           <div class="fc-icon">⚔️</div>
-          <div class="fc-body"><div class="fc-name">Competing Offer</div><div class="fc-tag">Price Match · Retention</div></div>
+          <div class="fc-body"><div class="fc-name">Competing Offer</div><div class="fc-tag">Price Match · Retention · 🔒 Firebase</div></div>
           <div class="fc-arrow">→</div>
         </a>
 
@@ -342,15 +413,15 @@
           <div class="fc-arrow">→</div>
         </a>
 
-        <a class="form-card" href="loa-submission.html">
+        <a class="form-card" href="https://lindonprocessingpipeline.web.app/loan-submission.html" target="_blank" rel="noopener">
           <div class="fc-icon">📤</div>
-          <div class="fc-body"><div class="fc-name">LOA Submission</div><div class="fc-tag">LOA → Processing Handoff</div></div>
+          <div class="fc-body"><div class="fc-name">LOA Submission</div><div class="fc-tag">LOA → Processing · 🔒 Firebase</div></div>
           <div class="fc-arrow">→</div>
         </a>
 
-        <a class="form-card" href="loan-submission.html">
+        <a class="form-card" href="https://lindonprocessingpipeline.web.app/loan-submission.html" target="_blank" rel="noopener">
           <div class="fc-icon">🏦</div>
-          <div class="fc-body"><div class="fc-name">Loan Submission</div><div class="fc-tag">Submit to Underwriting</div></div>
+          <div class="fc-body"><div class="fc-name">Loan Submission</div><div class="fc-tag">Submit to Pipeline · 🔒 Firebase</div></div>
           <div class="fc-arrow">→</div>
         </a>
 
@@ -489,13 +560,5 @@
       const rows = json.table.rows;
       const msg  = rows[0]?.c[0]?.v || 'No announcement posted yet.';
       const date = rows[1]?.c[0]?.v || '';
-      display.textContent = msg;
-      if (date) lastUpd.textContent = date;
-    } catch(e) {
-      display.innerHTML = '<span style="color:#8a9ab0;font-style:italic">Could not load announcement.</span>';
-    }
-  }
-  loadAnnouncement();
-</script>
-</body>
-</html>
+      display.tet date = rows[1]?.c[0]?.v || '';
+      display.te
