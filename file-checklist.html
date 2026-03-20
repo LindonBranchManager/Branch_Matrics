@@ -735,7 +735,7 @@ function buildChecklist() {
 
   // Show output
   document.getElementById('checklist-empty').style.display = 'none';
-  document.getElementById('checklist-out').style.display   = '';
+  document.getElementById('checklist-out').style.display   = 'block';
   setView(currentView, document.getElementById('vbtn-'+currentView));
   updateProgress();
   setTimeout(()=>document.getElementById('checklist-out').scrollIntoView({behavior:'smooth',block:'start'}),60);
