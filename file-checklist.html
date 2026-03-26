@@ -556,22 +556,28 @@ const DEFAULTS = {
     {doc:"Payoff statements for any debts being paid at closing (if applicable)", why:"If the cash-out is being used to pay off debts, payoff statements must match what's on the final CD."},
   ]},
 
-  streamline:{ label:'⚡ IRRRL / Streamline — Standard', group:'Transaction Type', items:[
-    {doc:"Certificate of Eligibility (COE) — VA IRRRL only", why:"VA IRRRL requires the original loan to be a VA loan and entitlement to be active. COE confirms eligibility."},
-    {doc:"Current VA or FHA loan number and servicer information", why:"Required to confirm the loan being refinanced is the correct program (VA-to-VA or FHA-to-FHA — no cross-program streamlines)."},
-    {doc:"Most recent 12 months mortgage payment history (no 30-day lates in past 12 months)", why:"VA IRRRL allows one 30-day late older than 12 months. FHA Streamline requires no lates in the past 12 months. This must be documented."},
+  streamline:{ label:'⚡ IRRRL — Standard', group:'Transaction Type', items:[
+    {doc:"Copy of Previous Note", why:"Required to verify the original loan terms, rate, and VA case number being refinanced."},
+    {doc:"Current Mortgage Statement", why:"Documents the current balance, payment amount, and account number of the loan being paid off."},
+    {doc:"Copy of Current Homeowners Insurance (HOI)", why:"Required to confirm active coverage on the property. Lender must verify insurance will remain in force through closing."},
     {doc:"Current mortgage statement showing balance and payment", why:"Needed to document net tangible benefit — the new payment must be lower than the current payment."},
     {doc:"VA IRRRL Worksheet (VA Form 26-8923) — VA only", why:"VA requires the IRRRL Worksheet to document net tangible benefit, recoupment of costs within 36 months, and funding fee calculation."},
   ]},
 
-  'streamline-vcivci':{ label:'🔄 IRRRL — VCI to VCI (Reduced)', group:'Transaction Type', items:[
-    {doc:"VA IRRRL Worksheet (VA Form 26-8923)", why:"Required for all VA IRRRLs regardless of servicer. Documents net tangible benefit, recoupment period, and funding fee. Pull existing loan details from the VCI servicing file."},
-    {doc:"Confirm existing VA loan number and case details from VCI servicing records", why:"Since VCI services the current loan, retrieve the VA case number and loan details internally — borrower does not need to provide this separately."},
+  'streamline-vcivci':{ label:'🔄 IRRRL — VCI to VCI (No Borrower Docs Required)', group:'Transaction Type', items:[
+    {doc:"Obtain Previous Note from VCI Servicing File", why:"VCI services this loan — retrieve the original note internally. No borrower copy needed."},
+    {doc:"Pull Current Mortgage Statement from VCI Servicing System", why:"Balance, payment, and account details are available directly in the servicing system (MSP)."},
+    {doc:"Pull Current HOI from Prior Loan File", why:"Homeowners insurance documentation is on file from the prior loan. Verify coverage is still active in the system."},
     {doc:"Net tangible benefit documentation — confirm new rate is at least 0.5% lower (fixed-to-fixed)", why:"VA requires the new loan to provide a clear benefit. Compare new rate/payment to the current VCI-serviced loan terms. Document the improvement."},
     {doc:"Funding fee exemption documentation (if VA disability rated 10%+)", why:"Veterans with a 10%+ disability rating are exempt from the VA funding fee. Confirm current disability status — even on a VCI-to-VCI — before closing."},
     {doc:"12-month payment history — pull from VCI servicing system", why:"Since VCI services the loan, payment history is accessible internally from the servicing platform. No borrower-supplied bank statements needed."},
     {doc:"Borrower signed authorization to access and use existing VCI loan file", why:"Internal authorization confirming the borrower consents to VCI using their existing serviced loan file for the new refinance transaction."},
-  ]},
+  ]},,
+
+  'cashout-vcivci':{ label:'🔄 VA Cash Out — VCI to VCI (Income Only)', group:'Transaction Type', items:[
+    {doc:"Previous Note and Mortgage Statement obtained from VCI Servicing System", why:"VCI services this loan. Property documentation is pulled internally — borrower does not need to provide these items."},
+    {doc:"HOI Declaration Page obtained from prior VCI loan file", why:"Homeowners insurance is on file from the current serviced loan. Verify coverage is active."},
+  ]}
 
   va:{ label:'🎖️ VA Loan Requirements', group:'Loan Program', items:[
     {doc:"Certificate of Eligibility (COE) — or authorization to pull from VA portal", why:"The COE confirms eligibility, entitlement amount, and whether any prior VA loans are outstanding. Many lenders can pull this directly."},
@@ -696,7 +702,8 @@ let vcivci = false;
 function onLoanChange() {
   const prog = document.getElementById('b-program').value;
   const type = document.getElementById('b-type').value;
-  const show = (prog === 'va' && type === 'streamline');
+  // Show VCI toggle for VA IRRRL and VA Cash Out
+  const show = prog === 'va' && (type === 'streamline' || type === 'cashout');
   document.getElementById('vcivci-row').style.display = show ? 'block' : 'none';
   if (!show) setVciVci(false);
 }
@@ -719,7 +726,7 @@ function buildChecklist() {
   const type    = document.getElementById('b-type').value;
   const prop    = document.getElementById('b-prop').value;
   const occ     = document.getElementById('b-occ').value;
-  const isVV    = vcivci && program === 'va' && type === 'streamline';
+  const isVV    = vcivci && program === 'va' && (type === 'streamline' || type === 'cashout');
 
   const incKeys  = ['w2','bonus','se','ssi','joboffer','rental','vadis'];
   const flagKeys = ['cobwr','divorce','bk','fore','gift','nps','foreign'];
@@ -735,6 +742,13 @@ function buildChecklist() {
   if (type === 'cashout')                        sections.push(ITEMS.cashout);
   if (type === 'streamline') {
     sections.push(isVV ? ITEMS['streamline-vcivci'] : ITEMS.streamline);
+  }
+  if (type === 'cashout' && program === 'va') {
+    // VA Cash Out: if VCI-to-VCI, skip property docs (handled by cashout-vcivci)
+    if (isVV) {
+      sections.push(ITEMS['cashout-vcivci']);
+    }
+    // non-VCI VA Cash Out already gets refi + cashout sections above
   }
 
   if (program === 'va')  sections.push(ITEMS.va);
@@ -763,8 +777,8 @@ function buildChecklist() {
     <div class="vcivci-out-banner">
       <div class="vob-icon">🔄</div>
       <div class="vob-text">
-        <h4>VCI to VCI Streamline — Reduced Doc Set</h4>
-        <p>VCI currently services this loan. Payment history, mortgage statement, and VA loan details are accessible internally — no separate borrower-supplied documents required for those items.</p>
+        <h4>VCI to VCI Loan — Reduced Doc Set</h4>
+        <p>VCI currently services this loan. Property documents (previous note, mortgage statement, HOI) can be obtained from the prior loan file and servicing system — no separate borrower-supplied documents required for those items.</p>
       </div>
     </div>` : '';
 
